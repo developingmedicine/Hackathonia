@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { FOLLOWUPS } from "@/lib/data";
 import { setOverride } from "@/lib/demo";
+import { useVoiceCapture } from "@/lib/useVoiceCapture";
 import { initialsOf } from "@/lib/status";
 import type { FollowUpExtraction } from "@/types";
 import AEExtractionPanel from "@/components/AEExtractionPanel";
@@ -29,6 +30,14 @@ export default function FollowUpPage() {
   const [extraction, setExtraction] = useState<FollowUpExtraction | null>(null);
   const [extracting, setExtracting] = useState(false);
   const [dqConfirmed, setDqConfirmed] = useState(false);
+  const [liveTranscribed, setLiveTranscribed] = useState(false);
+
+  const capture = useVoiceCapture((text) => {
+    setTranscript(text);
+    setLiveTranscribed(true);
+    setStage("done");
+    void runExtraction(text);
+  });
 
   async function runExtraction(text: string) {
     setExtracting(true);
@@ -106,15 +115,21 @@ export default function FollowUpPage() {
             </div>
           </div>
           <VoiceRecorder
-            stage={stage === "done" ? "ready" : stage}
+            busy={stage === "transcribing"}
+            capture={capture.state}
+            error={capture.error}
             demoLabel={
               scenario.hasAudio ? "Use Demo Audio" : "Use Demo Transcript"
             }
             audioSrc={scenario.audioSrc}
-            onStart={() => {
+            onRecordStart={() => void capture.start()}
+            onRecordStop={capture.stop}
+            onDemo={() => {
+              capture.reset();
               setTranscript("");
               setExtraction(null);
               setDqConfirmed(false);
+              setLiveTranscribed(false);
               setStage("transcribing");
             }}
           />
@@ -122,8 +137,17 @@ export default function FollowUpPage() {
         <div className="mt-5">
           <TranscriptPanel
             value={transcript}
-            typing={stage === "transcribing"}
+            typing={
+              stage === "transcribing" ||
+              capture.state === "recording" ||
+              capture.state === "uploading"
+            }
             editable={stage === "done"}
+            caption={
+              liveTranscribed
+                ? "Live transcription · OpenAI Whisper — edit & re-extract to correct any mishears"
+                : undefined
+            }
             onChange={setTranscript}
           />
         </div>
