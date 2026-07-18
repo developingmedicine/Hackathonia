@@ -6,9 +6,16 @@ Everything you own lives in the **`data/`** folder. Four deliverables, one revie
 
 ## 1. `data/patients.json` — ⭐ your main task
 
-Author **8–12 synthetic patients** (no real patient info, no PHI). Follow the
+> **v1.1 (per our Jul 17 review):** we now START from the organizer-provided
+> synthetic EHR dataset (25 patients, JSON/JSONL) instead of authoring from
+> scratch. An agent will edit selected patients to fit the trial; **your job is
+> to pick which patients to use, direct the edits, and validate that every
+> edited chart stays clinically plausible.** Please send Holly the dataset link
+> + the simpler trial-criteria file you mentioned.
+
+Target: **8–12 patients** (no real patient info, no PHI), mapped into the
 canonical patient JSON template in **[PRD.md §18](PRD.md)** — it contains a
-complete example patient (Nathan Chen) you can copy as a starting point.
+complete example patient (Nathan Chen) showing the target shape.
 
 The cohort needs to cover these archetypes (PRD §17.4):
 

@@ -1,1 +1,1 @@
-/** Page 6 extracted adverse events: symptom/frequency/confidence rows, escalation banner, Confirm/Edit/Save actions. PRD §23. */
+/** Page 6 extracted events: symptom/frequency/confidence rows, escalation banner, and (v1.1) DISQUALIFICATION alert when an extracted event matches a trial exclusion criterion — with transcript quotes as evidence. Confirm/Edit/Save actions. PRD §23. */

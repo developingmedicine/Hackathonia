@@ -1,1 +1,1 @@
-/** Extracted clinician guidance (human-readable trigger/effect bullets) + "Apply to Screening Logic" action. PRD §21. */
+/** Extracted clinician guidance (human-readable trigger/effect bullets) + "Apply to Screening Logic". v1.1: renders in the LEFT column of Page 2, directly under the criteria it annotates. PRD §21. */

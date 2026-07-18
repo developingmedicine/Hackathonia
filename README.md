@@ -23,11 +23,11 @@ rule: code must be written fresh on the day).
 │   │   ├── page.tsx                        Redirect → /trials
 │   │   ├── trials/page.tsx                 PAGE 1 Trial Explorer
 │   │   ├── trials/[trialId]/page.tsx       PAGE 2 Trial Intelligence + voice intake
-│   │   ├── patients/page.tsx               PAGE 3 Screening Queue
-│   │   ├── patients/[patientId]/page.tsx   PAGE 4 Eligibility Review
-│   │   ├── participants/page.tsx           PAGE 5 Active Participants
-│   │   └── participants/[patientId]/follow-up/page.tsx  PAGE 6 Follow-up + AE extraction
-│   ├── components/             13 UI components (queue table, status badge,
+│   │   ├── patients/page.tsx               PAGE 3 Screening Queue (+ enrolled in purple)
+│   │   ├── patients/[patientId]/page.tsx   PAGE 4 Eligibility Review (two-column, v1.1)
+│   │   └── patients/[patientId]/follow-up/page.tsx  PAGE 6 Follow-up + AE + disqualification
+│   │                           (PAGE 5 removed in v1.1 — merged into Page 3)
+│   ├── components/             13 UI components (queue table, status tooltip,
 │   │                           voice recorder w/ demo fallback, evidence, …)
 │   ├── lib/                    api client · status vocab/colors · demo helpers
 │   └── types/index.ts          Frontend types (PRD §28)
@@ -45,7 +45,8 @@ rule: code must be written fresh on the day).
 │                               transcription · storage   (PRD §26–27)
 │
 ├── data/                       Seeded demo data  [SHARED — see table below]
-│   ├── patients.json           8–12 synthetic patients          [JAE writes]
+│   ├── patients.json           8–12 patients derived from the organizer
+│   │                           EHR dataset (v1.1)  [agent edits, JAE curates]
 │   ├── trials.json             Cached CT.gov trials             [Holly]
 │   ├── criteria.json           Parsed criteria (primary trial)  [Holly → JAE reviews]
 │   ├── clinician_knowledge.json Structured guidance             [Holly, from Jae's script]

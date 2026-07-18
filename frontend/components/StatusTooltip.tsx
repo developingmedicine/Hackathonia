@@ -1,0 +1,1 @@
+/** v1.1: hover tooltip on any status chip — high-level summary + provenance (open items, exclusion reason, evidence source + date). Builds clinician trust without a click. PRD §13 Page 3 v1.1 block. */

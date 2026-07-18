@@ -1,11 +1,19 @@
 # AI Clinical Trial Enrollment Copilot
 ## Hackathon Product Requirements Document
 
-**Document version:** v1.0  
+**Document version:** v1.1  
 **Product owner:** Holly Tang  
 **Clinical workflow lead:** Jae  
 **Status:** Ready for implementation  
 **Scope:** Browser-based hackathon prototype; no EHR integration; synthetic patient data only
+
+> ### v1.1 changelog (Jul 18 — from Jae's clinical review; look for "v1.1 update" blocks)
+> 1. **Page 2**: clinician adds context to *existing* criteria (not new criteria); Extracted Guidance moves to the LEFT column next to the criteria.
+> 2. **Page 3**: hover tooltips on status colors (actionable context + provenance); clinician can correct/override with evidence; enrolled patients render inline in purple.
+> 3. **Page 4**: two-column layout (criterion+status left, evidence citations right); summary moves to the top; work-up checklist moves up.
+> 4. **Page 5**: REMOVED as a separate page — merged into Page 3 via purple status.
+> 5. **Page 6**: new Maya Patel scenario — follow-up transcript triggers automatic disqualification re-screening (real-time surveillance).
+> 6. **§17.1**: patient cohort is now derived from the organizer-provided synthetic EHR dataset (25 patients, JSON/JSONL), agent-edited to fit the trial.
 
 ---
 
@@ -387,15 +395,15 @@ The product extracts:
 
 ## 12. Information Architecture
 
-The prototype consists of six primary pages.
+The prototype consists of five primary pages (v1.1: former Page 5 merged into Page 3).
 
 ```text
 Page 1: Trial Explorer
 Page 2: Trial Intelligence and Clinician Knowledge Intake
-Page 3: Patient Screening Queue
+Page 3: Patient Screening Queue (includes actively-enrolled patients in purple)
 Page 4: Patient Eligibility Review
-Page 5: Active Trial Participants
-Page 6: Follow-up Visit and Adverse Event Extraction
+Page 5: REMOVED in v1.1 — enrolled patients live in the Page 3 queue
+Page 6: Follow-up Visit and Adverse Event Extraction (+ disqualification surveillance)
 ```
 
 ---
@@ -467,6 +475,12 @@ Page 6: Follow-up Visit and Adverse Event Extraction
 - Separate deterministic criteria from judgement-based criteria.
 - Capture trial-specific clinician knowledge through voice.
 - Convert the voice transcript into structured reusable guidance.
+
+> **v1.1 update (Jae review):** The clinician is NOT the trial designer — they never
+> create new criteria, only add context and insight to the *existing* criteria.
+> Layout: existing criteria stay first/left (preserved, read-only); recording control
+> stays right; **Extracted Guidance moves to the LEFT column**, directly under the
+> criteria it annotates, so criteria + guidance read as one iterable unit.
 
 ### Core content
 
@@ -578,12 +592,27 @@ Page 6: Follow-up Visit and Adverse Event Extraction
 └───────────────────────────────────────────────────────────────────────────┘
 ```
 
+> **v1.1 update (Jae review):**
+> - **Hover tooltips on every status indicator** — the green/yellow/red chip alone hides
+>   the actionable context. Hovering shows a high-level summary: what's open ("missing
+>   smoking history"), why excluded ("prior pancreatitis event, note 2024-03-02") —
+>   enough to decide whether to double-click into Page 4. This is provenance: the
+>   clinician may not trust the computer initially, so always show the chain of evidence.
+> - **Clinician can correct the system** — e.g. "Michael Lee does NOT have a pancreatitis
+>   history" → provide the correction with evidence and the status updates.
+> - **Actively-enrolled patients render inline in this queue in purple** (former Page 5 is
+>   removed). Render at least one purple patient; clicking them opens the Page 6 follow-up
+>   view. Keeps the clinician in their normal I'm-seeing-my-patients workflow.
+> - Match score confirmed useful — keeps outreach rank-ordered.
+
 ### Acceptance criteria
 
 - The queue displays at least 8–12 synthetic patients.
 - Patients are sorted by priority.
 - Status labels use a fixed vocabulary.
-- Clicking a row opens Page 4.
+- Every status chip has a hover tooltip with summary + provenance (v1.1).
+- At least one actively-enrolled (purple) patient appears in the queue (v1.1).
+- Clicking a candidate row opens Page 4; clicking a purple row opens Page 6 (v1.1).
 - The user can filter by status.
 - At least one patient appears in each important demo state.
 
@@ -608,6 +637,15 @@ Page 6: Follow-up Visit and Adverse Event Extraction
 - clinician flags;
 - work-up items;
 - action to mark the patient enrollment-ready or enrolled.
+
+> **v1.1 update (Jae review):** current single-column layout is too visually busy.
+> - **Split the eligibility review into two columns**: LEFT = criterion + status
+>   (✓ MET, ✓ LIKELY MET, ? MISSING, ⚠ NEEDS REVIEW); RIGHT = the corresponding
+>   evidence as citations (verbatim text · source · date, e.g. "BMI 33.4 kg/m²,
+>   collected 2026-07-10"). Evidence reads like a reference column.
+> - **Move the summary from the bottom to the TOP** of the page (visual hierarchy —
+>   as users gain trust they read top-down and skip steps).
+> - **Move the work-up checklist up** so the next action is immediately visible.
 
 ### ASCII wireframe
 
@@ -662,9 +700,14 @@ Page 6: Follow-up Visit and Adverse Event Extraction
 
 ---
 
-## Page 5 — Active Trial Participants
+## Page 5 — Active Trial Participants — ❌ REMOVED in v1.1
 
-### Purpose
+> **v1.1 update (Jae review):** A separate participants page disrupts the clinician's
+> workflow. Enrolled patients now appear **inline in the Page 3 queue with a purple
+> status**; clicking a purple patient opens the Page 6 follow-up view. Do not build
+> this page. The wireframe below is kept for historical reference only.
+
+### Original purpose (superseded)
 
 - Show patients already enrolled in the trial.
 - Visually distinguish candidates from active participants.
@@ -719,6 +762,19 @@ Page 6: Follow-up Visit and Adverse Event Extraction
 - Demonstrate longitudinal value after enrollment.
 - Extract possible adverse events from a patient conversation.
 - Present the result for clinician review.
+- **v1.1: detect disqualification events, not just adverse events.**
+
+> **v1.1 update (Jae review) — two demo scenarios:**
+> 1. **Nathan Chen (with audio):** the existing adverse-event extraction demo —
+>    nausea/vomiting, extracted with timing, frequency, confidence.
+> 2. **Maya Patel (no audio; 5–10 s talk-through):** her follow-up transcript reveals
+>    she was hospitalized last week and diagnosed with pancreatitis and started a
+>    prohibited medication. The system knows her enrolled trial and its exclusion
+>    criteria, so on transcript update it **automatically re-screens**: surfaces the
+>    adverse event AND flags that she now meets an exclusion criterion → status flips
+>    to disqualified with the exact transcript quotes as the chain of evidence, and
+>    her Page 3 row updates automatically. No manual button needed — this is
+>    real-time trial surveillance (the "holy grail" moment of the demo).
 
 ### Core content
 
@@ -944,7 +1000,16 @@ Withdrawn                 → Gray
 
 ## 17.1 Source
 
-All patient data will be created by the team.
+> **v1.1 update:** The cohort is now **derived from the organizer-provided synthetic
+> EHR dataset** (25 patients, JSON + JSONL; richly detailed — e.g. serial blood
+> pressures, a COVID admission with ~600 touch points). Workflow: at hackathon start,
+> an agent edits selected patients to fit the target trial (adjust weight/height/BMI,
+> add or remove exclusion-triggering history) while keeping them realistic. Jae curates
+> which patients to use and validates clinical plausibility of every edit. The §18
+> canonical schema still applies as the app-facing contract (Jae reviewed: close to
+> SNOMED-style real data); patients are mapped from the organizer schema into §18 form.
+
+All patient data remains synthetic.
 
 There will be:
 
