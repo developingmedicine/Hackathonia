@@ -7,10 +7,12 @@ export default function VoiceRecorder({
   stage,
   demoLabel,
   onStart,
+  audioSrc,
 }: {
   stage: "idle" | "transcribing" | "ready" | "applied";
   demoLabel: string;
   onStart: () => void;
+  audioSrc?: string;
 }) {
   const busy = stage === "transcribing";
   return (
@@ -26,7 +28,10 @@ export default function VoiceRecorder({
         {busy ? "Listening…" : "Start Recording"}
       </button>
       <button
-        onClick={onStart}
+        onClick={() => {
+          if (audioSrc) new Audio(audioSrc).play().catch(() => {});
+          onStart();
+        }}
         disabled={busy}
         className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-inkmid shadow-sm ring-1 ring-black/5 transition hover:bg-creamdeep disabled:opacity-60"
       >

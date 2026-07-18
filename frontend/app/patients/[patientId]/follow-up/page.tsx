@@ -5,7 +5,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { FOLLOWUPS } from "@/lib/mock";
+import { FOLLOWUPS } from "@/lib/data";
 import { setOverride } from "@/lib/demo";
 import { initialsOf } from "@/lib/status";
 import AEExtractionPanel from "@/components/AEExtractionPanel";
@@ -76,6 +76,7 @@ export default function FollowUpPage() {
             demoLabel={
               scenario.hasAudio ? "Use Demo Audio" : "Use Demo Transcript"
             }
+            audioSrc={scenario.audioSrc}
             onStart={() => {
               setTranscript("");
               setDqConfirmed(false);

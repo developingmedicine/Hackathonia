@@ -7,7 +7,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { CLINICIAN_TRANSCRIPT, CRITERIA, GUIDANCE, TRIALS } from "@/lib/mock";
+import { CLINICIAN_TRANSCRIPT, CRITERIA, GUIDANCE, TRIALS } from "@/lib/data";
 import CriteriaList from "@/components/CriteriaList";
 import GuidancePanel from "@/components/GuidancePanel";
 import TranscriptPanel from "@/components/TranscriptPanel";
@@ -86,6 +86,7 @@ export default function TrialIntelligencePage() {
             <VoiceRecorder
               stage={stage}
               demoLabel="Use Demo Audio"
+              audioSrc="/audio/clinician-context.m4a"
               onStart={() => {
                 setTranscript("");
                 setStage("transcribing");

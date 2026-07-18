@@ -6,7 +6,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { detailFor, PATIENTS } from "@/lib/mock";
+import { detailFor, PATIENTS } from "@/lib/data";
 import { setOverride } from "@/lib/demo";
 import { initialsOf } from "@/lib/status";
 import CriterionResultCard from "@/components/CriterionResultCard";
