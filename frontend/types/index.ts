@@ -63,6 +63,13 @@ export interface Trial {
   enrollment: string;
   conditions: string[];
   primary?: boolean;
+  live?: boolean; // sourced from the ClinicalTrials.gov API, not seeded
+}
+
+export interface LiveTrialDetail {
+  trial: Trial;
+  summary: string;
+  eligibility: string; // unparsed eligibility-criteria text from CT.gov
 }
 
 export interface ParsedCriterion {
