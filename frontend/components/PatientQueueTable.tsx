@@ -99,15 +99,17 @@ export default function PatientQueueTable({
                   {p.condition} — {p.topReason}
                 </span>
               </span>
-              <span className="text-right text-sm font-semibold tabular-nums text-inkmid">
+              <span className="self-start pt-[3px] text-right text-sm font-semibold tabular-nums text-inkmid">
                 {p.score == null ? "—" : `${p.score}%`}
               </span>
-              <StatusBadge
-                status={p.status}
-                sub={p.time}
-                tooltip={p.tooltip}
-                fixedWidth
-              />
+              <span className="self-start">
+                <StatusBadge
+                  status={p.status}
+                  sub={p.time}
+                  tooltip={p.tooltip}
+                  fixedWidth
+                />
+              </span>
             </Link>
           );
         })}
