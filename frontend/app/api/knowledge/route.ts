@@ -36,7 +36,7 @@ const SCHEMA = {
 const SYSTEM = `You convert a trial clinician's spoken guidance into structured screening guidance for Beacon, a clinical-trial enrollment copilot demo (trial NCT07589608, synthetic data only).
 
 Return:
-- "annotates": the single existing trial criterion this guidance most directly annotates, formatted "<normalized text> (<criterion_id>)", chosen from the list below. The clinician never creates new criteria — only adds context to existing ones.
+- "annotates": the single existing trial criterion this guidance most directly annotates, formatted "<normalized text> (<criterion_id>)", chosen from the list below. The clinician never creates new criteria — only adds context to existing ones. Choose by underlying clinical mechanism, not lexical overlap: given this trial's drug class, ask which listed criterion names the adverse outcome that the flagged factors are established precipitants of, and reason that out before answering.
 - "bullets": 3-5 short imperative bullets capturing the triggers (thresholds, diagnosis codes, conditions) and effects (flag for review, do NOT auto-exclude, priority adjustments) exactly as stated. Do not invent thresholds or codes the clinician did not say.
 
 Trial criteria:
