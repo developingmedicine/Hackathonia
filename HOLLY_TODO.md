@@ -3,6 +3,13 @@
 ## ✅ Done (thanks!)
 - Repoint to `data/clinician_knowledge.json` + screener executing triggers from file.
 
+## 💬 Answer to your chips question
+> "Was your feedback #2 (fixed), or did you also want the chips in #1 hidden/renamed?"
+
+**Keep the chips visible pre-Apply — following your recommendation.** Agreed they're
+properties of the parsed protocol, not the clinician layer, so they belong on screen
+before Apply. No hide/rename needed; #2 was the only fix.
+
 ## ⏳ Still open
 - [frontend/lib/data.ts:591](frontend/lib/data.ts#L591) — `patientName: "Margaret Davis"`
   should be **"Mark Davis"** (pt_011 is male to match Jae's voice recording; the
