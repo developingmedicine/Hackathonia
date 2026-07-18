@@ -1,0 +1,1443 @@
+{
+  "started_at": "2026-07-18T19:35:39.616Z",
+  "trial": "NCT07589608",
+  "results": [
+    {
+      "model": "claude-haiku-4-5",
+      "label": "Haiku 4.5",
+      "deterministic_accuracy": {
+        "correct": 54,
+        "total": 60
+      },
+      "per_criterion": {
+        "inc_001": {
+          "correct": 12,
+          "total": 12
+        },
+        "exc_001": {
+          "correct": 11,
+          "total": 12
+        },
+        "exc_004": {
+          "correct": 9,
+          "total": 12
+        },
+        "exc_006": {
+          "correct": 10,
+          "total": 12
+        },
+        "exc_007": {
+          "correct": 12,
+          "total": 12
+        }
+      },
+      "evidence_groundedness": {
+        "grounded": 59,
+        "checkable": 60
+      },
+      "mismatches": [
+        {
+          "patient_id": "pt_002",
+          "criterion_id": "exc_004",
+          "expected": "met",
+          "predicted": "missing_data",
+          "model_evidence": ""
+        },
+        {
+          "patient_id": "pt_002",
+          "criterion_id": "exc_006",
+          "expected": "met",
+          "predicted": "missing_data",
+          "model_evidence": ""
+        },
+        {
+          "patient_id": "pt_004",
+          "criterion_id": "exc_004",
+          "expected": "met",
+          "predicted": "missing_data",
+          "model_evidence": ""
+        },
+        {
+          "patient_id": "pt_011",
+          "criterion_id": "exc_001",
+          "expected": "met",
+          "predicted": "missing_data",
+          "model_evidence": ""
+        },
+        {
+          "patient_id": "pt_011",
+          "criterion_id": "exc_004",
+          "expected": "met",
+          "predicted": "missing_data",
+          "model_evidence": ""
+        },
+        {
+          "patient_id": "pt_011",
+          "criterion_id": "exc_006",
+          "expected": "met",
+          "predicted": "missing_data",
+          "model_evidence": ""
+        }
+      ],
+      "per_patient": [
+        {
+          "patient_id": "pt_001",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "met",
+              "evidence": "BMI 32.4 kg/m² (≥30 kg/m²)"
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "met",
+              "evidence": "Clinical note states 'stable weight over 3 months'"
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "met",
+              "evidence": "No ICD-10 codes E10 or E11 present in conditions list"
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "met",
+              "evidence": "Blood Pressure 128/82 mmHg; on Atorvastatin; no note indicating uncontrolled hypertension"
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "met",
+              "evidence": "No active liver disease documented; only Hyperlipidemia (E78.5) and Obesity (E66.9) recorded"
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "met",
+              "evidence": "No ICD-10 codes I21, I63, I20.0, or I50.9 present in conditions list"
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "met",
+              "evidence": "No ICD-10 codes K80, K81, or K82 present in conditions list"
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "met",
+              "evidence": "No ICD-10 codes K85 or K86 present in conditions list"
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "met",
+              "evidence": "No documentation of suicide attempts in record"
+            }
+          ]
+        },
+        {
+          "patient_id": "pt_002",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "met",
+              "evidence": "BMI 34.1 kg/m² (2026-07-09), exceeds ≥30 kg/m² threshold"
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "not_met",
+              "evidence": "Type 2 diabetes mellitus without complications (E11.9), active since 2018-06-20"
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "met",
+              "evidence": "Blood Pressure 135/88 mmHg (2026-07-09); on Lisinopril 10 mg once daily since 2022-09-10 for treatment"
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "missing_data",
+              "evidence": ""
+            }
+          ]
+        },
+        {
+          "patient_id": "pt_003",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "met",
+              "evidence": "BMI 31.8 kg/m² (≥30 kg/m²) and Essential (primary) hypertension (I10) as weight-related comorbidity"
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "met",
+              "evidence": "No Type 1 or Type 2 diabetes (E10, E11) documented in conditions"
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "met",
+              "evidence": "Essential (primary) hypertension (I10) controlled on Amlodipine; Blood Pressure 122/80 mmHg on 2026-07-10; clinical note states 'controlled hypertension on single agent'"
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "met",
+              "evidence": "No active liver disease documented in conditions or observations"
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "met",
+              "evidence": "No history of acute MI, stroke, unstable angina, or CHF hospitalization in conditions"
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "met",
+              "evidence": "No gallbladder disease (K80, K81, K82) documented in conditions"
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "met",
+              "evidence": "No history of acute or chronic pancreatitis (K85, K86) documented in conditions"
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "met",
+              "evidence": "No lifetime history of suicide attempts documented in record"
+            }
+          ]
+        },
+        {
+          "patient_id": "pt_004",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "met",
+              "evidence": "BMI 30.1 kg/m² (≥30 kg/m²)"
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "met",
+              "evidence": "No Type 1 or Type 2 diabetes diagnosis (E10 or E11) in conditions list"
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "needs_review",
+              "evidence": "No hypertension diagnosis or antihypertensive medications documented; however, patient is on Aspirin and lacks recent blood pressure readings"
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "met",
+              "evidence": "ALT 28 U/L (reference 7-56 U/L, normal); clinical note states 'No current symptoms of liver disease' with no active liver disease diagnosis"
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "met",
+              "evidence": "No ICD-10 codes K85 or K86 for acute or chronic pancreatitis in conditions list"
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "missing_data",
+              "evidence": ""
+            }
+          ]
+        },
+        {
+          "patient_id": "pt_005",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "needs_review",
+              "evidence": "BMI 27.2 kg/m² (≥27 but <30); active condition E66.9 (Obesity, unspecified) but no coded weight-related comorbidity (E78.x, I10, G47.33, K76.0) documented"
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "met",
+              "evidence": "No ICD-10 codes E10 or E11 in conditions list"
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "met",
+              "evidence": "Blood Pressure 118/76 mmHg on 2026-07-10; no hypertension diagnosis or antihypertensive medications documented"
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "met",
+              "evidence": "No liver disease conditions documented"
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "met",
+              "evidence": "No ICD-10 codes I21, I63, I20.0, or I50.9 in conditions list"
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "met",
+              "evidence": "No ICD-10 codes K80, K81, or K82 in conditions list"
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "met",
+              "evidence": "No ICD-10 codes K85 or K86 in conditions list"
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "met",
+              "evidence": "No history of suicide attempts documented in record"
+            }
+          ]
+        },
+        {
+          "patient_id": "pt_006",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "met",
+              "evidence": "BMI 33.7 kg/m² (≥30 kg/m²) on 2026-07-09"
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "met",
+              "evidence": "No Type 1 or Type 2 diabetes codes (E10, E11) in problem list"
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "met",
+              "evidence": "No active liver disease documented; hyperlipidemia (E78.5) present without NAFLD-specific coding"
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "met",
+              "evidence": "No acute MI, stroke, unstable angina, or CHF hospitalization codes (I21, I63, I20.0, I50.9) in record"
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "met",
+              "evidence": "No gallbladder disease documented in problem list or clinical note"
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "met",
+              "evidence": "Clinical note explicitly states 'No prior pancreatitis'"
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "missing_data",
+              "evidence": ""
+            }
+          ]
+        },
+        {
+          "patient_id": "pt_007",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "met",
+              "evidence": "BMI 32.1 kg/m² (≥30 kg/m²)"
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "met",
+              "evidence": "No Type 1 or Type 2 diabetes codes (E10, E11) present"
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "met",
+              "evidence": "No hypertension diagnosis or treatment documented"
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "met",
+              "evidence": "No active liver disease documented; obesity otherwise uncomplicated"
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "met",
+              "evidence": "No acute MI, stroke, unstable angina, or CHF codes (I21, I63, I20.0, I50.9) present"
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "not_met",
+              "evidence": "Cholecystitis, unspecified (K81.9) diagnosed 2025-01-14, within 2-year window"
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "met",
+              "evidence": "No pancreatitis codes (K85, K86) present"
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "met",
+              "evidence": "No suicide attempt history documented"
+            }
+          ]
+        },
+        {
+          "patient_id": "pt_008",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "met",
+              "evidence": "BMI 31.9 kg/m² (≥30 kg/m²) documented 2026-07-10"
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "met",
+              "evidence": "No Type 1 or Type 2 diabetes codes (E10, E11) in conditions list"
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "met",
+              "evidence": "Essential (primary) hypertension (I10) diagnosed 2016-02-03, currently treated with Metoprolol 50 mg twice daily since 2016-02-03"
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "met",
+              "evidence": "No active liver disease documented in conditions"
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "met",
+              "evidence": "No acute MI, stroke, unstable angina, or CHF hospitalization codes (I21, I63, I20.0, I50.9) in conditions"
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "met",
+              "evidence": "No gallbladder disease codes (K80, K81, K82) in conditions"
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "met",
+              "evidence": "No pancreatitis codes (K85, K86) in conditions"
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "not_met",
+              "evidence": "Resting heart rate 52 bpm on 2026-07-10, below required range of 60–100 bpm; clinical note confirms 'Resting HR 52 bpm, consistent with beta-blocker effect. Asymptomatic bradycardia.'"
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "missing_data",
+              "evidence": ""
+            }
+          ]
+        },
+        {
+          "patient_id": "pt_009",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "met",
+              "evidence": "BMI 30.5 kg/m² (2026-07-10)"
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "met",
+              "evidence": "No Type 1 or Type 2 diabetes codes found"
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "met",
+              "evidence": "No hypertension diagnosis documented"
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "met",
+              "evidence": "No active liver disease documented"
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "met",
+              "evidence": "No acute MI, stroke, unstable angina, or CHF hospitalization documented"
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "met",
+              "evidence": "No gallbladder disease codes (K80, K81, K82) found"
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "met",
+              "evidence": "No pancreatitis codes (K85, K86) found"
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "met",
+              "evidence": "No suicide attempt history documented"
+            }
+          ]
+        },
+        {
+          "patient_id": "pt_010",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "met",
+              "evidence": "BMI 31.2 kg/m² (2026-07-09)"
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "met",
+              "evidence": "No diabetes codes (E10, E11) in conditions list"
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "met",
+              "evidence": "No hypertension condition documented; no relevant medications listed"
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "met",
+              "evidence": "No active liver disease documented; obesity (E66.9) is not liver disease"
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "met",
+              "evidence": "No acute MI, stroke, unstable angina, or CHF codes (I21, I63, I20.0, I50.9) in conditions list"
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "met",
+              "evidence": "No gallbladder disease codes (K80, K81, K82) in conditions list"
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "met",
+              "evidence": "No pancreatitis codes (K85, K86) in conditions list"
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "met",
+              "evidence": "No suicide attempt history documented in clinical notes or conditions"
+            }
+          ]
+        },
+        {
+          "patient_id": "pt_011",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "met",
+              "evidence": "BMI 32.8 kg/m² (≥30 kg/m²)"
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "missing_data",
+              "evidence": ""
+            }
+          ]
+        },
+        {
+          "patient_id": "pt_012",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "met",
+              "evidence": "BMI 31.6 kg/m² (>=30 kg/m²) documented 2026-07-10"
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "met",
+              "evidence": "No Type 1 or Type 2 diabetes codes (E10, E11) present in conditions list"
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "met",
+              "evidence": "Blood Pressure 125/79 mmHg documented 2026-07-10; no indication of uncontrolled hypertension in clinical notes"
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "met",
+              "evidence": "No active liver disease documented; no ICD-10 codes indicating liver pathology"
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "met",
+              "evidence": "No hospitalization records or ICD-10 codes (I21, I63, I20.0, I50.9) for acute MI, stroke, unstable angina, or CHF in past 3 months"
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "met",
+              "evidence": "No symptomatic gallbladder disease codes (K80, K81, K82) documented in conditions list"
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "met",
+              "evidence": "No history of acute or chronic pancreatitis codes (K85, K86) present"
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "met",
+              "evidence": "No documentation of suicide attempts in clinical notes or history"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "model": "claude-opus-4-8",
+      "label": "Opus 4.8",
+      "deterministic_accuracy": {
+        "correct": 60,
+        "total": 60
+      },
+      "per_criterion": {
+        "inc_001": {
+          "correct": 12,
+          "total": 12
+        },
+        "exc_001": {
+          "correct": 12,
+          "total": 12
+        },
+        "exc_004": {
+          "correct": 12,
+          "total": 12
+        },
+        "exc_006": {
+          "correct": 12,
+          "total": 12
+        },
+        "exc_007": {
+          "correct": 12,
+          "total": 12
+        }
+      },
+      "evidence_groundedness": {
+        "grounded": 42,
+        "checkable": 42
+      },
+      "mismatches": [],
+      "per_patient": [
+        {
+          "patient_id": "pt_001",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "met",
+              "evidence": "\"type\": \"BMI\", \"value\": 32.4, \"unit\": \"kg/m²\""
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "met",
+              "evidence": "\"stable weight over 3 months\""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "met",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "met",
+              "evidence": "\"value\": \"128/82\", \"unit\": \"mmHg\""
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "met",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "met",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "met",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "met",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "met",
+              "evidence": ""
+            }
+          ]
+        },
+        {
+          "patient_id": "pt_002",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "met",
+              "evidence": "\"type\": \"BMI\", \"value\": 34.1, \"unit\": \"kg/m²\""
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "not_met",
+              "evidence": "\"code\": \"E11.9\", \"name\": \"Type 2 diabetes mellitus without complications\""
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "met",
+              "evidence": "\"value\": \"135/88\"; Lisinopril 10 mg once daily active"
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "met",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "met",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "met",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "met",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "met",
+              "evidence": ""
+            }
+          ]
+        },
+        {
+          "patient_id": "pt_003",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "met",
+              "evidence": "\"type\": \"BMI\", \"value\": 31.8, \"unit\": \"kg/m²\""
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "met",
+              "evidence": "No E10 or E11 diabetes conditions present"
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "met",
+              "evidence": "\"52F with controlled hypertension on single agent.\" Medication: Amlodipine 5 mg once daily; BP 122/80"
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "met",
+              "evidence": "No liver disease documented"
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "met",
+              "evidence": "No I21/I63/I20.0/I50.9 conditions present"
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "met",
+              "evidence": "No gallbladder disease documented"
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "met",
+              "evidence": "No K85/K86 pancreatitis conditions present"
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "met",
+              "evidence": "No history of suicide attempts documented"
+            }
+          ]
+        },
+        {
+          "patient_id": "pt_004",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "met",
+              "evidence": "\"type\": \"BMI\", \"value\": 30.1"
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "met",
+              "evidence": "Only condition: \"E66.9\" \"Obesity, unspecified\""
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "met",
+              "evidence": "No hypertension documented"
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "met",
+              "evidence": "\"No current symptoms of liver disease.\" ALT 28 U/L (7-56)"
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "met",
+              "evidence": "No relevant cardiovascular conditions documented"
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "met",
+              "evidence": "No gallbladder disease documented"
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "met",
+              "evidence": "No pancreatitis documented"
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "met",
+              "evidence": "No history of suicide attempts documented"
+            }
+          ]
+        },
+        {
+          "patient_id": "pt_005",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "needs_review",
+              "evidence": "\"type\": \"BMI\", \"value\": 27.2, \"unit\": \"kg/m²\""
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "met",
+              "evidence": "conditions only list \"code\": \"E66.9\", \"name\": \"Obesity, unspecified\""
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "met",
+              "evidence": "\"value\": \"118/76\", \"unit\": \"mmHg\""
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "met",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "met",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "met",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "met",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "met",
+              "evidence": ""
+            }
+          ]
+        },
+        {
+          "patient_id": "pt_006",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "met",
+              "evidence": "\"type\": \"BMI\", \"value\": 33.7, \"unit\": \"kg/m²\""
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "met",
+              "evidence": "conditions: E66.9 Obesity, E78.5 Hyperlipidemia (no E10/E11)"
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "met",
+              "evidence": "No hypertension documented in conditions or notes"
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "met",
+              "evidence": "No liver disease documented"
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "met",
+              "evidence": "No I21/I63/I20.0/I50.9 codes present"
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "met",
+              "evidence": "\"No gallbladder disease documented.\""
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "met",
+              "evidence": "\"No prior pancreatitis.\""
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "met",
+              "evidence": "No lifetime history of suicide attempts documented"
+            }
+          ]
+        },
+        {
+          "patient_id": "pt_007",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "met",
+              "evidence": "\"type\": \"BMI\", \"value\": 32.1, \"unit\": \"kg/m²\""
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "met",
+              "evidence": "No E10/E11 diabetes codes present"
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "met",
+              "evidence": "No hypertension documented"
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "met",
+              "evidence": "No liver disease documented"
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "met",
+              "evidence": "No I21/I63/I20.0/I50.9 codes present"
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "not_met",
+              "evidence": "\"code\": \"K81.9\", \"name\": \"Cholecystitis, unspecified\", \"diagnosed_date\": \"2025-01-14\"; note: \"history of cholecystitis, s/p cholecystectomy (Feb 2025). Documented within 2-year window.\""
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "met",
+              "evidence": "No K85/K86 codes present"
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "met",
+              "evidence": "No history of suicide attempts documented"
+            }
+          ]
+        },
+        {
+          "patient_id": "pt_008",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "met",
+              "evidence": "\"type\": \"BMI\", \"value\": 31.9"
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "met",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "met",
+              "evidence": "\"I10\", ... \"Essential (primary) hypertension\"; Metoprolol 50 mg twice daily active"
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "met",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "met",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "met",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "met",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "not_met",
+              "evidence": "\"type\": \"Heart Rate\", \"value\": 52, \"unit\": \"bpm\""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "met",
+              "evidence": ""
+            }
+          ]
+        },
+        {
+          "patient_id": "pt_009",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "met",
+              "evidence": "\"type\": \"BMI\", \"value\": 30.5, \"unit\": \"kg/m²\""
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "met",
+              "evidence": "Only condition: \"E66.9\" Obesity, unspecified"
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "met",
+              "evidence": "\"47F with uncomplicated obesity.\""
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "met",
+              "evidence": "\"47F with uncomplicated obesity.\""
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "met",
+              "evidence": "No cardiac conditions listed"
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "met",
+              "evidence": "No gallbladder conditions listed"
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "met",
+              "evidence": "No pancreatitis conditions listed"
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "met",
+              "evidence": "\"47F with uncomplicated obesity. Met all criteria at screening visit 2 weeks ago.\""
+            }
+          ]
+        },
+        {
+          "patient_id": "pt_010",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "met",
+              "evidence": "\"value\": 31.2, \"unit\": \"kg/m²\""
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "met",
+              "evidence": "only condition: \"E66.9\" \"Obesity, unspecified\""
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "met",
+              "evidence": "No hypertension documented"
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "met",
+              "evidence": "No liver disease documented"
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "met",
+              "evidence": "No cardiovascular conditions documented"
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "met",
+              "evidence": "No gallbladder disease documented"
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "met",
+              "evidence": "No pancreatitis documented"
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "met",
+              "evidence": "No suicide history documented"
+            }
+          ]
+        },
+        {
+          "patient_id": "pt_011",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "met",
+              "evidence": "\"type\": \"BMI\", \"value\": 32.8, \"unit\": \"kg/m²\""
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "met",
+              "evidence": "Only condition: \"code\": \"E66.9\", \"name\": \"Obesity, unspecified\""
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "met",
+              "evidence": "No hypertension in conditions or medications"
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "met",
+              "evidence": "No liver disease documented"
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "met",
+              "evidence": "No cardiovascular events in conditions"
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "met",
+              "evidence": "No gallbladder disease documented"
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "met",
+              "evidence": "No pancreatitis documented"
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "met",
+              "evidence": "No history of suicide attempts documented"
+            }
+          ]
+        },
+        {
+          "patient_id": "pt_012",
+          "results": [
+            {
+              "criterion_id": "inc_001",
+              "status": "met",
+              "evidence": "\"type\": \"BMI\", \"value\": 31.6"
+            },
+            {
+              "criterion_id": "inc_002",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_001",
+              "status": "met",
+              "evidence": "No E10/E11 diabetes codes present"
+            },
+            {
+              "criterion_id": "exc_002",
+              "status": "met",
+              "evidence": "\"Blood Pressure\", \"value\": \"125/79\""
+            },
+            {
+              "criterion_id": "exc_003",
+              "status": "met",
+              "evidence": "No liver disease documented"
+            },
+            {
+              "criterion_id": "exc_004",
+              "status": "met",
+              "evidence": "No I21/I63/I20.0/I50.9 codes present"
+            },
+            {
+              "criterion_id": "exc_005",
+              "status": "met",
+              "evidence": "No gallbladder disease documented"
+            },
+            {
+              "criterion_id": "exc_006",
+              "status": "met",
+              "evidence": "No K85/K86 codes present"
+            },
+            {
+              "criterion_id": "exc_007",
+              "status": "missing_data",
+              "evidence": ""
+            },
+            {
+              "criterion_id": "exc_008",
+              "status": "met",
+              "evidence": "No history of suicide attempts documented"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
