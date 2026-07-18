@@ -4,11 +4,12 @@
 // LEFT = existing criteria (read-only) + Extracted Guidance beneath them;
 // RIGHT = voice capture → editable transcript → Apply to Screening Logic.
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { CLINICIAN_TRANSCRIPT, CRITERIA, GUIDANCE, TRIALS } from "@/lib/data";
 import { setGuidanceApplied } from "@/lib/demo";
+import { useSyncedTyping } from "@/lib/useSyncedTyping";
 import { useVoiceCapture } from "@/lib/useVoiceCapture";
 import type { GuidanceExtraction, LiveTrialDetail } from "@/types";
 import CriteriaList from "@/components/CriteriaList";
@@ -80,19 +81,16 @@ export default function TrialIntelligencePage() {
     setStage("applied");
   }
 
-  useEffect(() => {
-    if (stage !== "transcribing") return;
-    let i = 0;
-    const timer = setInterval(() => {
-      i += 4;
-      setTranscript(CLINICIAN_TRANSCRIPT.slice(0, i));
-      if (i >= CLINICIAN_TRANSCRIPT.length) {
-        clearInterval(timer);
-        setStage("ready");
-      }
-    }, 24);
-    return () => clearInterval(timer);
-  }, [stage]);
+  const demoAudioRef = useRef<HTMLAudioElement | null>(null);
+  useSyncedTyping(
+    stage === "transcribing",
+    CLINICIAN_TRANSCRIPT,
+    () => demoAudioRef.current,
+    (partial, done) => {
+      setTranscript(partial);
+      if (done) setStage("ready");
+    },
+  );
 
   // External trial view: real data from ClinicalTrials.gov, criteria shown
   // unparsed — structured screening is configured for the primary demo trial.
@@ -230,7 +228,8 @@ export default function TrialIntelligencePage() {
               audioSrc="/audio/clinician-context.m4a"
               onRecordStart={() => void capture.start()}
               onRecordStop={capture.stop}
-              onDemo={() => {
+              onDemo={(audio) => {
+                demoAudioRef.current = audio;
                 capture.reset();
                 setTranscript("");
                 setLiveTranscribed(false);

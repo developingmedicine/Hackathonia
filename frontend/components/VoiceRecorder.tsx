@@ -24,7 +24,7 @@ export default function VoiceRecorder({
   demoLabel: string;
   onRecordStart: () => void;
   onRecordStop: () => void;
-  onDemo: () => void;
+  onDemo: (audio: HTMLAudioElement | null) => void;
   audioSrc?: string;
 }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -51,12 +51,14 @@ export default function VoiceRecorder({
         </button>
         <button
           onClick={() => {
+            let audio: HTMLAudioElement | null = null;
             if (audioSrc) {
               audioRef.current ??= new Audio(audioSrc);
-              audioRef.current.currentTime = 0;
-              audioRef.current.play().catch(() => {});
+              audio = audioRef.current;
+              audio.currentTime = 0;
+              audio.play().catch(() => {});
             }
-            onDemo();
+            onDemo(audio); // pages sync the typing animation to this element
           }}
           disabled={busy}
           className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-inkmid shadow-sm ring-1 ring-black/5 transition hover:bg-creamdeep disabled:opacity-60"

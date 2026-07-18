@@ -7,11 +7,12 @@
 // (PRD §38). The transcript stays editable — edit and re-extract to show
 // the analysis is real.
 
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { FOLLOWUPS } from "@/lib/data";
 import { setOverride } from "@/lib/demo";
+import { useSyncedTyping } from "@/lib/useSyncedTyping";
 import { useVoiceCapture } from "@/lib/useVoiceCapture";
 import { initialsOf } from "@/lib/status";
 import type { FollowUpExtraction } from "@/types";
@@ -63,21 +64,19 @@ export default function FollowUpPage() {
     setExtracting(false);
   }
 
-  useEffect(() => {
-    if (stage !== "transcribing" || !scenario) return;
-    let i = 0;
-    const timer = setInterval(() => {
-      i += 4;
-      setTranscript(scenario.transcript.slice(0, i));
-      if (i >= scenario.transcript.length) {
-        clearInterval(timer);
+  const demoAudioRef = useRef<HTMLAudioElement | null>(null);
+  useSyncedTyping(
+    stage === "transcribing" && !!scenario,
+    scenario?.transcript ?? "",
+    () => demoAudioRef.current,
+    (partial, done) => {
+      setTranscript(partial);
+      if (done && scenario) {
         setStage("done");
         void runExtraction(scenario.transcript);
       }
-    }, 24);
-    return () => clearInterval(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stage, scenario]);
+    },
+  );
 
   if (!scenario) {
     return (
@@ -124,7 +123,8 @@ export default function FollowUpPage() {
             audioSrc={scenario.audioSrc}
             onRecordStart={() => void capture.start()}
             onRecordStop={capture.stop}
-            onDemo={() => {
+            onDemo={(audio) => {
+              demoAudioRef.current = audio;
               capture.reset();
               setTranscript("");
               setExtraction(null);
