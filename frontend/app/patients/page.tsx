@@ -6,6 +6,7 @@
 import { useEffect, useState } from "react";
 import { PATIENTS, PRIMARY_TRIAL, queuePatients } from "@/lib/data";
 import { getOverrides, isGuidanceApplied } from "@/lib/demo";
+import CohortQueryBar from "@/components/CohortQueryBar";
 import PatientQueueTable from "@/components/PatientQueueTable";
 import type { QueuePatient } from "@/types";
 
@@ -48,7 +49,10 @@ export default function PatientQueuePage() {
           {screened} screened · {matches} matches · {review} for review
         </span>
       </div>
-      <div className="mt-7">
+      <div className="mt-6">
+        <CohortQueryBar />
+      </div>
+      <div className="mt-6">
         <PatientQueueTable patients={patients} />
       </div>
     </div>

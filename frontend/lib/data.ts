@@ -11,6 +11,7 @@ import rawPatientsJson from "../../data/patients.json";
 import rawCriteriaJson from "../../data/criteria.json";
 import rawKnowledgeJson from "../../data/clinician_knowledge.json";
 import type {
+  CohortMatch,
   CriterionResult,
   EnrollmentStatus,
   EvidenceItem,
@@ -43,6 +44,12 @@ interface RawNote {
   date: string;
   text: string;
 }
+interface RawAdverseEvent {
+  event: string;
+  severity: string;
+  frequency?: string;
+  supporting_text?: string;
+}
 interface RawPatient {
   patient_id: string;
   name: { display: string };
@@ -56,7 +63,12 @@ interface RawPatient {
     alcohol_use?: { drinks_per_week?: number | null };
   };
   clinical_notes: RawNote[];
-  trial_status: { status: string; study_week?: number | null };
+  adverse_events?: RawAdverseEvent[];
+  trial_status: {
+    status: string;
+    study_week?: number | null;
+    enrollment_date?: string | null;
+  };
   scenario_metadata: {
     archetype: string;
     expected_outcome: string;
@@ -749,28 +761,145 @@ export const FOLLOWUPS: Record<string, FollowUpScenario> = {
     clinician: "Dr. Jae",
     week: 2,
     hasAudio: false,
+    // Jae's canonical two-turn script, verbatim
+    // (data/transcripts/garcia_pancreatitis_follow_up.txt; audio pending —
+    // Holly voicing Garcia).
     transcript:
-      "Before we start — I was in the hospital last week. They told me I had " +
-      "acute pancreatitis, and I was started on a new medication there.",
+      "CLINICIAN: Hi Mrs. Garcia, how are you feeling? I know you're here " +
+      "for follow up after you were hospitalized last week.\n" +
+      "PATIENT: Yeah, so doc my cousin was celebrating her 50th birthday " +
+      "and I guess we just went a little too hard on the wine, I ended up " +
+      "in the hospital with pancreatitis.",
     events: [
       {
         event: "Pancreatitis (hospitalization)",
-        detail: "Last week",
+        detail: "Last week · alcohol-associated",
         confidence: 97,
-        quote: "They told me I had acute pancreatitis",
+        quote: "I ended up in the hospital with pancreatitis",
       },
       {
-        event: "New medication initiated",
-        detail: "During admission",
-        confidence: 91,
-        quote: "I was started on a new medication there",
+        event: "Alcohol binge episode",
+        detail: "Acute trigger — celebration, preceding admission",
+        confidence: 90,
+        quote: "we just went a little too hard on the wine",
+      },
+    ],
+    insights: [
+      {
+        signal: "Alcohol-related pancreatitis trigger",
+        detail:
+          "Matches the clinician-knowledge pancreatitis-risk rule (alcohol) " +
+          "— supports the exclusion review.",
+        quote: "went a little too hard on the wine",
       },
     ],
     footnotes: ["Escalation: immediate clinician review required"],
     disqualification: {
       criterion: "No history of acute or chronic pancreatitis (exc_006)",
-      evidence: "“They told me I had acute pancreatitis”",
+      evidence: "“I ended up in the hospital with pancreatitis”",
       source: "Follow-up transcript · 2026-07-18",
     },
+  },
+};
+
+// ---- Page 3: cohort-level surveillance queries (/api/cohort) ----
+
+// Compact per-patient context handed to Claude so population-level questions
+// can be answered with verbatim, per-patient evidence. Includes the follow-up
+// transcripts so symptom questions can cite the patient's own words.
+let cohortContextCache: string | null = null;
+export function cohortContext(): string {
+  cohortContextCache ??= JSON.stringify({
+    clinician_guidance: KNOWLEDGE.map((k) => ({
+      id: k.knowledge_id,
+      trigger: k.trigger,
+      effect: k.effect, // flag-for-review only, never auto-exclude
+    })),
+    patients: rawPatients.map((p) => ({
+      id: p.patient_id,
+      name: p.name.display,
+      age: p.demographics.age,
+      trial_status: p.trial_status.status,
+      study_week: p.trial_status.study_week ?? null,
+      enrollment_date: p.trial_status.enrollment_date ?? null,
+      conditions: p.conditions.map((c) => `${c.code} ${c.name}`),
+      medications: p.medications.map((m) => m.name),
+      observations: p.observations.map(
+        (o) => `${o.type}: ${o.value}${o.unit ? ` ${o.unit}` : ""} (${o.collected_at})`,
+      ),
+      smoking: p.social_history.smoking_status ?? null,
+      alcohol: p.social_history.alcohol_use ?? null,
+      adverse_events: p.adverse_events ?? [],
+      follow_up_transcript: FOLLOWUPS[p.patient_id]?.transcript ?? null,
+    })),
+  });
+  return cohortContextCache;
+}
+
+export const COHORT_EXAMPLES = [
+  "Which patients have reported GI symptoms?",
+  "Who drinks above the pancreatitis-risk threshold?",
+  "Which enrolled patients are past study week 2?",
+];
+
+// Offline fallbacks for the example queries (PRD §38) — hand-checked against
+// data/patients.json and the follow-up scenarios above, so they stay truthful.
+export const COHORT_SEEDED: Record<
+  string,
+  { answer: string; matches: CohortMatch[]; caveats?: string[] }
+> = {
+  [COHORT_EXAMPLES[0]]: {
+    answer:
+      "3 of 12 patients have GI-related findings: severe daily nausea with vomiting (Mark Davis), mild morning nausea (Christopher Rodriguez), and a pancreatitis hospitalization reported in Elizabeth Garcia's week-2 follow-up.",
+    matches: [
+      {
+        patient_id: "pt_011",
+        name: "Mark Davis",
+        evidence:
+          "Adverse event: severe nausea and vomiting, 4-5 times daily — “I actually threw up a couple times this week”",
+      },
+      {
+        patient_id: "pt_010",
+        name: "Christopher Rodriguez",
+        evidence:
+          "Adverse event: mild nausea most mornings — “it usually passes by the afternoon”",
+      },
+      {
+        patient_id: "pt_009",
+        name: "Elizabeth Garcia",
+        evidence:
+          "Week-2 follow-up transcript: “They told me I had acute pancreatitis”",
+      },
+    ],
+    caveats: ["Symptom attribution requires clinician review."],
+  },
+  [COHORT_EXAMPLES[1]]: {
+    answer:
+      "1 of 12 patients reports alcohol use at or above the ≥5 drinks/week threshold from the clinician's pancreatitis-risk guidance: David Lee at 8 drinks/week.",
+    matches: [
+      {
+        patient_id: "pt_006",
+        name: "David Lee",
+        evidence:
+          "Social history: current alcohol use, 8 drinks/week (moderate risk)",
+      },
+    ],
+    caveats: ["Flag for review only — the guidance never auto-excludes."],
+  },
+  [COHORT_EXAMPLES[2]]: {
+    answer:
+      "2 of 12 patients are actively enrolled past study week 2: Christopher Rodriguez (week 3) and Mark Davis (week 4). Elizabeth Garcia is enrolled at week 2.",
+    matches: [
+      {
+        patient_id: "pt_010",
+        name: "Christopher Rodriguez",
+        evidence: "Actively enrolled · study week 3 (enrolled 2026-07-02)",
+      },
+      {
+        patient_id: "pt_011",
+        name: "Mark Davis",
+        evidence: "Actively enrolled · study week 4 (enrolled 2026-06-20)",
+      },
+    ],
   },
 };

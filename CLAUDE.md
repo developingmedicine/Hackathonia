@@ -41,7 +41,7 @@ Page 5 merged into Page 3):
 |---|---|
 | `/trials` | 1 — Trial Explorer (primary trial highlighted) + **live ClinicalTrials.gov search** (debounced, ≥3 chars → any condition: cancer, psoriasis…) |
 | `/trials/[trialId]` | 2 — criteria (left, read-only) + voice → transcript → **live Claude knowledge extraction** (guidance renders LEFT, under criteria). Non-seeded NCT IDs render live from CT.gov: summary + unparsed eligibility text, labeled "Live · ClinicalTrials.gov" |
-| `/patients` | 3 — queue: status tooltips w/ provenance, purple = enrolled inline; **Match/Enriched two-column scores** (match score per PRD §22, never "confidence") — Enriched shows "—" until Page 2 Apply, then affected rows fade Match and show "53 ▼15" (only rows a rule actually shifts light up) |
+| `/patients` | 3 — queue: status tooltips w/ provenance, purple = enrolled inline; **Match/Enriched two-column scores** (match score per PRD §22, never "confidence") — Enriched shows "—" until Page 2 Apply, then affected rows fade Match and show "53 ▼15" (only rows a rule actually shifts light up); **"Ask Beacon" NL cohort surveillance bar** (typed or voice) |
 | `/patients/[patientId]` | 4 — summary on TOP, work-up high, two-column criterion/evidence table |
 | `/patients/[patientId]/follow-up` | 6 — typing animation → **live Claude AE extraction + disqualification surveillance**; transcript editable + "Re-extract with Claude" |
 
@@ -83,6 +83,12 @@ structured JSON output via `output_config.format`, adaptive thinking, effort low
   empty (no restating events); findings auto-save (no Save button).
 - `POST /api/knowledge` — clinician voice text → annotated criterion + rule bullets.
 - Both catch all errors → seeded fallback from `lib/data.ts` with `source:"seeded"`.
+- `POST /api/cohort` — Page 3 cohort surveillance: NL question +
+  `cohortContext()` (all 12 records incl. AEs + follow-up transcripts) →
+  `{answer, matches[{patient_id, evidence}], caveats}`. Guardrails: ids
+  validated server-side against real patients, UI count = matches.length
+  (never model prose), verbatim evidence per match. Fallback:
+  `COHORT_SEEDED` hand-checked answers for the three example queries.
 - `POST /api/transcribe` — **real mic recording** (Pages 2 & 6 "Start
   Recording", `lib/useVoiceCapture.ts` MediaRecorder hook) → OpenAI
   `whisper-1` STT (needs `OPENAI_API_KEY` in `.env.local`; vocab prompt

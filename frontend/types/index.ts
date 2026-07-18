@@ -147,3 +147,18 @@ export interface FollowUpExtraction {
 export interface GuidanceExtraction extends ExtractedGuidance {
   source: ExtractionSource;
 }
+
+// Page 3 cohort-level surveillance query (natural language over the queue).
+// The UI derives the matched count from `matches`, never from model prose.
+export interface CohortMatch {
+  patient_id: string;
+  name: string;
+  evidence: string; // verbatim quote from the patient's record
+}
+
+export interface CohortQueryResult {
+  answer: string;
+  matches: CohortMatch[];
+  caveats?: string[];
+  source: ExtractionSource;
+}
