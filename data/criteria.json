@@ -1,1 +1,162 @@
-[]
+{
+  "trial_id": "NCT07589608",
+  "trial_title": "A Study to Investigate Weight Management With Macupatide and Eloralintide, Alone or in Combination, in Adult Participants With Obesity or Overweight",
+  "base_criteria": [
+    {
+      "criterion_id": "inc_001",
+      "trial_id": "NCT07589608",
+      "criterion_type": "inclusion",
+      "original_text": "Have a body mass index (BMI) ≥30 kg/m², or ≥27 kg/m² with at least 1 weight-related comorbidity",
+      "normalized_text": "BMI must be ≥30 kg/m² OR (≥27 kg/m² AND ≥1 weight-related comorbidity)",
+      "evaluation_mode": "deterministic",
+      "required_data": ["observations.BMI", "conditions"],
+      "operator": ">=",
+      "threshold": 27,
+      "unit": "kg/m²",
+      "time_window": null,
+      "requires_human_review": false
+    },
+    {
+      "criterion_id": "inc_002",
+      "trial_id": "NCT07589608",
+      "criterion_type": "inclusion",
+      "original_text": "Have had a stable body weight for the 3 months prior to randomization (<5% body weight gain and/or loss)",
+      "normalized_text": "Weight change ≤5% over prior 3 months",
+      "evaluation_mode": "note_interpretation",
+      "required_data": ["observations.weight", "clinical_notes"],
+      "time_window": "3 months",
+      "requires_human_review": false
+    },
+    {
+      "criterion_id": "exc_001",
+      "trial_id": "NCT07589608",
+      "criterion_type": "exclusion",
+      "original_text": "Have type 1 diabetes mellitus or type 2 diabetes mellitus",
+      "normalized_text": "No Type 1 or Type 2 diabetes",
+      "evaluation_mode": "deterministic",
+      "required_data": ["conditions.code"],
+      "icd10_codes": ["E10", "E11"],
+      "time_window": null,
+      "requires_human_review": false
+    },
+    {
+      "criterion_id": "exc_002",
+      "trial_id": "NCT07589608",
+      "criterion_type": "exclusion",
+      "original_text": "Have poorly controlled hypertension",
+      "normalized_text": "No uncontrolled hypertension (should be on treatment if present)",
+      "evaluation_mode": "note_interpretation",
+      "required_data": ["observations.blood_pressure", "medications", "clinical_notes"],
+      "time_window": null,
+      "requires_human_review": true
+    },
+    {
+      "criterion_id": "exc_003",
+      "trial_id": "NCT07589608",
+      "criterion_type": "exclusion",
+      "original_text": "Have signs and symptoms of any liver disease other than nonalcoholic fatty liver disease",
+      "normalized_text": "No active liver disease except NAFLD",
+      "evaluation_mode": "note_interpretation",
+      "required_data": ["observations.liver_function_tests", "conditions.code", "clinical_notes"],
+      "time_window": null,
+      "requires_human_review": true
+    },
+    {
+      "criterion_id": "exc_004",
+      "trial_id": "NCT07589608",
+      "criterion_type": "exclusion",
+      "original_text": "Have any of the following cardiovascular conditions within 3 months prior to screening: acute myocardial infarction, cerebrovascular accident (stroke), unstable angina, or hospitalization due to congestive heart failure",
+      "normalized_text": "No acute MI, stroke, unstable angina, or CHF hospitalization within 3 months",
+      "evaluation_mode": "deterministic",
+      "required_data": ["conditions.code", "procedures.code", "clinical_notes"],
+      "icd10_codes": ["I21", "I63", "I20.0", "I50.9"],
+      "time_window": "3 months",
+      "requires_human_review": false
+    },
+    {
+      "criterion_id": "exc_005",
+      "trial_id": "NCT07589608",
+      "criterion_type": "exclusion",
+      "original_text": "Have a history of symptomatic gallbladder disease within the past 2 years",
+      "normalized_text": "No symptomatic gallbladder disease within 2 years",
+      "evaluation_mode": "note_interpretation",
+      "required_data": ["conditions.code", "procedures.code", "clinical_notes"],
+      "icd10_codes": ["K80", "K81", "K82"],
+      "time_window": "2 years",
+      "requires_human_review": true
+    },
+    {
+      "criterion_id": "exc_006",
+      "trial_id": "NCT07589608",
+      "criterion_type": "exclusion",
+      "original_text": "Have a history of acute or chronic pancreatitis",
+      "normalized_text": "No history of acute or chronic pancreatitis",
+      "evaluation_mode": "deterministic",
+      "required_data": ["conditions.code", "clinical_notes"],
+      "icd10_codes": ["K85", "K86"],
+      "time_window": null,
+      "requires_human_review": false
+    },
+    {
+      "criterion_id": "exc_007",
+      "trial_id": "NCT07589608",
+      "criterion_type": "exclusion",
+      "original_text": "Have an elevated resting pulse rate (>100 bpm) or reduced resting pulse rate (<60 bpm)",
+      "normalized_text": "Resting pulse 60–100 bpm",
+      "evaluation_mode": "deterministic",
+      "required_data": ["observations.heart_rate"],
+      "min_threshold": 60,
+      "max_threshold": 100,
+      "unit": "bpm",
+      "time_window": null,
+      "requires_human_review": false
+    },
+    {
+      "criterion_id": "exc_008",
+      "trial_id": "NCT07589608",
+      "criterion_type": "exclusion",
+      "original_text": "Have a lifetime history of suicide attempts",
+      "normalized_text": "No lifetime history of suicide attempts",
+      "evaluation_mode": "note_interpretation",
+      "required_data": ["clinical_notes", "conditions.code"],
+      "time_window": null,
+      "requires_human_review": true
+    }
+  ],
+  "clinician_knowledge_modifications": [
+    {
+      "knowledge_id": "knowledge_001",
+      "trial_id": "NCT07589608",
+      "source": "clinician_voice",
+      "source_transcript": "Flag heavy drinkers—more than 5 drinks weekly or alcohol-use disorder codes—and active biliary disease: cholecystitis, choledocholithiasis, cholangitis. Don't auto-exclude them. Review required, lower priority.",
+      "created_by": "Jae",
+      "created_at": "2026-07-18T12:00:00Z",
+      "trigger": {
+        "any": [
+          {
+            "field": "social_history.alcohol_use.drinks_per_week",
+            "operator": ">=",
+            "value": 5
+          },
+          {
+            "field": "conditions.code",
+            "operator": "in",
+            "value": ["F10.1", "F10.2"]
+          },
+          {
+            "field": "conditions.code",
+            "operator": "in",
+            "value": ["K81", "K80.3", "K83.1"]
+          }
+        ]
+      },
+      "effect": {
+        "action": "flag_for_review",
+        "priority_adjustment": -15,
+        "label": "Potential pancreatitis risk (alcohol/biliary disease)",
+        "explanation": "Patient has risk factors for GLP-1-related pancreatitis. Review required; do not auto-exclude."
+      },
+      "requires_human_confirmation": true
+    }
+  ]
+}
