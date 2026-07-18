@@ -1,4 +1,5 @@
-/**
- * Landing route — redirects straight to /trials (Page 1).
- * No standalone home page in the hackathon scope.
- */
+import { redirect } from "next/navigation";
+
+export default function Home() {
+  redirect("/trials");
+}
