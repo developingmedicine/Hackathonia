@@ -71,6 +71,26 @@
         "type": "Weight",
         "code": "29463-7",
         "system": "LOINC",
+        "value": 104,
+        "unit": "kg",
+        "collected_at": "2026-04-15",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 103,
+        "unit": "kg",
+        "collected_at": "2026-05-30",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
         "value": 102,
         "unit": "kg",
         "collected_at": "2026-07-10",
@@ -198,6 +218,36 @@
         "status": "final"
       },
       {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 122,
+        "unit": "kg",
+        "collected_at": "2026-04-15",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 116,
+        "unit": "kg",
+        "collected_at": "2026-05-30",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 110,
+        "unit": "kg",
+        "collected_at": "2026-07-09",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
         "type": "Blood Pressure",
         "code": "85354-9",
         "system": "LOINC",
@@ -242,7 +292,8 @@
       "ground_truth_notes": [
         "BMI 34.1 meets inclusion criteria",
         "Type 2 diabetes mellitus is explicit exclusion (exc_001)",
-        "No other exclusions, but diabetes alone is disqualifying"
+        "No other exclusions, but diabetes alone is disqualifying",
+        "Weight unstable: 9.8% loss over 3 months (122->110 kg) -> weight-stability inclusion NOT MET (secondary to diabetes exclusion)"
       ]
     }
   },
@@ -304,6 +355,36 @@
         "system": "LOINC",
         "value": 31.8,
         "unit": "kg/m²",
+        "collected_at": "2026-07-10",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 87,
+        "unit": "kg",
+        "collected_at": "2026-04-15",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 86,
+        "unit": "kg",
+        "collected_at": "2026-05-30",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 85,
+        "unit": "kg",
         "collected_at": "2026-07-10",
         "reference_range": null,
         "status": "final"
@@ -422,6 +503,36 @@
         "status": "final"
       },
       {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 103,
+        "unit": "kg",
+        "collected_at": "2026-04-15",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 102,
+        "unit": "kg",
+        "collected_at": "2026-05-30",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 101,
+        "unit": "kg",
+        "collected_at": "2026-07-10",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
         "type": "Liver Function Test - ALT",
         "code": "1742-6",
         "system": "LOINC",
@@ -510,6 +621,36 @@
         "system": "LOINC",
         "value": 27.2,
         "unit": "kg/m²",
+        "collected_at": "2026-07-10",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 71,
+        "unit": "kg",
+        "collected_at": "2026-04-15",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 70,
+        "unit": "kg",
+        "collected_at": "2026-05-30",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 70,
+        "unit": "kg",
         "collected_at": "2026-07-10",
         "reference_range": null,
         "status": "final"
@@ -624,6 +765,36 @@
         "collected_at": "2026-07-09",
         "reference_range": null,
         "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 105,
+        "unit": "kg",
+        "collected_at": "2026-04-15",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 104,
+        "unit": "kg",
+        "collected_at": "2026-05-30",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 103,
+        "unit": "kg",
+        "collected_at": "2026-07-09",
+        "reference_range": null,
+        "status": "final"
       }
     ],
     "social_history": {
@@ -713,6 +884,36 @@
         "system": "LOINC",
         "value": 32.1,
         "unit": "kg/m²",
+        "collected_at": "2026-07-10",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 89,
+        "unit": "kg",
+        "collected_at": "2026-04-15",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 88,
+        "unit": "kg",
+        "collected_at": "2026-05-30",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 87,
+        "unit": "kg",
         "collected_at": "2026-07-10",
         "reference_range": null,
         "status": "final"
@@ -828,6 +1029,36 @@
         "status": "final"
       },
       {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 103,
+        "unit": "kg",
+        "collected_at": "2026-04-15",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 102,
+        "unit": "kg",
+        "collected_at": "2026-05-30",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 101,
+        "unit": "kg",
+        "collected_at": "2026-07-10",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
         "type": "Heart Rate",
         "code": "8867-4",
         "system": "LOINC",
@@ -919,6 +1150,36 @@
         "collected_at": "2026-07-10",
         "reference_range": null,
         "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 82,
+        "unit": "kg",
+        "collected_at": "2026-04-15",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 81,
+        "unit": "kg",
+        "collected_at": "2026-05-30",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 80,
+        "unit": "kg",
+        "collected_at": "2026-07-10",
+        "reference_range": null,
+        "status": "final"
       }
     ],
     "social_history": {
@@ -999,6 +1260,36 @@
         "system": "LOINC",
         "value": 31.2,
         "unit": "kg/m²",
+        "collected_at": "2026-07-09",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 103,
+        "unit": "kg",
+        "collected_at": "2026-04-15",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 102,
+        "unit": "kg",
+        "collected_at": "2026-05-30",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 101,
+        "unit": "kg",
         "collected_at": "2026-07-09",
         "reference_range": null,
         "status": "final"
@@ -1098,6 +1389,36 @@
         "system": "LOINC",
         "value": 32.8,
         "unit": "kg/m²",
+        "collected_at": "2026-07-08",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 107,
+        "unit": "kg",
+        "collected_at": "2026-04-15",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 106,
+        "unit": "kg",
+        "collected_at": "2026-05-30",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 105,
+        "unit": "kg",
         "collected_at": "2026-07-08",
         "reference_range": null,
         "status": "final"
@@ -1215,6 +1536,36 @@
         "system": "LOINC",
         "value": 31.6,
         "unit": "kg/m²",
+        "collected_at": "2026-07-10",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 105,
+        "unit": "kg",
+        "collected_at": "2026-04-15",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 104,
+        "unit": "kg",
+        "collected_at": "2026-05-30",
+        "reference_range": null,
+        "status": "final"
+      },
+      {
+        "type": "Weight",
+        "code": "29463-7",
+        "system": "LOINC",
+        "value": 103,
+        "unit": "kg",
         "collected_at": "2026-07-10",
         "reference_range": null,
         "status": "final"
