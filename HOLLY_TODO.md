@@ -17,6 +17,25 @@ before Apply. No hide/rename needed; #2 was the only fix.
 
 ---
 
+# 🐛 Bug: "Mark Enrollment Ready" doesn't persist to the queue
+
+Jae: clicking **Mark Enrollment Ready** (and presumably Exclude / Keep Under
+Review) on the patient detail page shows a confirmation, but going back to the
+patient list still shows the **old** status flag.
+
+**Root cause (found, not fixed — leaving to you):**
+[frontend/app/patients/[patientId]/page.tsx:39](frontend/app/patients/[patientId]/page.tsx#L39)
+— `act()` only calls `setBanner("… — recorded (demo state)")`. It sets a local
+banner string and never updates the patient's actual status, so the queue reads
+the unchanged flag on return. The three action buttons (Mark Ready / Exclude /
+Keep Under Review, lines ~97/103/109) all route through this no-op `act()`.
+
+**Fix direction:** persist the status change to shared state so the queue
+reflects it — e.g. lift status into a shared store/context, or write it through
+the same data source the queue reads. Should survive navigating detail → list.
+
+---
+
 # 🎯 Patient Queue — split match score into Match vs Enriched (Jae's demo review)
 
 The queue's score column is currently unlabeled and single-value. Make the
