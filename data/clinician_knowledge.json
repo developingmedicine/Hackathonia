@@ -16,12 +16,14 @@
         {
           "field": "conditions.code",
           "operator": "in",
-          "value": ["F10.1", "F10.2"]
+          "match": "prefix",
+          "value": ["F10.1", "F10.2", "F10.9"]
         },
         {
           "field": "conditions.code",
           "operator": "in",
-          "value": ["K81", "K80.3", "K83.1"]
+          "match": "prefix",
+          "value": ["K80", "K81", "K83"]
         }
       ]
     },
