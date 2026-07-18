@@ -4,8 +4,8 @@
 // tooltips with provenance, enrolled patients inline in lavender.
 
 import { useEffect, useState } from "react";
-import { PATIENTS, PRIMARY_TRIAL } from "@/lib/data";
-import { getOverrides } from "@/lib/demo";
+import { PATIENTS, PRIMARY_TRIAL, queuePatients } from "@/lib/data";
+import { getOverrides, isGuidanceApplied } from "@/lib/demo";
 import PatientQueueTable from "@/components/PatientQueueTable";
 import type { QueuePatient } from "@/types";
 
@@ -14,9 +14,8 @@ export default function PatientQueuePage() {
 
   useEffect(() => {
     const ov = getOverrides();
-    if (Object.keys(ov).length === 0) return;
     setPatients(
-      PATIENTS.map((p) =>
+      queuePatients(isGuidanceApplied()).map((p) =>
         ov[p.id]
           ? {
               ...p,

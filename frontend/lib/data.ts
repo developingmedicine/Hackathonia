@@ -244,7 +244,10 @@ function knowledgeDelta(p: RawPatient): number {
   }, 0);
 }
 
-function evalPatient(p: RawPatient): CriterionResult[] {
+// guidanceActive: whether the clinician's Page 2 guidance has been applied —
+// knowledge rules only participate in screening after that (demo narrative:
+// "screen with protocol criteria only, or add clinician guidance first").
+function evalPatient(p: RawPatient, guidanceActive: boolean): CriterionResult[] {
   const res: CriterionResult[] = [];
   const bmiObs = p.observations.find((o) => o.type === "BMI");
   const bmi = typeof bmiObs?.value === "number" ? bmiObs.value : null;
@@ -502,7 +505,7 @@ function evalPatient(p: RawPatient): CriterionResult[] {
 
   // clinician knowledge rules — data-driven from data/clinician_knowledge.json
   // (trigger.any is OR semantics; effect.action flag_for_review never excludes)
-  for (const rule of KNOWLEDGE) {
+  for (const rule of guidanceActive ? KNOWLEDGE : []) {
     const ev = (rule.trigger?.any ?? []).flatMap((t) =>
       evalTriggerCondition(p, t),
     );
@@ -555,34 +558,40 @@ const ARCHETYPE_META: Record<string, { reason: string; score: number | null }> =
     escalation_adverse_event: { reason: "Week 4 · severe GI", score: null },
   };
 
-export const PATIENTS: QueuePatient[] = rawPatients.map((p) => {
-  const meta = ARCHETYPE_META[p.scenario_metadata.archetype] ?? {
-    reason: p.scenario_metadata.archetype,
-    score: null,
-  };
-  const firstNote = p.clinical_notes[0];
-  const delta = meta.score != null ? knowledgeDelta(p) : 0;
-  return {
-    id: p.patient_id,
-    name: p.name.display,
-    age: p.demographics.age,
-    time: p.visit.appointment_time,
-    condition: p.conditions[0]?.name.replace(/, unspecified/i, "") ?? "—",
-    status: p.scenario_metadata.expected_outcome as EnrollmentStatus,
-    score: meta.score != null ? meta.score + delta : null,
-    baseScore: delta !== 0 ? (meta.score ?? undefined) : undefined,
-    knowledgeDelta: delta !== 0 ? delta : undefined,
-    topReason: meta.reason,
-    studyWeek: p.trial_status.study_week ?? undefined,
-    tooltip: {
-      headline: p.name.display,
-      lines: p.scenario_metadata.ground_truth_notes.slice(0, 3),
-      source: firstNote
-        ? `${firstNote.note_type} · ${firstNote.date}`
-        : "Seeded screening result",
-    },
-  };
-});
+export function queuePatients(guidanceActive: boolean): QueuePatient[] {
+  return rawPatients.map((p) => {
+    const meta = ARCHETYPE_META[p.scenario_metadata.archetype] ?? {
+      reason: p.scenario_metadata.archetype,
+      score: null,
+    };
+    const firstNote = p.clinical_notes[0];
+    const delta =
+      guidanceActive && meta.score != null ? knowledgeDelta(p) : 0;
+    return {
+      id: p.patient_id,
+      name: p.name.display,
+      age: p.demographics.age,
+      time: p.visit.appointment_time,
+      condition: p.conditions[0]?.name.replace(/, unspecified/i, "") ?? "—",
+      status: p.scenario_metadata.expected_outcome as EnrollmentStatus,
+      score: meta.score != null ? meta.score + delta : null,
+      baseScore: delta !== 0 ? (meta.score ?? undefined) : undefined,
+      knowledgeDelta: delta !== 0 ? delta : undefined,
+      topReason: meta.reason,
+      studyWeek: p.trial_status.study_week ?? undefined,
+      tooltip: {
+        headline: p.name.display,
+        lines: p.scenario_metadata.ground_truth_notes.slice(0, 3),
+        source: firstNote
+          ? `${firstNote.note_type} · ${firstNote.date}`
+          : "Seeded screening result",
+      },
+    };
+  });
+}
+
+// Fresh-demo default: protocol criteria only, before Apply on Page 2.
+export const PATIENTS: QueuePatient[] = queuePatients(false);
 
 // ----------------------------------------------------------- detail view
 
@@ -595,7 +604,10 @@ const STATUS_LABEL: Record<string, string> = {
   actively_enrolled: "Actively Enrolled",
 };
 
-export function detailFor(q: QueuePatient): PatientDetail {
+export function detailFor(
+  q: QueuePatient,
+  guidanceActive: boolean,
+): PatientDetail {
   const p = rawPatients.find((x) => x.patient_id === q.id);
   if (!p) {
     return {
@@ -607,7 +619,7 @@ export function detailFor(q: QueuePatient): PatientDetail {
       results: [],
     };
   }
-  const results = evalPatient(p);
+  const results = evalPatient(p, guidanceActive);
   const bmiObs = p.observations.find((o) => o.type === "BMI");
   const workup = [
     ...results

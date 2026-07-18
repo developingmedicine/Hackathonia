@@ -3,11 +3,11 @@
 // PAGE 4 — Patient Eligibility Review (v1.1 layout): summary at TOP,
 // work-up checklist high, then the two-column criterion/evidence table.
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { detailFor, PATIENTS } from "@/lib/data";
-import { setOverride } from "@/lib/demo";
+import { detailFor, queuePatients } from "@/lib/data";
+import { isGuidanceApplied, setOverride } from "@/lib/demo";
 import { initialsOf } from "@/lib/status";
 import CriterionResultCard from "@/components/CriterionResultCard";
 import WorkupChecklist from "@/components/WorkupChecklist";
@@ -15,8 +15,14 @@ import WorkupChecklist from "@/components/WorkupChecklist";
 export default function PatientReviewPage() {
   const params = useParams<{ patientId: string }>();
   const router = useRouter();
-  const patient = PATIENTS.find((p) => p.id === params.patientId);
   const [banner, setBanner] = useState<string | null>(null);
+  // Read the Page 2 "Apply" state after mount (localStorage is client-only).
+  const [guidance, setGuidance] = useState(false);
+  useEffect(() => setGuidance(isGuidanceApplied()), []);
+  const patient = useMemo(
+    () => queuePatients(guidance).find((p) => p.id === params.patientId),
+    [guidance, params.patientId],
+  );
 
   if (!patient) {
     return (
@@ -28,7 +34,7 @@ export default function PatientReviewPage() {
       </p>
     );
   }
-  const detail = detailFor(patient);
+  const detail = detailFor(patient, guidance);
 
   const act = (label: string) => setBanner(`${label} — recorded (demo state)`);
 

@@ -60,7 +60,9 @@ executes each rule's `trigger.any` from `clinician_knowledge.json` (drinks/wk
 never auto-exclude. Per Jae's contract (HOLLY_TODO.md): seeded scores are
 the clean base and `priority_adjustment` is applied as a real delta on top
 (pt_006: 68→53, pt_007: 64→49); detail headline shows "base 68 · clinician
-flag −15 → 53". Overall queue
+flag −15 → 53". **Knowledge rules only fire after Page 2's "Apply to
+Screening Logic"** (`isGuidanceApplied()` in `lib/demo.ts`, localStorage,
+cleared by Reset demo) — before Apply, screening is protocol-criteria only. Overall queue
 status is seeded from Jae's ground truth (§38 demo stability); note-interpretation
 criteria show NEEDS REVIEW.
 
@@ -79,8 +81,9 @@ structured JSON output via `output_config.format`, adaptive thinking, effort low
 gracefully (seeded list stays; explorer shows an unreachable note).
 
 **Demo state** (`frontend/lib/demo.ts`): localStorage status overrides — confirming
-Elizabeth's disqualification flips her Page 3 row to Excluded; header "Reset demo"
-clears everything (PRD §38).
+Elizabeth's disqualification flips her Page 3 row to Excluded — plus the
+guidance-applied flag (Page 2 Apply → knowledge rules activate); header
+"Reset demo" clears everything (PRD §38).
 
 **Audio**: Jae's real recordings in `frontend/public/audio/`
 (`clinician-context.m4a` = Page 2; `adverse-effect.m4a` = Mark Davis pt_011,

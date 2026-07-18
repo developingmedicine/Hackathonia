@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { CLINICIAN_TRANSCRIPT, CRITERIA, GUIDANCE, TRIALS } from "@/lib/data";
+import { setGuidanceApplied } from "@/lib/demo";
 import type { GuidanceExtraction, LiveTrialDetail } from "@/types";
 import CriteriaList from "@/components/CriteriaList";
 import GuidancePanel from "@/components/GuidancePanel";
@@ -66,6 +67,7 @@ export default function TrialIntelligencePage() {
     } catch {
       setGuidance({ ...GUIDANCE, source: "seeded" });
     }
+    setGuidanceApplied(); // knowledge rules now participate in screening
     setApplying(false);
     setStage("applied");
   }
