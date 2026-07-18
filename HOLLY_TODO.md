@@ -10,6 +10,42 @@
 
 ---
 
+# 🎯 AE Follow-Up Screen — UX polish (Jae's demo review)
+
+Feedback on the **AI-Extracted Events** panel (Page 6, Mark Davis follow-up).
+Goal: maximize clinician flow — fewer clicks, higher signal density, no filler.
+
+### 1. Drop the redundant "notify the physician" framing
+On this screen **the logged-in user IS the trial physician** — a "Notify Trial
+Physician" button is moot (they're already looking at it). Rework the escalation
+CTA so it fits a physician acting on their own patient, e.g. **"Acknowledge &
+Escalate"** or route straight to **"Schedule Same-day Visit"** as the primary
+action. Don't ask them to notify themselves.
+
+### 2. Cut the low-value insight entirely
+Remove: *"Nausea and vomiting are consistent with common GI side effects of
+GLP-1-class study medication; relationship to study drug should be confirmed by
+clinician."* It's obvious to any clinician and adds no decision value.
+
+### 3. Elevate the two *actionable* insights — more prominent, denser
+These are the parts a clinician actually acts on. Give them visual weight
+(promote out of the grey footnote text into the main panel, bold the signal):
+- **Oral intake maintained** — "can drink water" / "can eat a little bit" →
+  dehydration risk lower, but monitor.
+- **Dropout / tolerance risk** — functional decline + patient's own uncertainty
+  about continuing → flag for clinician review.
+
+Compress the wording; lead with the clinical signal, keep the patient quote as
+supporting evidence.
+
+### 4. Auto-save to the participant record (remove the extra click)
+Extracted findings should **save to the patient record automatically** for an
+auditable trail — don't gate it behind a separate "Save to Participant Record"
+click. Fewer clicks = better agent flow. Keep an **Edit** affordance for
+corrections, but the default path should persist without manual save.
+
+---
+
 # Answers to your 5 questions
 
 ### 1. `priority_adjustment: -15` → apply it as a **real score delta**
