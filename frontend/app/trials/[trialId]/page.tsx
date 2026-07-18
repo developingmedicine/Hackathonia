@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { CLINICIAN_TRANSCRIPT, CRITERIA, GUIDANCE, TRIALS } from "@/lib/data";
+import type { GuidanceExtraction } from "@/types";
 import CriteriaList from "@/components/CriteriaList";
 import GuidancePanel from "@/components/GuidancePanel";
 import TranscriptPanel from "@/components/TranscriptPanel";
@@ -21,6 +22,25 @@ export default function TrialIntelligencePage() {
 
   const [stage, setStage] = useState<Stage>("idle");
   const [transcript, setTranscript] = useState("");
+  const [guidance, setGuidance] = useState<GuidanceExtraction | null>(null);
+  const [applying, setApplying] = useState(false);
+
+  async function applyGuidance() {
+    setApplying(true);
+    try {
+      const res = await fetch("/api/knowledge", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ transcript }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setGuidance((await res.json()) as GuidanceExtraction);
+    } catch {
+      setGuidance({ ...GUIDANCE, source: "seeded" });
+    }
+    setApplying(false);
+    setStage("applied");
+  }
 
   useEffect(() => {
     if (stage !== "transcribing") return;
@@ -66,9 +86,15 @@ export default function TrialIntelligencePage() {
           <div className="mt-5">
             <CriteriaList criteria={CRITERIA} />
           </div>
-          {stage === "applied" && (
+          {applying && (
+            <p className="mt-6 animate-pulse text-sm text-inkmid">
+              Claude is converting the clinician&apos;s guidance into
+              structured screening rules…
+            </p>
+          )}
+          {stage === "applied" && guidance && (
             <div className="mt-6">
-              <GuidancePanel guidance={GUIDANCE} />
+              <GuidancePanel guidance={guidance} />
             </div>
           )}
         </div>
@@ -102,13 +128,15 @@ export default function TrialIntelligencePage() {
             />
           </div>
           <button
-            onClick={() => setStage("applied")}
-            disabled={stage !== "ready"}
+            onClick={() => void applyGuidance()}
+            disabled={stage !== "ready" || applying}
             className="mt-5 rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-inkmid disabled:opacity-40"
           >
-            {stage === "applied"
-              ? "Applied to screening logic ✓"
-              : "Apply to Screening Logic"}
+            {applying
+              ? "Extracting…"
+              : stage === "applied"
+                ? "Applied to screening logic ✓"
+                : "Apply to Screening Logic"}
           </button>
         </div>
       </div>

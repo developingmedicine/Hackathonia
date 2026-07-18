@@ -108,3 +108,21 @@ export interface FollowUpScenario {
     source: string;
   };
 }
+
+export type ExtractionSource = "live" | "seeded";
+
+export interface FollowUpExtraction {
+  events: FollowUpEvent[];
+  footnotes: string[];
+  escalation?: string | null;
+  disqualification?: {
+    criterion: string;
+    evidence: string;
+    source?: string;
+  } | null;
+  source: ExtractionSource;
+}
+
+export interface GuidanceExtraction extends ExtractedGuidance {
+  source: ExtractionSource;
+}
