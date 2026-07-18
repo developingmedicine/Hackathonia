@@ -664,6 +664,7 @@ export const FOLLOWUPS: Record<string, FollowUpScenario> = {
   pt_010: {
     patientId: "pt_010",
     patientName: "Christopher Rodriguez",
+    clinician: "Dr. Jae",
     week: 3,
     hasAudio: false,
     transcript:
@@ -675,6 +676,7 @@ export const FOLLOWUPS: Record<string, FollowUpScenario> = {
         event: "Nausea",
         detail: "Mild · most mornings, resolves by afternoon",
         confidence: 94,
+        quote: "I feel nauseous most mornings, but it usually passes by the afternoon",
       },
     ],
     insights: [
@@ -684,16 +686,14 @@ export const FOLLOWUPS: Record<string, FollowUpScenario> = {
         quote: "I can still eat and drink fine",
       },
     ],
-    footnotes: [
-      "Possible relationship: after study medication initiation",
-      "Escalation: not required",
-    ],
+    footnotes: ["Escalation: not required — monitor at next visit"],
   },
   // pt_011 transcript is Jae's recorded Page 6 script verbatim
   // (data/transcripts/patient_follow_up.txt · Adverse effect.m4a)
   pt_011: {
     patientId: "pt_011",
     patientName: "Mark Davis",
+    clinician: "Dr. Jae",
     week: 4,
     hasAudio: true,
     audioSrc: "/audio/adverse-effect.m4a",
@@ -706,18 +706,21 @@ export const FOLLOWUPS: Record<string, FollowUpScenario> = {
     events: [
       {
         event: "Nausea",
-        detail: "Daily · “pretty much every single day”",
+        detail: "Daily · ~3 weeks duration",
         confidence: 96,
+        quote: "lots of nausea pretty much every single day",
       },
       {
         event: "Vomiting",
-        detail: "“Threw up a couple times this week”",
+        detail: "Multiple episodes this week",
         confidence: 93,
+        quote: "actually threw up a couple times this week",
       },
       {
         event: "Functional impact / tolerance concern",
-        detail: "“Really messing with my work and sleep … don't know how much longer”",
+        detail: "Work and sleep affected · dropout risk",
         confidence: 89,
+        quote: "really messing with my overall kind of work and sleep",
       },
     ],
     insights: [
@@ -731,12 +734,10 @@ export const FOLLOWUPS: Record<string, FollowUpScenario> = {
         detail:
           "Functional decline plus the patient's own uncertainty about " +
           "continuing — flag for clinician review.",
-        quote: "really messing with my work and sleep … don't know how much longer I can keep going",
+        quote: "don't know how much longer I can keep going with this",
       },
     ],
-    footnotes: [
-      "Possible relationship: after study medication initiation (~3 weeks)",
-    ],
+    footnotes: [],
     escalation:
       "Poor medication tolerance with daily symptoms, functional impact on " +
       "work and sleep, and dropout risk — consider antiemetic therapy and " +
@@ -745,6 +746,7 @@ export const FOLLOWUPS: Record<string, FollowUpScenario> = {
   pt_009: {
     patientId: "pt_009",
     patientName: "Elizabeth Garcia",
+    clinician: "Dr. Jae",
     week: 2,
     hasAudio: false,
     transcript:
@@ -755,11 +757,13 @@ export const FOLLOWUPS: Record<string, FollowUpScenario> = {
         event: "Pancreatitis (hospitalization)",
         detail: "Last week",
         confidence: 97,
+        quote: "They told me I had acute pancreatitis",
       },
       {
         event: "New medication initiated",
         detail: "During admission",
         confidence: 91,
+        quote: "I was started on a new medication there",
       },
     ],
     footnotes: ["Escalation: immediate clinician review required"],

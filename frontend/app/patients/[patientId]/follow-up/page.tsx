@@ -175,6 +175,10 @@ export default function FollowUpPage() {
         <div className="mt-4">
           <AEExtractionPanel
             data={extraction}
+            clinician={scenario.clinician}
+            onUpdateEvents={(events) =>
+              setExtraction((x) => (x ? { ...x, events } : x))
+            }
             dqConfirmed={dqConfirmed}
             onConfirmDq={() => {
               setOverride(scenario.patientId, {

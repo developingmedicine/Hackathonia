@@ -74,8 +74,13 @@ structured JSON output via `output_config.format`, adaptive thinking, effort low
   reader IS the trial physician (never "notify the physician"); no
   class-effect filler footnotes (Jae's demo review, HOLLY_TODO.md). Verified:
   the pancreatitis transcript flags exc_006; a benign edited transcript
-  doesn't. AE panel: findings auto-save (no Save button), escalation CTA =
-  "Acknowledge & Escalate" / "Schedule Same-day Visit".
+  doesn't. AE panel (Jae round 2): escalation card leads (BLUF) and carries
+  "Acknowledge & Escalate" (attests: clinician + timestamp), a signable
+  anti-emetic order (ondansetron 4 mg ODT q8h PRN — ODT, never "SL"), and
+  simulated same-day slot booking ("medical assistant notified"); findings
+  are a two-column finding/evidence table (confidence chips, patient-quote
+  evidence column, events inline-editable via Edit); footnotes near-always
+  empty (no restating events); findings auto-save (no Save button).
 - `POST /api/knowledge` — clinician voice text → annotated criterion + rule bullets.
 - Both catch all errors → seeded fallback from `lib/data.ts` with `source:"seeded"`.
 - `POST /api/transcribe` — **real mic recording** (Pages 2 & 6 "Start

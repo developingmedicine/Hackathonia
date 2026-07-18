@@ -97,8 +97,9 @@ export interface PatientDetail {
 
 export interface FollowUpEvent {
   event: string;
-  detail: string;
+  detail: string; // clinical characterization (timing/frequency/severity)
   confidence: number;
+  quote?: string; // patient's verbatim words — evidence column
 }
 
 // Actionable clinical signal promoted out of the footnotes (Jae's demo
@@ -112,6 +113,7 @@ export interface ClinicalInsight {
 export interface FollowUpScenario {
   patientId: string;
   patientName: string;
+  clinician?: string; // attestation signature, e.g. "Dr. Jae"
   week: number;
   hasAudio: boolean;
   audioSrc?: string;

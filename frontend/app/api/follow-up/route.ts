@@ -36,8 +36,9 @@ const SCHEMA = {
           event: { type: "string" },
           detail: { type: "string" },
           confidence: { type: "integer" },
+          quote: { type: "string" },
         },
-        required: ["event", "detail", "confidence"],
+        required: ["event", "detail", "confidence", "quote"],
         additionalProperties: false,
       },
     },
@@ -80,9 +81,9 @@ const SYSTEM = `You are the adverse-event extraction service for Beacon, a clini
 The reader IS the trial physician reviewing their own patient — write every recommendation as a direct action for them (e.g. "consider antiemetic therapy", "same-day assessment advised"), never "notify the trial physician" or "contact the doctor".
 
 Rules:
-- Extract only what the transcript supports. "detail" should quote or closely paraphrase the patient's words (timing, frequency, severity). "confidence" is an integer 0-100.
+- Extract only what the transcript supports. "detail" is a compressed clinical characterization (timing, frequency, severity — a few words, no quotes); "quote" is the patient's verbatim words supporting the event (shown in an evidence column). "confidence" is an integer 0-100.
 - "insights": 0-3 actionable clinical signals the physician would act on (oral-intake/hydration status, dropout/medication-tolerance risk, red flags). "signal" is a short bold headline, "detail" the compressed clinical takeaway, "quote" the patient's supporting words. Lead with the signal; no filler.
-- "footnotes": 1-3 brief contextual notes (e.g. possible relationship to study medication). NEVER state what any clinician already knows — no "nausea is a common GI side effect of GLP-1 medication"-style class-effect observations. Everything is decision support requiring clinician confirmation; never diagnose or decide autonomously.
+- "footnotes": 0-2 brief notes ONLY for context not already carried by the events or insights — usually the empty array. NEVER restate an event or insight in sentence form, and NEVER state what any clinician already knows (no "nausea is a common GI side effect of GLP-1 medication"-style class-effect observations). Everything is decision support requiring clinician confirmation; never diagnose or decide autonomously.
 - "escalation": if the symptoms warrant prompt physician action (severity, dehydration risk, functional decline, medication-tolerance/dropout risk), give a one-sentence recommendation in the direct-action voice above; otherwise null.
 - "disqualification": compare the transcript against the trial's exclusion criteria below. If it reveals the patient now meets one, return {"criterion": "<normalized text> (<criterion_id>)", "evidence": "<verbatim quote from the transcript>"}; otherwise null. Only flag genuine matches.
 
