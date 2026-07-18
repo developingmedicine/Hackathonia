@@ -41,7 +41,7 @@ Page 5 merged into Page 3):
 |---|---|
 | `/trials` | 1 — Trial Explorer (primary trial highlighted) + **live ClinicalTrials.gov search** (debounced, ≥3 chars → any condition: cancer, psoriasis…) |
 | `/trials/[trialId]` | 2 — criteria (left, read-only) + voice → transcript → **live Claude knowledge extraction** (guidance renders LEFT, under criteria). Non-seeded NCT IDs render live from CT.gov: summary + unparsed eligibility text, labeled "Live · ClinicalTrials.gov" |
-| `/patients` | 3 — queue: status tooltips w/ provenance, purple = enrolled inline, fixed-width badge/score columns |
+| `/patients` | 3 — queue: status tooltips w/ provenance, purple = enrolled inline; **Match/Enriched two-column scores** (match score per PRD §22, never "confidence") — Enriched shows "—" until Page 2 Apply, then affected rows fade Match and show "53 ▼15" (only rows a rule actually shifts light up) |
 | `/patients/[patientId]` | 4 — summary on TOP, work-up high, two-column criterion/evidence table |
 | `/patients/[patientId]/follow-up` | 6 — typing animation → **live Claude AE extraction + disqualification surveillance**; transcript editable + "Re-extract with Claude" |
 

@@ -66,7 +66,20 @@ export default function PatientQueueTable({
         ))}
       </div>
 
-      <div className="mt-5 space-y-1">
+      {/* Column headers — match score (PRD §22), not "confidence" */}
+      <div className="mt-5 grid grid-cols-[44px_1fr_56px_84px_144px] gap-4 px-4">
+        <span />
+        <span />
+        <span className="text-right text-[11px] font-bold uppercase tracking-wider text-inksoft">
+          Match
+        </span>
+        <span className="text-right text-[11px] font-bold uppercase tracking-wider text-inksoft">
+          Enriched
+        </span>
+        <span />
+      </div>
+
+      <div className="mt-2 space-y-1">
         {list.map((p) => {
           const enrolled = p.status === "actively_enrolled";
           return (
@@ -75,7 +88,7 @@ export default function PatientQueueTable({
               href={
                 enrolled ? `/patients/${p.id}/follow-up` : `/patients/${p.id}`
               }
-              className={`grid grid-cols-[44px_1fr_64px_144px] items-center gap-4 rounded-2xl px-4 py-3.5 transition ${
+              className={`grid grid-cols-[44px_1fr_56px_84px_144px] items-center gap-4 rounded-2xl px-4 py-3.5 transition ${
                 enrolled
                   ? "bg-lav/40 hover:bg-lav/60"
                   : "hover:bg-white hover:shadow-sm"
@@ -99,8 +112,32 @@ export default function PatientQueueTable({
                   {p.condition} — {p.topReason}
                 </span>
               </span>
-              <span className="self-start pt-[3px] text-right text-sm font-semibold tabular-nums text-inkmid">
-                {p.score == null ? "—" : `${p.score}%`}
+              {/* Match (protocol-only) — fades when clinician knowledge shifts the row */}
+              <span
+                className={`self-start pt-[3px] text-right text-sm tabular-nums ${
+                  p.knowledgeDelta != null
+                    ? "font-normal text-inksoft/70"
+                    : "font-semibold text-inkmid"
+                }`}
+              >
+                {(p.baseScore ?? p.score) == null
+                  ? "—"
+                  : `${p.baseScore ?? p.score}%`}
+              </span>
+              {/* Enriched (+ clinician knowledge) — em-dash until a rule shifts the row */}
+              <span className="self-start pt-[3px] text-right text-sm tabular-nums">
+                {p.knowledgeDelta != null && p.score != null ? (
+                  <>
+                    <span className="font-bold text-ink">{p.score}%</span>
+                    <span className="ml-1 text-[11px] font-semibold text-amber-700">
+                      {p.knowledgeDelta < 0
+                        ? `▼${-p.knowledgeDelta}`
+                        : `▲${p.knowledgeDelta}`}
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-inksoft">—</span>
+                )}
               </span>
               <span className="self-start">
                 <StatusBadge
