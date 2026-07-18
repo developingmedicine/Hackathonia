@@ -52,6 +52,31 @@ the same data source the queue reads. Should survive navigating detail → list.
 
 ---
 
+# 🐛 Bug: Schedule Same-day Visit button vanishes after signing the order
+
+Jae: on the AE escalation card, after Acknowledge & Escalate + signing the
+anti-emetic order, the **Schedule Same-day Visit** button disappears — even
+though scheduling was never acted on. Principle: **no action button should
+disappear until that action itself is fully completed.**
+
+**Root cause (found, not fixed — leaving to you):**
+[frontend/components/AEExtractionPanel.tsx:115](frontend/components/AEExtractionPanel.tsx#L115)
+— the post-attest block is gated on `attested && !orderSigned && !orderOpen`,
+and the Schedule button lives *inside* that block. So signing the order (or even
+opening it) removes the block and the Schedule button with it. The three actions
+are coupled to the order's state instead of each to its own.
+
+**Fix direction:** decouple — render each pending action by its OWN completion
+flag, independent of the others:
+- Acknowledge & Escalate → hide once `attested`
+- Initiate order → hide once `orderSigned` (or while `orderOpen`)
+- Schedule Same-day Visit → hide only once `slot` is set (scheduled)
+
+So a signed order and an un-scheduled visit can coexist; each button persists
+until its own action is done.
+
+---
+
 # 🎯 Patient Queue — split match score into Match vs Enriched (Jae's demo review)
 
 The queue's score column is currently unlabeled and single-value. Make the
