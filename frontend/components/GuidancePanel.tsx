@@ -1,19 +1,30 @@
 // Extracted clinician guidance. v1.1: rendered in the LEFT column of Page 2,
 // directly under the criteria it annotates, with visible attribution. PRD §21.
-// Lavender = AI-derived content, Abridge-style.
+// Renders a live Claude extraction or the seeded fallback (§38).
 
-import type { ExtractedGuidance } from "@/types";
+import type { GuidanceExtraction } from "@/types";
 
 export default function GuidancePanel({
   guidance,
 }: {
-  guidance: ExtractedGuidance;
+  guidance: GuidanceExtraction;
 }) {
   return (
     <div className="rounded-2xl bg-lav/50 p-5">
-      <h4 className="text-[11px] font-bold uppercase tracking-widest text-lavdeep">
-        Extracted Guidance
-      </h4>
+      <div className="flex items-center justify-between gap-3">
+        <h4 className="text-[11px] font-bold uppercase tracking-widest text-lavdeep">
+          Extracted Guidance
+        </h4>
+        <span
+          className={`rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${
+            guidance.source === "live"
+              ? "bg-white text-lavdeep"
+              : "bg-creamdeep text-inkmid"
+          }`}
+        >
+          {guidance.source === "live" ? "Live Claude" : "Seeded fallback"}
+        </span>
+      </div>
       <p className="mt-1.5 text-xs text-inkmid">
         ↳ annotates: <span className="font-semibold">{guidance.annotates}</span>
       </p>

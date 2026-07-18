@@ -1,23 +1,38 @@
 "use client";
 
 // Page 6 extracted events + (v1.1) disqualification surveillance. PRD §23.
+// Renders a FollowUpExtraction — either a live Claude result or the seeded
+// fallback (§38); the source badge says which honestly.
 
-import type { FollowUpScenario } from "@/types";
+import type { FollowUpExtraction } from "@/types";
 
 export default function AEExtractionPanel({
-  scenario,
+  data,
   dqConfirmed,
   onConfirmDq,
 }: {
-  scenario: FollowUpScenario;
+  data: FollowUpExtraction;
   dqConfirmed?: boolean;
   onConfirmDq?: () => void;
 }) {
   return (
     <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5">
-      <h3 className="text-[15px] font-bold text-ink">AI-Extracted Events</h3>
+      <div className="flex items-center justify-between gap-3">
+        <h3 className="text-[15px] font-bold text-ink">AI-Extracted Events</h3>
+        <span
+          className={`rounded-full px-3 py-1 text-[11px] font-semibold ${
+            data.source === "live"
+              ? "bg-lav text-lavdeep"
+              : "bg-creamdeep text-inkmid"
+          }`}
+        >
+          {data.source === "live"
+            ? "Live Claude extraction"
+            : "Seeded result (offline fallback)"}
+        </span>
+      </div>
       <div className="mt-4 space-y-4">
-        {scenario.events.map((e) => (
+        {data.events.map((e) => (
           <div
             key={e.event}
             className="flex items-baseline justify-between gap-4 border-t border-cream pt-4 first:border-t-0 first:pt-0"
@@ -26,26 +41,33 @@ export default function AEExtractionPanel({
               <p className="text-[15px] font-semibold text-ink">{e.event}</p>
               <p className="mt-0.5 text-sm text-inkmid">{e.detail}</p>
             </div>
-            <span className="text-xs tabular-nums text-inksoft">
+            <span className="shrink-0 text-xs tabular-nums text-inksoft">
               Confidence: {e.confidence}%
             </span>
           </div>
         ))}
+        {data.events.length === 0 && (
+          <p className="text-sm italic text-inksoft">
+            No adverse events detected in this transcript.
+          </p>
+        )}
       </div>
-      <ul className="mt-5 space-y-1 border-t border-cream pt-4">
-        {scenario.footnotes.map((f) => (
-          <li key={f} className="text-xs text-inksoft">
-            {f}
-          </li>
-        ))}
-      </ul>
+      {data.footnotes.length > 0 && (
+        <ul className="mt-5 space-y-1 border-t border-cream pt-4">
+          {data.footnotes.map((f) => (
+            <li key={f} className="text-xs text-inksoft">
+              {f}
+            </li>
+          ))}
+        </ul>
+      )}
 
-      {scenario.escalation && (
+      {data.escalation && (
         <div className="mt-5 rounded-2xl bg-amber-100/70 p-5">
           <p className="text-sm font-bold text-amber-900">
             ⚠ Escalation required
           </p>
-          <p className="mt-1.5 text-sm text-inkmid">{scenario.escalation}</p>
+          <p className="mt-1.5 text-sm text-inkmid">{data.escalation}</p>
           <div className="mt-4 flex flex-wrap gap-2">
             <button className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-inkmid">
               Notify Trial Physician
@@ -57,7 +79,7 @@ export default function AEExtractionPanel({
         </div>
       )}
 
-      {scenario.disqualification && (
+      {data.disqualification && (
         <div className="mt-5 rounded-2xl bg-brand/8 p-5">
           <p className="text-sm font-bold text-brand">
             ⛔ Trial disqualification detected
@@ -68,14 +90,16 @@ export default function AEExtractionPanel({
           <p className="mt-2 text-sm text-inkmid">
             Matches exclusion criterion:{" "}
             <span className="font-semibold text-ink">
-              “{scenario.disqualification.criterion}”
+              “{data.disqualification.criterion}”
             </span>
           </p>
           <p className="mt-1 text-sm text-inkmid">
-            Evidence: {scenario.disqualification.evidence}
-            <span className="ml-1 text-xs text-inksoft">
-              · {scenario.disqualification.source}
-            </span>
+            Evidence: {data.disqualification.evidence}
+            {data.disqualification.source && (
+              <span className="ml-1 text-xs text-inksoft">
+                · {data.disqualification.source}
+              </span>
+            )}
           </p>
           {dqConfirmed ? (
             <p className="mt-4 rounded-xl bg-white px-4 py-3 text-sm font-semibold text-brand">
@@ -102,7 +126,7 @@ export default function AEExtractionPanel({
         </div>
       )}
 
-      {!scenario.disqualification && (
+      {!data.disqualification && (
         <div className="mt-5 flex flex-wrap gap-2 border-t border-cream pt-5">
           <button className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-inkmid">
             Confirm Findings
