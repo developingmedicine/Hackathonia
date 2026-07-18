@@ -565,8 +565,7 @@ export const FOLLOWUPS: Record<string, FollowUpScenario> = {
     patientId: "pt_010",
     patientName: "Christopher Rodriguez",
     week: 3,
-    hasAudio: true,
-    audioSrc: "/audio/adverse-effect.m4a",
+    hasAudio: false,
     transcript:
       "I started the study medication about three weeks ago. I feel nauseous " +
       "most mornings, but it usually passes by the afternoon. I can still eat " +
@@ -585,31 +584,45 @@ export const FOLLOWUPS: Record<string, FollowUpScenario> = {
       "Escalation: not required — monitor at next visit",
     ],
   },
+  // pt_011 transcript is Jae's recorded Page 6 script verbatim
+  // (data/transcripts/patient_follow_up.txt · Adverse effect.m4a)
   pt_011: {
     patientId: "pt_011",
     patientName: "Margaret Davis",
     week: 4,
-    hasAudio: false,
+    hasAudio: true,
+    audioSrc: "/audio/adverse-effect.m4a",
     transcript:
-      "The nausea has gotten really bad. I'm vomiting four or five times a " +
-      "day and can barely keep anything down. I feel weak and dizzy, and " +
-      "I've barely eaten in two days.",
+      "I've been on the study drug for three weeks now. Yeah, lots of " +
+      "nausea—worst in the mornings, pretty much every day. Actually threw " +
+      "up a couple times this week. I can drink water, eat a bit, but it's " +
+      "really affecting my work. Not sure how much longer I can keep going " +
+      "like this.",
     events: [
       {
-        event: "Severe nausea and vomiting",
-        detail: "4–5 times daily",
-        confidence: 98,
+        event: "Nausea",
+        detail: "Daily · worst in the mornings",
+        confidence: 96,
       },
       {
-        event: "Dehydration signs",
-        detail: "Minimal oral intake · dizziness",
-        confidence: 90,
+        event: "Vomiting",
+        detail: "Twice this week",
+        confidence: 93,
+      },
+      {
+        event: "Functional impact / tolerance concern",
+        detail: "“Really affecting my work … not sure how much longer”",
+        confidence: 89,
       },
     ],
-    footnotes: ["Possible relationship: after study medication initiation"],
+    footnotes: [
+      "Possible relationship: after study medication initiation",
+      "Hydration and oral intake: partially preserved (water, small meals)",
+    ],
     escalation:
-      "Dehydration risk with poor medication tolerance — notify the trial " +
-      "physician today for antiemetic therapy and possible dose adjustment.",
+      "Poor medication tolerance with daily symptoms, functional impact, and " +
+      "dropout risk — notify the trial physician for antiemetic therapy and " +
+      "possible dose adjustment.",
   },
   pt_009: {
     patientId: "pt_009",
