@@ -17,6 +17,38 @@ before Apply. No hide/rename needed; #2 was the only fix.
 
 ---
 
+# 🎯 Patient Queue — split match score into Match vs Enriched (Jae's demo review)
+
+The queue's score column is currently unlabeled and single-value. Make the
+clinician-knowledge effect visible at a glance across the whole queue.
+
+### 1. Label it & fix terminology
+Give the column(s) a header. **It's a match score (PRD §22 `match_score`), NOT
+"confidence"** — don't reuse the AE-panel "Confidence" wording here; different
+concept. Header the two columns **"Match"** and **"Enriched"**.
+
+### 2. Two columns: Match (protocol-only) vs Enriched (+ clinician knowledge)
+- **Match** = base score from the parsed protocol alone.
+- **Enriched** = score after clinician-knowledge adjustments (e.g. the −15
+  pancreatitis-risk penalty). Data already exists — base = ground-truth seed,
+  −15 lives in `data/clinician_knowledge.json`; no data change needed.
+- **Empty state:** before any knowledge is added, show an em-dash `—` in the
+  Enriched column (keeps the grid aligned; reads better than fully blank).
+
+### 3. Per-row emphasis — NOT global
+Only rows whose score actually shifts get the visual treatment: fade the **Match**
+value to lighter gray (less important) and emphasize **Enriched**. Rows untouched
+by clinician knowledge keep a single clear score — don't fade all 12 just because
+knowledge exists. Currently only **pt_006 David Lee** (68→53) and **pt_007
+Patricia Johnson** are affected, so only those two should light up.
+
+### 4. Show the delta
+Pair the enriched value with a small signed delta (e.g. `53 ▼15`) so the magnitude
+of the clinician's impact reads instantly — and so meaning isn't carried by color
+alone (accessibility).
+
+---
+
 # 🎯 AE Follow-Up Screen — UX polish (Jae's demo review)
 
 Feedback on the **AI-Extracted Events** panel (Page 6, Mark Davis follow-up).
