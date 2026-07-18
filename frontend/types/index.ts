@@ -97,9 +97,11 @@ export interface FollowUpScenario {
   patientName: string;
   week: number;
   hasAudio: boolean;
+  audioSrc?: string;
   transcript: string;
   events: FollowUpEvent[];
   footnotes: string[];
+  escalation?: string;
   disqualification?: {
     criterion: string;
     evidence: string;

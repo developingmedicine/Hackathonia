@@ -4,7 +4,7 @@
 // tooltips with provenance, enrolled patients inline in lavender.
 
 import { useEffect, useState } from "react";
-import { PATIENTS, PRIMARY_TRIAL } from "@/lib/mock";
+import { PATIENTS, PRIMARY_TRIAL } from "@/lib/data";
 import { getOverrides } from "@/lib/demo";
 import PatientQueueTable from "@/components/PatientQueueTable";
 import type { QueuePatient } from "@/types";

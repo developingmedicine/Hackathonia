@@ -40,6 +40,23 @@ export default function AEExtractionPanel({
         ))}
       </ul>
 
+      {scenario.escalation && (
+        <div className="mt-5 rounded-2xl bg-amber-100/70 p-5">
+          <p className="text-sm font-bold text-amber-900">
+            ⚠ Escalation required
+          </p>
+          <p className="mt-1.5 text-sm text-inkmid">{scenario.escalation}</p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <button className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-inkmid">
+              Notify Trial Physician
+            </button>
+            <button className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-inkmid shadow-sm ring-1 ring-black/5 transition hover:bg-creamdeep">
+              Schedule Same-day Visit
+            </button>
+          </div>
+        </div>
+      )}
+
       {scenario.disqualification && (
         <div className="mt-5 rounded-2xl bg-brand/8 p-5">
           <p className="text-sm font-bold text-brand">

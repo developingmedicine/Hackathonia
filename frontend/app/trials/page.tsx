@@ -4,7 +4,7 @@
 // search, recruiting trial cards on the cream canvas.
 
 import { useState } from "react";
-import { TRIALS } from "@/lib/mock";
+import { TRIALS } from "@/lib/data";
 import TrialCard from "@/components/TrialCard";
 
 export default function TrialExplorerPage() {
