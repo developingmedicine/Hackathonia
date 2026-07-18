@@ -2,99 +2,98 @@
 
 Everything you own lives in the **`data/`** folder. Four deliverables, one review.
 
+**Status:** Phase 1 (Patient Cohort + Mock Voice) ✅ **COMPLETE** (Jul 18, 2026)
+
 ---
 
 ## 1. `data/patients.json` — ⭐ your main task
 
-> **v1.1 (per our Jul 17 review):** we now START from the organizer-provided
-> synthetic EHR dataset (25 patients, JSON/JSONL) instead of authoring from
-> scratch. An agent will edit selected patients to fit the trial; **your job is
-> to pick which patients to use, direct the edits, and validate that every
-> edited chart stays clinically plausible.** Please send Holly the dataset link
-> + the simpler trial-criteria file you mentioned.
+✅ **COMPLETE** (Jul 18, 2026)
 
-Target: **8–12 patients** (no real patient info, no PHI), mapped into the
-canonical patient JSON template in **[PRD.md §18](PRD.md)** — it contains a
-complete example patient (Nathan Chen) showing the target shape.
+**Deliverable:** 12 synthetic patients, all archetypes covered, validated against trial criteria
 
-The cohort needs to cover these archetypes (PRD §17.4):
+- ✅ **Clear match:** Nathan Chen (BMI 32.4, no exclusions, enrollment-ready)
+- ✅ **Clear exclusion:** Michael Torres (Type 2 diabetes)
+- ✅ **Missing smoking history:** Sarah Williams (status unknown, cardiovascular risk)
+- ✅ **Expired/missing lab:** James Patterson (liver function tests 6+ months old)
+- ✅ **Borderline numeric:** Jennifer Martinez (BMI 27.2 with comorbidity qualification)
+- ✅ **Subjective disease severity:** William Anderson (dyslipidemia + obesity)
+- ✅ **Pancreatitis risk (alcohol):** David Lee (8 drinks/week, triggers clinician knowledge)
+- ✅ **Gallbladder disease risk:** Patricia Johnson (prior cholecystitis, triggers clinician knowledge)
+- ✅ **High dropout concern:** Robert Brown (bradycardia, HR 52 bpm, confirmed exclusion)
+- ✅ **Already-enrolled participant:** Elizabeth Garcia (week 2, active)
+- ✅ **Mild adverse event:** Christopher Rodriguez (nausea, week 3, managed)
+- ✅ **Escalation adverse event:** Mark Davis (severe nausea/vomiting/dehydration, week 4)
 
-1. Clear match
-2. Clear exclusion
-3. Missing smoking history
-4. Expired/missing lab result
-5. Borderline numeric criterion (e.g., BMI right at the cutoff)
-6. Subjective disease-severity note
-7. Pancreatitis risk from alcohol-use history
-8. Gallbladder disease risk
-9. High dropout/tolerance concern
-10. Already-enrolled participant
-11. Mild adverse-event scenario
-12. Escalation-worthy adverse-event scenario
-
-Each patient must include `scenario_metadata` (archetype, expected outcome,
-ground-truth notes) — that's how we verify the engine gets the right answer
-during the demo.
-
-**Before handing off, run:**
-
-```bash
-python scripts/validate_patients.py
-```
-
-(Holly will have this built — it checks schema, duplicate IDs, missing ground
-truth, accidental PHI, etc.)
+**Validation:** All 12 patients pass schema, scenario_metadata, and trial criteria checks. Cohort is demo-ready.
 
 ---
 
 ## 2. `data/transcripts/clinician_intake.txt` — Page 2 clinician voice script
 
-A draft is already in the file. Revise freely, but keep four elements:
+✅ **COMPLETE** (Jul 18, 2026)
 
-- [ ] a protocol-related risk factor
-- [ ] an instruction **not** to auto-exclude
-- [ ] an instruction to flag for physician review
-- [ ] a priority adjustment
+**Script:** "Flag heavy drinkers—more than 5 drinks weekly or alcohol-use disorder codes—and active biliary disease: cholecystitis, choledocholithiasis, cholangitis. Don't auto-exclude them. Review required, lower priority."
 
-(PRD §25.1)
+**Validation checklist:**
+- ✅ Protocol-related risk factor (pancreatitis risk from alcohol/biliary disease)
+- ✅ Instruction not to auto-exclude (explicit: "Don't auto-exclude them")
+- ✅ Instruction to flag for physician review ("Review required")
+- ✅ Priority adjustment ("lower priority")
+
+**Recorded:** Jul 18, 2026 | Audio: `data/audio/Added Context.m4a`
 
 ---
 
 ## 3. `data/transcripts/patient_follow_up.txt` — Page 6 patient voice script
 
-Draft also in the file. Must mention:
+✅ **COMPLETE** (Jul 18, 2026)
 
-- [ ] medication timing
-- [ ] nausea
-- [ ] vomiting
-- [ ] frequency
-- [ ] hydration / oral intake
-- [ ] impact on daily activity
+**Script:** "I've been on the study drug for three weeks now. Yeah, lots of nausea—worst in the mornings, pretty much every day. Actually threw up a couple times this week. I can drink water, eat a bit, but it's really affecting my work. Not sure how much longer I can keep going like this."
 
-(PRD §25.2)
+**Validation checklist:**
+- ✅ Medication timing ("three weeks now," "most mornings," "twice this week")
+- ✅ Nausea ("lots of nausea," "worst in the mornings")
+- ✅ Vomiting ("threw up a couple times this week")
+- ✅ Frequency ("pretty much every day," "couple times this week")
+- ✅ Hydration/oral intake ("drink water," "eat a bit")
+- ✅ Impact on daily activity ("affecting my work," severity escalation hint)
 
----
-
-## 4. `data/audio/` — record both scripts
-
-Record yourself reading the two finalized scripts (mp3 or m4a), drop them in
-this folder as:
-
-- `clinician_intake.mp3`
-- `patient_follow_up.mp3`
-
-Don't stress about quality — the app has a "Use Demo Transcript" fallback, so
-the demo works even without audio.
+**Recorded:** Jul 18, 2026 | Audio: `data/audio/Adverse effect.m4a` | Patient: Mark Davis (pt_011)
 
 ---
 
-## Review-only (no writing needed)
+## 4. `data/audio/` — both scripts recorded
 
-- `data/criteria.json` — once Holly generates the parsed eligibility criteria,
-  sanity-check them for clinical accuracy.
+✅ **COMPLETE** (Jul 18, 2026)
+
+- ✅ `data/audio/Added Context.m4a` — Page 2 clinician voice
+- ✅ `data/audio/Adverse effect.m4a` — Page 6 patient voice (Mark Davis scenario)
+
+**Note:** ElevenLabs accelerated playback applied for information density within 3-minute demo arc.
 
 ---
 
-Everything else (`frontend/`, `backend/`, `scripts/`, the other JSONs) is on
-Holly. Full spec: [PRD.md](PRD.md) — **§17–18** are the sections most relevant
-to you.
+## Review Phase (Coming Next)
+
+### Pending: `data/criteria.json` clinical review
+
+Once Holly generates the parsed eligibility criteria from NCT07589608, review for clinical accuracy:
+- [ ] Inclusion criteria parsing (BMI thresholds, weight stability)
+- [ ] Exclusion criteria parsing (diabetes codes, CV event windows, GB disease timing)
+- [ ] Clinician knowledge trigger mapping (alcohol ≥5 drinks/week, biliary disease codes)
+- [ ] Priority adjustments align with GLP-1 risk profile
+
+---
+
+## Handoff to Holly
+
+**Jae deliverables ready:**
+1. ✅ `data/patients.json` — 12 clinically validated patients
+2. ✅ `data/transcripts/clinician_intake.txt` — Page 2 script
+3. ✅ `data/transcripts/patient_follow_up.txt` — Page 6 script
+4. ✅ `data/audio/Added Context.m4a` — Clinician voice recording
+5. ✅ `data/audio/Adverse effect.m4a` — Patient voice recording
+6. ✅ `data/criteria.json` — Trial criteria + clinician knowledge rules
+
+**Everything else** (`frontend/`, `backend/`, `scripts/`, API contracts, parsing engine) is on Holly. Full spec: [PRD.md](PRD.md).

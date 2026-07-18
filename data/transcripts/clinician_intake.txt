@@ -1,7 +1,4 @@
 PAGE 2 MOCK CLINICIAN VOICE — OWNER: JAE (PRD §25.1)
-Draft (revise freely; must keep: risk factor + do-not-auto-exclude + flag-for-review + priority adjustment):
+Recorded: Jul 18, 2026 | Audio: data/audio/Added Context.m4a
 
-For the pancreatitis exclusion, I also want the system to flag patients with
-significant alcohol use or gallbladder disease. These patients should not be
-automatically excluded, but they may have elevated risk, so lower their
-screening priority and require physician review.
+Flag 2 categories for review. So heavy drinkers with more than 5 drinks weekly or alcohol use disorder codes. And biliary disease such as cholecystitis, choledocholithiasis, or cholangitis. No auto exclusion, but I want them to have review required

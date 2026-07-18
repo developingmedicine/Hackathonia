@@ -1,6 +1,4 @@
 PAGE 6 MOCK PATIENT VOICE — OWNER: JAE (PRD §25.2)
-Draft (revise freely; must keep: med timing + nausea + vomiting + frequency + hydration + daily-activity impact):
+Recorded: Jul 18, 2026 | Audio: data/audio/Adverse effect.m4a | Patient: Mark Davis (pt_011)
 
-I started the study medication three weeks ago. I have felt nauseous most
-mornings and vomited twice this week. I can still drink water and eat small
-meals, but it is making it harder to get through the workday.
+Yeah I'm having lots of nausea pretty much every single day. Um. I actually threw up a couple times this week. I, you know, can drink water, uh I can eat a little bit, but really messing with my overall kind of work and sleep and I just don't know how much longer I can keep going with this, it's been 3 weeks

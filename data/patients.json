@@ -1061,15 +1061,15 @@
   {
     "patient_id": "pt_011",
     "name": {
-      "first": "Margaret",
+      "first": "Mark",
       "last": "Davis",
-      "display": "Margaret Davis"
+      "display": "Mark Davis"
     },
     "demographics": {
       "age": 59,
       "date_of_birth": "1967-12-04",
-      "sex_at_birth": "female",
-      "gender_identity": "female"
+      "sex_at_birth": "male",
+      "gender_identity": "male"
     },
     "visit": {
       "appointment_id": "appt_011",
@@ -1120,7 +1120,7 @@
         "note_type": "visit_summary",
         "author_role": "endocrinologist",
         "date": "2026-07-08",
-        "text": "59F enrolled in GLP-1 trial, week 4. Reports severe nausea and vomiting 4-5 times daily. Not tolerating medication well. Concerned about dehydration.",
+        "text": "59M enrolled in GLP-1 trial, week 4. Reports severe nausea and vomiting 4-5 times daily. Not tolerating medication well. Concerned about dehydration.",
         "source_reliability": "specialist_documented"
       }
     ],
