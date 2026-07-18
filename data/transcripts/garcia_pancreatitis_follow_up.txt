@@ -1,0 +1,7 @@
+PAGE 6 MOCK FOLLOW-UP VOICE — OWNER: JAE (PRD §25.2)
+Scenario: Enrolled participant reports acute pancreatitis at follow-up (disqualification beat, exc_006)
+Patient: Elizabeth Garcia (pt_009) · actively enrolled, week 2
+Audio: recording pending — Holly voicing Garcia | Canonical script; replaces Holly's data.ts pt_009 transcript
+
+CLINICIAN: Hi Mrs. Garcia, how are you feeling? I know you're here for follow up after you were hospitalized last week.
+PATIENT: Yeah, so doc my cousin was celebrating her 50th birthday and I guess we just went a little too hard on the wine, I ended up in the hospital with pancreatitis.

@@ -14,6 +14,22 @@ before Apply. No hide/rename needed; #2 was the only fix.
 - [frontend/lib/data.ts:591](frontend/lib/data.ts#L591) — `patientName: "Margaret Davis"`
   should be **"Mark Davis"** (pt_011 is male to match Jae's voice recording; the
   data is already correct).
+- **Sync pt_009 (Elizabeth Garcia) follow-up transcript to Jae's canonical version.**
+  Jae recorded a new two-turn dialogue — canonical script now lives at
+  `data/transcripts/garcia_pancreatitis_follow_up.txt` (audio recording pending;
+  Holly voicing Garcia). Replace the current `FOLLOWUPS.pt_009.transcript` in
+  [data.ts:752](frontend/lib/data.ts#L752) with it verbatim:
+  > CLINICIAN: Hi Mrs. Garcia, how are you feeling? I know you're here for follow
+  > up after you were hospitalized last week.
+  > PATIENT: Yeah, so doc my cousin was celebrating her 50th birthday and I guess
+  > we just went a little too hard on the wine, I ended up in the hospital with
+  > pancreatitis.
+
+  Notes: drop the "new medication started in hospital" thread (not in Jae's
+  script); the **alcohol/binge cause is new** — worth surfacing in events/insights
+  (ties to the clinician-knowledge pancreatitis-risk rule). The **exc_006
+  disqualification beat still holds** ("...with pancreatitis"), so the existing
+  human-in-the-loop disqualification flow works unchanged.
 
 ---
 
