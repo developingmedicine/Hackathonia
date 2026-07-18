@@ -9,15 +9,15 @@ export default function WorkupChecklist({ items }: { items: string[] }) {
   const [done, setDone] = useState<Set<number>>(new Set());
   if (items.length === 0) return null;
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-4">
-      <h4 className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+    <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+      <h4 className="text-[11px] font-bold uppercase tracking-widest text-inksoft">
         Work-up Checklist
       </h4>
-      <div className="mt-2 grid gap-1.5 sm:grid-cols-2">
+      <div className="mt-3 grid gap-2 sm:grid-cols-2">
         {items.map((item, i) => (
           <label
             key={item}
-            className="flex cursor-pointer items-center gap-2 text-sm text-slate-700"
+            className="flex cursor-pointer items-center gap-2.5 text-sm text-inkmid"
           >
             <input
               type="checkbox"
@@ -28,9 +28,9 @@ export default function WorkupChecklist({ items }: { items: string[] }) {
                 else next.add(i);
                 setDone(next);
               }}
-              className="h-4 w-4 rounded border-slate-300 accent-slate-900"
+              className="h-4 w-4 rounded accent-ink"
             />
-            <span className={done.has(i) ? "text-slate-400 line-through" : ""}>
+            <span className={done.has(i) ? "text-inksoft line-through" : ""}>
               {item}
             </span>
           </label>

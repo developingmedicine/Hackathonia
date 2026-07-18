@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { detailFor, PATIENTS } from "@/lib/mock";
 import { setOverride } from "@/lib/demo";
+import { initialsOf } from "@/lib/status";
 import CriterionResultCard from "@/components/CriterionResultCard";
 import WorkupChecklist from "@/components/WorkupChecklist";
 
@@ -19,7 +20,7 @@ export default function PatientReviewPage() {
 
   if (!patient) {
     return (
-      <p className="text-sm text-slate-500">
+      <p className="text-sm text-inkmid">
         Patient not found.{" "}
         <Link href="/patients" className="underline">
           Back to queue
@@ -35,17 +36,25 @@ export default function PatientReviewPage() {
     <div>
       <Link
         href="/patients"
-        className="text-sm text-slate-500 hover:text-slate-900"
+        className="text-sm font-medium text-inksoft transition hover:text-ink"
       >
         ← Patient Queue
       </Link>
 
       {/* Summary — v1.1: at the top */}
-      <div className="mt-3 rounded-xl border border-slate-200 bg-white p-5">
-        <h1 className="text-lg font-semibold text-slate-900">{detail.name}</h1>
-        <p className="mt-0.5 text-sm text-slate-500">{detail.headline}</p>
-        <p className="mt-3 rounded-lg bg-slate-50 p-3 text-sm leading-relaxed text-slate-700">
-          <span className="font-medium">Summary:</span> {detail.summary}
+      <div className="mt-4 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+        <div className="flex items-center gap-4">
+          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-sage text-[15px] font-bold text-sagedeep">
+            {initialsOf(detail.name)}
+          </span>
+          <div>
+            <h1 className="text-xl font-bold text-ink">{detail.name}</h1>
+            <p className="mt-0.5 text-sm text-inkmid">{detail.headline}</p>
+          </div>
+        </div>
+        <p className="mt-4 rounded-2xl bg-cream p-4 text-sm leading-relaxed text-inkmid">
+          <span className="font-semibold text-ink">Summary:</span>{" "}
+          {detail.summary}
         </p>
       </div>
 
@@ -56,12 +65,12 @@ export default function PatientReviewPage() {
 
       {/* Two-column eligibility table — v1.1 */}
       {detail.results.length > 0 && (
-        <div className="mt-4 rounded-xl border border-slate-200 bg-white p-5">
-          <div className="grid grid-cols-1 gap-6 border-b border-slate-200 pb-2 md:grid-cols-2">
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+        <div className="mt-4 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+          <div className="grid grid-cols-1 gap-8 border-b border-cream pb-3 md:grid-cols-2">
+            <p className="text-[11px] font-bold uppercase tracking-widest text-inksoft">
               Criterion + Status
             </p>
-            <p className="hidden text-xs font-semibold uppercase tracking-wide text-slate-400 md:block md:pl-6">
+            <p className="hidden text-[11px] font-bold uppercase tracking-widest text-inksoft md:block md:pl-8">
               Evidence (citations)
             </p>
           </div>
@@ -72,27 +81,27 @@ export default function PatientReviewPage() {
       )}
 
       {banner && (
-        <p className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-2.5 text-sm text-emerald-700">
+        <p className="mt-4 rounded-2xl bg-sage px-5 py-3 text-sm font-medium text-sagedeep">
           {banner}
         </p>
       )}
 
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="mt-5 flex flex-wrap gap-2">
         <button
           onClick={() => act("Marked Enrollment Ready")}
-          className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-500"
+          className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-inkmid"
         >
           Mark Enrollment Ready
         </button>
         <button
           onClick={() => act("Marked Excluded")}
-          className="rounded-lg border border-rose-200 bg-white px-4 py-2 text-sm font-medium text-rose-600 hover:bg-rose-50"
+          className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-brand shadow-sm ring-1 ring-black/5 transition hover:bg-creamdeep"
         >
           Exclude
         </button>
         <button
           onClick={() => act("Kept Under Review")}
-          className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
+          className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-inkmid shadow-sm ring-1 ring-black/5 transition hover:bg-creamdeep"
         >
           Keep Under Review
         </button>
@@ -104,7 +113,7 @@ export default function PatientReviewPage() {
             });
             router.push("/patients");
           }}
-          className="rounded-lg border border-violet-200 bg-white px-4 py-2 text-sm font-medium text-violet-700 hover:bg-violet-50"
+          className="rounded-full bg-lav px-5 py-2.5 text-sm font-semibold text-lavdeep transition hover:bg-lav/70"
         >
           Mark Actively Enrolled (demo)
         </button>

@@ -1,15 +1,13 @@
 "use client";
 
 // PAGE 6 — Follow-up Visit, AE Extraction & Disqualification Surveillance.
-// Nathan: audio-driven AE extraction. Maya (v1.1): transcript triggers auto
-// re-screen against exclusion criteria → disqualification with evidence;
-// confirming updates the Page 3 queue via the demo override store.
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { FOLLOWUPS } from "@/lib/mock";
 import { setOverride } from "@/lib/demo";
+import { initialsOf } from "@/lib/status";
 import AEExtractionPanel from "@/components/AEExtractionPanel";
 import TranscriptPanel from "@/components/TranscriptPanel";
 import VoiceRecorder from "@/components/VoiceRecorder";
@@ -40,7 +38,7 @@ export default function FollowUpPage() {
 
   if (!scenario) {
     return (
-      <p className="text-sm text-slate-500">
+      <p className="text-sm text-inkmid">
         No follow-up scenario seeded for this patient.{" "}
         <Link href="/patients" className="underline">
           Back to queue
@@ -53,20 +51,25 @@ export default function FollowUpPage() {
     <div>
       <Link
         href="/patients"
-        className="text-sm text-slate-500 hover:text-slate-900"
+        className="text-sm font-medium text-inksoft transition hover:text-ink"
       >
-        ← Patient Queue (🟣 row)
+        ← Patient Queue
       </Link>
 
-      <div className="mt-3 rounded-xl border border-slate-200 bg-white p-5">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h1 className="text-lg font-semibold text-slate-900">
-              {scenario.patientName} · Week {scenario.week} Follow-up
-            </h1>
-            <p className="mt-0.5 text-xs text-slate-400">
-              Visit conversation — all findings require clinician review
-            </p>
+      <div className="mt-4 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-lav text-[15px] font-bold text-lavdeep">
+              {initialsOf(scenario.patientName)}
+            </span>
+            <div>
+              <h1 className="text-xl font-bold text-ink">
+                {scenario.patientName} · Week {scenario.week} Follow-up
+              </h1>
+              <p className="mt-0.5 text-xs text-inksoft">
+                Visit conversation — all findings require clinician review
+              </p>
+            </div>
           </div>
           <VoiceRecorder
             stage={stage === "done" ? "ready" : stage}
@@ -80,7 +83,7 @@ export default function FollowUpPage() {
             }}
           />
         </div>
-        <div className="mt-4">
+        <div className="mt-5">
           <TranscriptPanel
             value={transcript}
             typing={stage === "transcribing"}
@@ -102,10 +105,10 @@ export default function FollowUpPage() {
             }}
           />
           {dqConfirmed && (
-            <p className="mt-3 text-sm">
+            <p className="mt-4 text-sm">
               <Link
                 href="/patients"
-                className="font-medium text-slate-900 underline"
+                className="font-semibold text-ink underline"
               >
                 View updated queue →
               </Link>

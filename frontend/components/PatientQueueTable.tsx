@@ -1,12 +1,14 @@
 "use client";
 
-// Page 3 queue table (v1.1): filter tabs, status tooltips with provenance,
-// purple rows for enrolled patients. Candidate row → Page 4; purple row →
-// follow-up view (Page 6).
+// Page 3 queue (v1.1), Abridge-style: airy borderless rows with initial
+// avatars, hover-white rounded rows, status tooltips with provenance,
+// lavender rows for enrolled patients. Candidate row → Page 4; enrolled
+// row → follow-up view (Page 6).
 
 import { useState } from "react";
 import Link from "next/link";
 import type { QueuePatient } from "@/types";
+import { initialsOf } from "@/lib/status";
 import StatusBadge from "./StatusBadge";
 
 const TABS = [
@@ -15,7 +17,7 @@ const TABS = [
   { key: "missing", label: "Missing Data" },
   { key: "review", label: "Needs Review" },
   { key: "excluded", label: "Excluded" },
-  { key: "enrolled", label: "🟣 Enrolled" },
+  { key: "enrolled", label: "Enrolled" },
 ] as const;
 
 type TabKey = (typeof TABS)[number]["key"];
@@ -53,10 +55,10 @@ export default function PatientQueueTable({
           <button
             key={t.key}
             onClick={() => setTab(t.key)}
-            className={`rounded-full border px-3 py-1 text-xs font-medium transition ${
+            className={`rounded-full px-4 py-1.5 text-xs font-semibold transition ${
               tab === t.key
-                ? "border-slate-900 bg-slate-900 text-white"
-                : "border-slate-200 bg-white text-slate-600 hover:bg-slate-100"
+                ? "bg-ink text-white"
+                : "bg-creamdeep text-inkmid hover:bg-white"
             }`}
           >
             {t.label}
@@ -64,49 +66,56 @@ export default function PatientQueueTable({
         ))}
       </div>
 
-      <div className="mt-4 rounded-xl border border-slate-200 bg-white">
+      <div className="mt-5 space-y-1">
         {list.map((p) => {
           const enrolled = p.status === "actively_enrolled";
           return (
             <Link
               key={p.id}
-              href={enrolled ? `/patients/${p.id}/follow-up` : `/patients/${p.id}`}
-              className={`grid grid-cols-[56px_1.5fr_1fr_64px_auto] items-center gap-4 border-t border-slate-100 px-5 py-3.5 first:border-t-0 first:rounded-t-xl last:rounded-b-xl transition hover:bg-slate-50 ${
-                enrolled ? "bg-violet-50/50 hover:bg-violet-50" : ""
+              href={
+                enrolled ? `/patients/${p.id}/follow-up` : `/patients/${p.id}`
+              }
+              className={`grid grid-cols-[44px_1.6fr_1fr_56px_auto] items-center gap-4 rounded-2xl px-4 py-3.5 transition ${
+                enrolled
+                  ? "bg-lav/40 hover:bg-lav/60"
+                  : "hover:bg-white hover:shadow-sm"
               }`}
             >
-              <span className="text-sm tabular-nums text-slate-400">
-                {p.time}
+              <span
+                className={`flex h-11 w-11 items-center justify-center rounded-full text-sm font-bold ${
+                  enrolled ? "bg-lav text-lavdeep" : "bg-sage text-sagedeep"
+                }`}
+              >
+                {initialsOf(p.name)}
               </span>
               <span>
-                <span className="block text-sm font-medium text-slate-900">
+                <span className="block text-[15px] font-bold text-ink">
                   {p.name}
+                  <span className="ml-2 text-sm font-normal text-inksoft">
+                    Age {p.age}
+                  </span>
                 </span>
-                <span className="block text-xs text-slate-500">
-                  Age {p.age}
+                <span className="mt-0.5 block text-sm text-inkmid">
+                  {p.condition} — {p.topReason}
                 </span>
               </span>
-              <span className="text-sm text-slate-600">{p.condition}</span>
-              <span className="text-sm font-semibold tabular-nums text-slate-700">
+              <span className="hidden text-sm text-inksoft sm:block" />
+              <span className="text-sm font-semibold tabular-nums text-inkmid">
                 {p.score == null ? "—" : `${p.score}%`}
               </span>
-              <StatusBadge
-                status={p.status}
-                sub={p.topReason}
-                tooltip={p.tooltip}
-              />
+              <StatusBadge status={p.status} sub={p.time} tooltip={p.tooltip} />
             </Link>
           );
         })}
         {list.length === 0 && (
-          <p className="px-5 py-8 text-center text-sm text-slate-400">
+          <p className="px-4 py-10 text-center text-sm text-inksoft">
             No patients in this filter.
           </p>
         )}
       </div>
-      <p className="mt-2 text-xs text-slate-400">
+      <p className="mt-4 px-4 text-xs text-inksoft">
         Hover a status for summary + provenance · click a candidate to review ·
-        click a 🟣 enrolled patient to open their follow-up visit
+        click an enrolled patient to open their follow-up visit
       </p>
     </div>
   );

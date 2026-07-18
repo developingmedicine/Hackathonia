@@ -1,8 +1,7 @@
 "use client";
 
-// Mock voice capture with the mandatory demo fallback — the demo must never
-// depend on microphone permissions (PRD §25, §38). Both buttons drive the
-// same simulated transcription flow.
+// Mock voice capture with the mandatory demo fallback (PRD §25, §38).
+// Brand-red circular mic, Abridge-style.
 
 export default function VoiceRecorder({
   stage,
@@ -15,11 +14,11 @@ export default function VoiceRecorder({
 }) {
   const busy = stage === "transcribing";
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2.5">
       <button
         onClick={onStart}
         disabled={busy}
-        className="inline-flex items-center gap-2 rounded-lg bg-rose-600 px-3.5 py-2 text-sm font-medium text-white hover:bg-rose-500 disabled:opacity-50"
+        className="inline-flex items-center gap-2.5 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand/90 disabled:opacity-60"
       >
         <span
           className={`h-2 w-2 rounded-full bg-white ${busy ? "animate-pulse" : ""}`}
@@ -29,7 +28,7 @@ export default function VoiceRecorder({
       <button
         onClick={onStart}
         disabled={busy}
-        className="rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 disabled:opacity-50"
+        className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-inkmid shadow-sm ring-1 ring-black/5 transition hover:bg-creamdeep disabled:opacity-60"
       >
         {demoLabel}
       </button>

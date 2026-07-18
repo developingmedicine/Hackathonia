@@ -16,7 +16,7 @@ export default function TranscriptPanel({
 }) {
   return (
     <div>
-      <h4 className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+      <h4 className="text-[11px] font-bold uppercase tracking-widest text-inksoft">
         Transcript{editable ? " (editable)" : ""}
       </h4>
       {editable && !typing ? (
@@ -24,16 +24,16 @@ export default function TranscriptPanel({
           value={value}
           onChange={(e) => onChange?.(e.target.value)}
           rows={5}
-          className="mt-2 w-full rounded-lg border border-slate-200 bg-white p-3 text-sm leading-relaxed text-slate-700 focus:border-slate-400 focus:outline-none"
+          className="mt-2.5 w-full rounded-2xl bg-cream p-4 text-sm leading-relaxed text-ink focus:outline-none focus:ring-2 focus:ring-ink/20"
         />
       ) : (
-        <div className="mt-2 min-h-24 rounded-lg border border-slate-200 bg-white p-3 text-sm leading-relaxed text-slate-700">
+        <div className="mt-2.5 min-h-24 rounded-2xl bg-cream p-4 text-sm leading-relaxed text-inkmid">
           {value || (
-            <span className="italic text-slate-400">
-              Transcript will appear here…
+            <span className="italic text-inksoft">
+              {typing ? "Listening…" : "Transcript will appear here…"}
             </span>
           )}
-          {typing && <span className="animate-pulse">▋</span>}
+          {typing && value && <span className="animate-pulse">▋</span>}
         </div>
       )}
     </div>

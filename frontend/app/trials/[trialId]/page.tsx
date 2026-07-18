@@ -3,7 +3,6 @@
 // PAGE 2 — Trial Intelligence & Clinician Knowledge Intake (v1.1 layout):
 // LEFT = existing criteria (read-only) + Extracted Guidance beneath them;
 // RIGHT = voice capture → editable transcript → Apply to Screening Logic.
-// The clinician annotates existing criteria — never creates new ones.
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -39,46 +38,51 @@ export default function TrialIntelligencePage() {
 
   return (
     <div>
-      <Link href="/trials" className="text-sm text-slate-500 hover:text-slate-900">
+      <Link
+        href="/trials"
+        className="text-sm font-medium text-inksoft transition hover:text-ink"
+      >
         ← Back to Trials
       </Link>
-      <div className="mt-3 rounded-xl border border-slate-200 bg-white p-5">
-        <h1 className="font-semibold text-slate-900">{trial.title}</h1>
-        <p className="mt-1 text-sm text-slate-500">
+      <div className="mt-4">
+        <h1 className="text-2xl font-bold tracking-tight text-ink">
+          {trial.title}
+        </h1>
+        <p className="mt-1.5 text-sm text-inkmid">
           {trial.id} · {trial.status} · {trial.conditions.join(", ")} ·{" "}
           {trial.phase} · {trial.location}
         </p>
       </div>
 
-      <div className="mt-5 grid gap-5 lg:grid-cols-2">
+      <div className="mt-6 grid gap-5 lg:grid-cols-2">
         {/* LEFT: existing criteria + extracted guidance (v1.1) */}
-        <div className="rounded-xl border border-slate-200 bg-white p-5">
-          <h2 className="text-sm font-semibold text-slate-900">
+        <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+          <h2 className="text-[15px] font-bold text-ink">
             Parsed Eligibility Criteria
           </h2>
-          <p className="mt-0.5 text-xs text-slate-400">
+          <p className="mt-0.5 text-xs text-inksoft">
             Existing protocol criteria — read-only
           </p>
-          <div className="mt-4">
+          <div className="mt-5">
             <CriteriaList criteria={CRITERIA} />
           </div>
           {stage === "applied" && (
-            <div className="mt-5">
+            <div className="mt-6">
               <GuidancePanel guidance={GUIDANCE} />
             </div>
           )}
         </div>
 
         {/* RIGHT: clinician knowledge intake */}
-        <div className="rounded-xl border border-slate-200 bg-white p-5">
-          <h2 className="text-sm font-semibold text-slate-900">
+        <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+          <h2 className="text-[15px] font-bold text-ink">
             Clinician Knowledge Layer
           </h2>
-          <p className="mt-0.5 text-xs text-slate-400">
+          <p className="mt-0.5 text-xs text-inksoft">
             Add context &amp; insight to the existing criteria — captured once,
             applied to all patients.
           </p>
-          <div className="mt-4">
+          <div className="mt-5">
             <VoiceRecorder
               stage={stage}
               demoLabel="Use Demo Audio"
@@ -88,7 +92,7 @@ export default function TrialIntelligencePage() {
               }}
             />
           </div>
-          <div className="mt-4">
+          <div className="mt-5">
             <TranscriptPanel
               value={transcript}
               typing={stage === "transcribing"}
@@ -99,7 +103,7 @@ export default function TrialIntelligencePage() {
           <button
             onClick={() => setStage("applied")}
             disabled={stage !== "ready"}
-            className="mt-4 rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700 disabled:opacity-40"
+            className="mt-5 rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-inkmid disabled:opacity-40"
           >
             {stage === "applied"
               ? "Applied to screening logic ✓"
@@ -108,15 +112,15 @@ export default function TrialIntelligencePage() {
         </div>
       </div>
 
-      <div className="mt-5 flex items-center justify-between rounded-xl border border-slate-200 bg-white p-4">
-        <p className="text-xs text-slate-400">
+      <div className="mt-6 flex items-center justify-between gap-4 rounded-3xl bg-white p-5 shadow-sm ring-1 ring-black/5">
+        <p className="text-xs text-inksoft">
           {stage === "applied"
             ? "Clinician guidance is active — screening will include the pancreatitis-risk flags."
             : "You can screen with protocol criteria only, or add clinician guidance first."}
         </p>
         <Link
           href="/patients"
-          className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700"
+          className="shrink-0 rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-inkmid"
         >
           Screen Patient Cohort →
         </Link>

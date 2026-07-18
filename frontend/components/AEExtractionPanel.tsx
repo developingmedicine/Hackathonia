@@ -1,8 +1,6 @@
 "use client";
 
-// Page 6 extracted events + (v1.1) disqualification surveillance: when an
-// extracted event matches a trial exclusion criterion, surface a
-// disqualification alert with verbatim transcript evidence. PRD §23.
+// Page 6 extracted events + (v1.1) disqualification surveillance. PRD §23.
 
 import type { FollowUpScenario } from "@/types";
 
@@ -16,73 +14,71 @@ export default function AEExtractionPanel({
   onConfirmDq?: () => void;
 }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-5">
-      <h3 className="text-sm font-semibold text-slate-900">
-        AI-Extracted Events
-      </h3>
-      <div className="mt-3 space-y-3">
+    <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+      <h3 className="text-[15px] font-bold text-ink">AI-Extracted Events</h3>
+      <div className="mt-4 space-y-4">
         {scenario.events.map((e) => (
           <div
             key={e.event}
-            className="flex items-baseline justify-between gap-4 border-t border-slate-100 pt-3 first:border-t-0 first:pt-0"
+            className="flex items-baseline justify-between gap-4 border-t border-cream pt-4 first:border-t-0 first:pt-0"
           >
             <div>
-              <p className="text-sm font-medium text-slate-900">{e.event}</p>
-              <p className="text-xs text-slate-500">{e.detail}</p>
+              <p className="text-[15px] font-semibold text-ink">{e.event}</p>
+              <p className="mt-0.5 text-sm text-inkmid">{e.detail}</p>
             </div>
-            <span className="text-xs tabular-nums text-slate-400">
+            <span className="text-xs tabular-nums text-inksoft">
               Confidence: {e.confidence}%
             </span>
           </div>
         ))}
       </div>
-      <ul className="mt-4 space-y-1 border-t border-slate-100 pt-3">
+      <ul className="mt-5 space-y-1 border-t border-cream pt-4">
         {scenario.footnotes.map((f) => (
-          <li key={f} className="text-xs text-slate-500">
+          <li key={f} className="text-xs text-inksoft">
             {f}
           </li>
         ))}
       </ul>
 
       {scenario.disqualification && (
-        <div className="mt-4 rounded-lg border border-rose-200 bg-rose-50 p-4">
-          <p className="text-sm font-semibold text-rose-700">
+        <div className="mt-5 rounded-2xl bg-brand/8 p-5">
+          <p className="text-sm font-bold text-brand">
             ⛔ Trial disqualification detected
-            <span className="ml-2 font-normal text-rose-500">
+            <span className="ml-2 font-normal text-brand/70">
               (auto re-screen on transcript update)
             </span>
           </p>
-          <p className="mt-1.5 text-sm text-slate-700">
+          <p className="mt-2 text-sm text-inkmid">
             Matches exclusion criterion:{" "}
-            <span className="font-medium">
+            <span className="font-semibold text-ink">
               “{scenario.disqualification.criterion}”
             </span>
           </p>
-          <p className="mt-1 text-sm text-slate-700">
+          <p className="mt-1 text-sm text-inkmid">
             Evidence: {scenario.disqualification.evidence}
-            <span className="ml-1 text-xs text-slate-400">
+            <span className="ml-1 text-xs text-inksoft">
               · {scenario.disqualification.source}
             </span>
           </p>
           {dqConfirmed ? (
-            <p className="mt-3 rounded-md bg-white px-3 py-2 text-sm font-medium text-rose-700">
+            <p className="mt-4 rounded-xl bg-white px-4 py-3 text-sm font-semibold text-brand">
               Status updated: Actively Enrolled → Disqualified. The patient
               queue has been updated automatically.
             </p>
           ) : (
-            <div className="mt-3 flex flex-wrap gap-2">
+            <div className="mt-4 flex flex-wrap gap-2">
               <button
                 onClick={onConfirmDq}
-                className="rounded-lg bg-rose-600 px-3.5 py-2 text-sm font-medium text-white hover:bg-rose-500"
+                className="rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand/90"
               >
                 Confirm Disqualification
               </button>
-              <button className="rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100">
+              <button className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-inkmid shadow-sm ring-1 ring-black/5 transition hover:bg-creamdeep">
                 Dispute with Evidence
               </button>
             </div>
           )}
-          <p className="mt-2 text-[11px] text-slate-400">
+          <p className="mt-2.5 text-[11px] text-inksoft">
             Status change requires clinician confirmation — the system never
             disqualifies autonomously.
           </p>
@@ -90,14 +86,14 @@ export default function AEExtractionPanel({
       )}
 
       {!scenario.disqualification && (
-        <div className="mt-4 flex flex-wrap gap-2 border-t border-slate-100 pt-4">
-          <button className="rounded-lg bg-slate-900 px-3.5 py-2 text-sm font-medium text-white hover:bg-slate-700">
+        <div className="mt-5 flex flex-wrap gap-2 border-t border-cream pt-5">
+          <button className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-inkmid">
             Confirm Findings
           </button>
-          <button className="rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100">
+          <button className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-inkmid shadow-sm ring-1 ring-black/5 transition hover:bg-creamdeep">
             Edit
           </button>
-          <button className="rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100">
+          <button className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-inkmid shadow-sm ring-1 ring-black/5 transition hover:bg-creamdeep">
             Save to Participant Record
           </button>
         </div>

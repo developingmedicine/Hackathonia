@@ -1,8 +1,7 @@
 "use client";
 
-// PAGE 3 — Patient Screening Queue (v1.1): tooltips with provenance, purple
-// enrolled rows inline, filterable. Demo overrides (e.g. Maya disqualified)
-// are merged from local demo state.
+// PAGE 3 — Patient Screening Queue (v1.1): greeting headline, airy list,
+// tooltips with provenance, enrolled patients inline in lavender.
 
 import { useEffect, useState } from "react";
 import { PATIENTS, PRIMARY_TRIAL } from "@/lib/mock";
@@ -29,28 +28,27 @@ export default function PatientQueuePage() {
     );
   }, []);
 
-  const screened = patients.filter((p) => p.status !== "not_screened").length;
   const matches = patients.filter(
     (p) => p.status === "potential_match" || p.status === "enrollment_ready",
   ).length;
   const review = patients.filter((p) => p.status === "needs_review").length;
 
   return (
-    <div>
+    <div className="pt-4">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="text-xl font-semibold tracking-tight text-slate-900">
-            Today&apos;s Patient Queue
+          <h1 className="text-4xl font-bold tracking-tight text-ink">
+            Today&apos;s patients.
           </h1>
-          <p className="mt-1 text-sm text-slate-500">
-            Trial: {PRIMARY_TRIAL.title} · {PRIMARY_TRIAL.id}
+          <p className="mt-2 text-sm text-inkmid">
+            {PRIMARY_TRIAL.title} · {PRIMARY_TRIAL.id}
           </p>
         </div>
-        <p className="text-xs text-slate-400">
-          {screened} screened · {matches} matches · {review} for review
-        </p>
+        <span className="rounded-full bg-creamdeep px-4 py-2 text-xs font-semibold text-inkmid">
+          {patients.length} screened · {matches} matches · {review} for review
+        </span>
       </div>
-      <div className="mt-5">
+      <div className="mt-7">
         <PatientQueueTable patients={patients} />
       </div>
     </div>
