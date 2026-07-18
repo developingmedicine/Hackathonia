@@ -47,11 +47,17 @@ Page 5 merged into Page 3):
 
 **Data** (`frontend/lib/data.ts`): imports Jae's delivered files directly —
 `data/patients.json` (12 patients, PRD §18 schema, `scenario_metadata` = clinical
-ground truth) and `data/criteria.json` (real trial **NCT07589608**, Lilly
-macupatide/eloralintide; 10 criteria + 1 clinician knowledge rule). Contains a
+ground truth), `data/criteria.json` (real trial **NCT07589608**, Lilly
+macupatide/eloralintide; 10 base criteria) and `data/clinician_knowledge.json`
+(bare array of knowledge rules — knowledge_001 alcohol/biliary pancreatitis-risk,
+split out per PRD §21). Contains a
 **deterministic mini-screener** (BMI incl. ≥27+comorbidity branch, ICD-10 checks
 for T2DM/CV/pancreatitis, pulse bounds, gallbladder window, stale-LFT missing
-data, alcohol≥5/wk knowledge trigger) with verbatim chart evidence. Overall queue
+data) with verbatim chart evidence. Knowledge rules are **data-driven**: it
+executes each rule's `trigger.any` from `clinician_knowledge.json` (drinks/wk
+≥ threshold; `in` over `conditions.code` is ICD-10 prefix-aware, so "K81"
+matches pt_007's K81.9) — flag-for-review only, never auto-exclude; queue
+scores stay seeded (§38), `priority_adjustment` surfaces in the note text. Overall queue
 status is seeded from Jae's ground truth (§38 demo stability); note-interpretation
 criteria show NEEDS REVIEW.
 

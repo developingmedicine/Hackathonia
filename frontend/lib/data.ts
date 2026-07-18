@@ -1,5 +1,6 @@
 // Live data adapter: loads Jae's delivered files (data/patients.json,
-// data/criteria.json — PRD §18/§20/§21 contracts) and maps them into the
+// data/criteria.json, data/clinician_knowledge.json — PRD §18/§20/§21
+// contracts) and maps them into the
 // frontend types. Criterion-level results come from a small deterministic
 // screener over the real patient records (evidence quoted verbatim);
 // overall queue status is seeded from Jae's clinician ground truth
@@ -8,6 +9,7 @@
 
 import rawPatientsJson from "../../data/patients.json";
 import rawCriteriaJson from "../../data/criteria.json";
+import rawKnowledgeJson from "../../data/clinician_knowledge.json";
 import type {
   CriterionResult,
   EnrollmentStatus,
@@ -71,19 +73,29 @@ interface RawCriteriaFile {
   trial_id: string;
   trial_title: string;
   base_criteria: RawCriterion[];
-  clinician_knowledge_modifications: {
-    source_transcript: string;
-    effect: {
-      label: string;
-      explanation: string;
-      priority_adjustment: number;
-    };
-  }[];
+}
+interface RawTriggerCondition {
+  field: string;
+  operator: string;
+  value: number | string | string[];
+}
+interface RawKnowledge {
+  knowledge_id: string;
+  source_transcript: string;
+  trigger?: { any: RawTriggerCondition[] };
+  effect: {
+    action?: string;
+    label: string;
+    explanation: string;
+    priority_adjustment: number;
+  };
+  requires_human_confirmation?: boolean;
 }
 
 const rawPatients = rawPatientsJson as unknown as RawPatient[];
 const rawCriteria = rawCriteriaJson as unknown as RawCriteriaFile;
-const km = rawCriteria.clinician_knowledge_modifications[0];
+const KNOWLEDGE = rawKnowledgeJson as unknown as RawKnowledge[];
+const km = KNOWLEDGE[0];
 
 // ---------------------------------------------------------------- trial(s)
 
@@ -169,6 +181,40 @@ function noteEv(n: RawNote): EvidenceItem {
     source: `${n.author_role ?? "clinician"} note`,
     date: n.date,
   };
+}
+
+// Evaluates one knowledge-rule trigger condition (PRD §21 schema) against a
+// patient record, returning verbatim evidence for each hit. `in` over
+// conditions.code is ICD-10 prefix-aware ("K81" matches "K81.9").
+function evalTriggerCondition(
+  p: RawPatient,
+  t: RawTriggerCondition,
+): EvidenceItem[] {
+  if (t.field === "social_history.alcohol_use.drinks_per_week") {
+    const drinks = p.social_history.alcohol_use?.drinks_per_week;
+    if (
+      typeof drinks === "number" &&
+      typeof t.value === "number" &&
+      ((t.operator === ">=" && drinks >= t.value) ||
+        (t.operator === ">" && drinks > t.value))
+    ) {
+      return [
+        {
+          text: `${drinks} drinks per week documented`,
+          source: "Social history",
+          date: null,
+        },
+      ];
+    }
+    return [];
+  }
+  if (t.field === "conditions.code" && t.operator === "in") {
+    const codes = t.value as string[];
+    return p.conditions
+      .filter((c) => codes.some((x) => c.code === x || c.code.startsWith(x)))
+      .map(condEv);
+  }
+  return [];
 }
 
 function evalPatient(p: RawPatient): CriterionResult[] {
@@ -427,26 +473,24 @@ function evalPatient(p: RawPatient): CriterionResult[] {
     });
   }
 
-  // clinician knowledge trigger — alcohol / biliary pancreatitis risk
-  const drinks = p.social_history.alcohol_use?.drinks_per_week ?? 0;
-  const biliary = has(["K81", "K80.3", "K83.1", "F10"]);
-  if ((drinks != null && drinks >= 5) || biliary) {
-    const alcNote = noteMatch(/alcohol/i);
-    const ev: EvidenceItem[] = [];
-    if (drinks != null && drinks >= 5)
-      ev.push({
-        text: `${drinks} drinks per week documented`,
-        source: "Social history",
-        date: null,
-      });
-    if (biliary) ev.push(condEv(biliary));
+  // clinician knowledge rules — data-driven from data/clinician_knowledge.json
+  // (trigger.any is OR semantics; effect.action flag_for_review never excludes)
+  for (const rule of KNOWLEDGE) {
+    const ev = (rule.trigger?.any ?? []).flatMap((t) =>
+      evalTriggerCondition(p, t),
+    );
+    if (!ev.length) continue;
+    const alcNote =
+      ev.some((e) => e.source === "Social history") && noteMatch(/alcohol/i);
     if (alcNote) ev.push(noteEv(alcNote));
     res.push({
-      id: "kn_001",
-      criterion: km.effect.label,
+      id: rule.knowledge_id.replace(/^knowledge_/, "kn_"),
+      criterion: rule.effect.label,
       type: "exclusion",
       status: "needs_review",
-      note: "From trial clinician voice input — do not auto-exclude",
+      note: rule.requires_human_confirmation
+        ? `From trial clinician voice input — do not auto-exclude · priority ${rule.effect.priority_adjustment}`
+        : `From trial clinician voice input · priority ${rule.effect.priority_adjustment}`,
       evidence: ev,
     });
   }
