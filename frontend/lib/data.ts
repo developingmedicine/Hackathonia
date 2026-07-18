@@ -632,7 +632,7 @@ export const FOLLOWUPS: Record<string, FollowUpScenario> = {
   // (data/transcripts/patient_follow_up.txt · Adverse effect.m4a)
   pt_011: {
     patientId: "pt_011",
-    patientName: "Margaret Davis",
+    patientName: "Mark Davis",
     week: 4,
     hasAudio: true,
     audioSrc: "/audio/adverse-effect.m4a",

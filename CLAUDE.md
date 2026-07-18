@@ -74,7 +74,7 @@ Elizabeth's disqualification flips her Page 3 row to Excluded; header "Reset dem
 clears everything (PRD §38).
 
 **Audio**: Jae's real recordings in `frontend/public/audio/`
-(`clinician-context.m4a` = Page 2; `adverse-effect.m4a` = Margaret pt_011,
+(`clinician-context.m4a` = Page 2; `adverse-effect.m4a` = Mark Davis pt_011,
 NOT Christopher — per Jae's delivery notes; transcript text matches his script verbatim).
 
 **Design system**: Abridge-inspired — cream canvas `#f6f3ee`, ink text, sage
@@ -91,7 +91,7 @@ PRD §24–27) — not implemented; the Next.js API routes serve the demo instea
    transcript types out) → Apply → live Claude turns speech into rules (left column)
 2. Screen cohort → Page 3: hover tooltips (provenance), 12 real patients
 3. Click Nathan (pt_001) → Page 4 two-column evidence review
-4. Click purple Margaret (pt_011) → audio + live AE extraction + escalation panel
+4. Click purple Mark (pt_011) → audio + live AE extraction + escalation panel
 5. Click purple Elizabeth (pt_009) → transcript reveals pancreatitis → Claude
    auto-flags exc_006 disqualification w/ quote → Confirm → queue updates.
    **Wow move**: edit the transcript live, "Re-extract with Claude" — output changes.
@@ -105,7 +105,7 @@ PRD §24–27) — not implemented; the Next.js API routes serve the demo instea
 | pt_006 | David Lee | 8 drinks/wk → clinician knowledge flag |
 | pt_008 | Robert Brown | HR 52 → exc_007 exclusion |
 | pt_009 | Elizabeth Garcia | **disqualification surveillance beat** |
-| pt_011 | Margaret Davis | severe AE + escalation, has Jae's audio |
+| pt_011 | Mark Davis | severe AE + escalation, has Jae's audio |
 
 ## Merge rule (PRD §34)
 
