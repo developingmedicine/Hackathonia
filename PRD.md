@@ -503,23 +503,25 @@ Page 6: Follow-up Visit and Adverse Event Extraction (+ disqualification surveil
 │ Disease area · Phase · Locations                                          │
 ├───────────────────────────────────────┬───────────────────────────────────┤
 │ Parsed Eligibility Criteria           │ Clinician Knowledge Layer         │
-│                                       │                                   │
-│ Inclusion                             │ Add trial-specific guidance once   │
-│ [Rule] Age 18–75                      │ and apply it across all patients.  │
+│ (existing criteria — read-only)       │                                   │
+│                                       │ Add context & insight to the      │
+│ Inclusion                             │ EXISTING criteria — captured      │
+│ [Rule] Age 18–75                      │ once, applied to all patients.    │
 │ [Rule] BMI ≥ 30                       │                                   │
 │ [Judgement] Moderate-to-severe ...    │ [● Start Recording]               │
-│                                       │                                   │
-│ Exclusion                             │ Transcript                         │
-│ [Rule] History of pancreatitis        │ ┌───────────────────────────────┐ │
-│ [Rule] Prohibited medication          │ │ Patients with significant...  │ │
-│ [Judgement] Investigator concern      │ └───────────────────────────────┘ │
-│                                       │                                   │
-│                                       │ Extracted Guidance                │
-│                                       │ • Flag alcohol-use risk           │
-│                                       │ • Flag gallbladder disease        │
-│                                       │ • Require physician review        │
-│                                       │                                   │
-│                                       │ [Apply to Screening Logic]        │
+│                                       │ [Use Demo Audio]                  │
+│ Exclusion                             │                                   │
+│ [Rule] History of pancreatitis        │ Transcript (editable)             │
+│ [Rule] Prohibited medication          │ ┌───────────────────────────────┐ │
+│ [Judgement] Investigator concern      │ │ Patients with significant...  │ │
+│                                       │ └───────────────────────────────┘ │
+│ Extracted Guidance                    │                                   │
+│ (v1.1: moved LEFT, under the          │ [Apply to Screening Logic]        │
+│  criteria it annotates)               │                                   │
+│ ↳ re: History of pancreatitis         │                                   │
+│ • Flag alcohol-use risk               │                                   │
+│ • Flag gallbladder disease            │                                   │
+│ • Require physician review            │                                   │
 ├───────────────────────────────────────┴───────────────────────────────────┤
 │ [Screen Patient Cohort →]                                                 │
 └───────────────────────────────────────────────────────────────────────────┘
@@ -574,10 +576,10 @@ Page 6: Follow-up Visit and Adverse Event Extraction (+ disqualification surveil
 
 ```text
 ┌───────────────────────────────────────────────────────────────────────────┐
-│ Trial: Lilly-sponsored Trial                         [Active Participants] │
+│ Trial: Lilly-sponsored Trial                                              │
 ├───────────────────────────────────────────────────────────────────────────┤
 │ Today's Patient Queue                                                    │
-│ [All] [Potential Match] [Missing Data] [Needs Review] [Excluded]          │
+│ [All] [Match] [Missing Data] [Needs Review] [Excluded] [🟣 Enrolled]      │
 │                                                                           │
 │ ┌──────┬──────────────────────┬───────────────┬─────────┬───────────────┐ │
 │ │ 9:00 │ Nathan Chen         │ Plaque PSO    │  92%    │ 🟢 Match      │ │
@@ -588,7 +590,20 @@ Page 6: Follow-up Visit and Adverse Event Extraction (+ disqualification surveil
 │ ├──────┼──────────────────────┼───────────────┼─────────┼───────────────┤ │
 │ │10:00 │ Michael Lee         │ Obesity       │  24%    │ 🔴 Excluded   │ │
 │ │      │ Age 43              │               │         │ Prior event   │ │
+│ ├──────┼──────────────────────┼───────────────┼─────────┼───────────────┤ │
+│ │10:30 │ Maya Patel          │ Obesity       │   —     │ 🟣 Enrolled   │ │
+│ │      │ Age 52              │  (v1.1 row)   │         │ Week 6        │ │
 │ └──────┴──────────────────────┴───────────────┴─────────┴───────────────┘ │
+│   click candidate row → Page 4 · click 🟣 enrolled row → Page 6           │
+│                                                                           │
+│ Hover tooltip on any status chip (v1.1 — summary + provenance):           │
+│ ┌─────────────────────────────────────────────────────────┐               │
+│ │ 🟡 Needs Review — Sarah Williams                        │               │
+│ │ Open: smoking history missing (no record found)         │               │
+│ │ Flag: moderate alcohol use → pancreatitis risk          │               │
+│ │ Source: PCP note · 2026-06-30                           │               │
+│ │ [Open review →]   [Correct this with evidence]          │               │
+│ └─────────────────────────────────────────────────────────┘               │
 └───────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -653,36 +668,34 @@ Page 6: Follow-up Visit and Adverse Event Extraction (+ disqualification surveil
 ┌───────────────────────────────────────────────────────────────────────────┐
 │ ← Patient Queue                      Nathan Chen                          │
 ├───────────────────────────────────────────────────────────────────────────┤
-│ Potential Match · 92% confidence                                         │
-│ Age 48 · BMI 33.4 · Plaque psoriasis · Endocrinology follow-up            │
+│ Potential Match · 92% · Age 48 · BMI 33.4 · Plaque psoriasis              │
+│                                                                           │
+│ Summary (v1.1: moved to TOP): meets core demographic and disease          │
+│ criteria; smoking history is missing; alcohol use may raise               │
+│ pancreatitis risk — clinician review recommended before enrollment.       │
 ├───────────────────────────────────────────────────────────────────────────┤
-│ Eligibility Review                                                       │
-│                                                                           │
-│ ✓ MET                                                                    │
-│ BMI ≥ 30                                                                 │
-│ Evidence: BMI 33.4 kg/m² collected 2026-07-10                            │
-│                                                                           │
-│ ✓ LIKELY MET                                                             │
-│ Moderate-to-severe plaque psoriasis                                      │
-│ Evidence: Dermatology note documents 12% body surface area involvement   │
-│ Source: Dermatologist · 2026-06-22                                       │
-│                                                                           │
-│ ? MISSING ACTIONABLE DATA                                                │
-│ Smoking history                                                          │
-│ No structured or note evidence found                                     │
-│ Next action: Ask patient about current and historical tobacco use         │
-│                                                                           │
-│ ⚠ NEEDS CLINICIAN REVIEW                                                 │
-│ Potential pancreatitis risk                                              │
-│ Evidence: Moderate alcohol use documented                                │
-│ Guidance source: Trial clinician voice input                             │
-├───────────────────────────────────────────────────────────────────────────┤
-│ Work-up Checklist                                                        │
-│ [ ] Confirm smoking history                                              │
-│ [ ] Review alcohol-use history                                           │
+│ Work-up Checklist (v1.1: moved up)                                        │
+│ [ ] Confirm smoking history        [ ] Review alcohol-use history         │
 │ [ ] Repeat liver panel if required by screening window                    │
-│                                                                           │
-│ [Mark Enrollment Ready]  [Exclude]  [Keep Under Review]                  │
+├───────────────────────────────────────┬───────────────────────────────────┤
+│ Criterion + Status                    │ Evidence (citations)              │
+├───────────────────────────────────────┼───────────────────────────────────┤
+│ ✓ MET                                 │ BMI 33.4 kg/m²                    │
+│ BMI ≥ 30                              │ Observation · 2026-07-10          │
+│                                       │                                   │
+│ ✓ LIKELY MET                          │ "…approximately 12% body          │
+│ Moderate-to-severe plaque psoriasis   │  surface area involvement."       │
+│                                       │ Dermatology note · 2026-06-22     │
+│                                       │                                   │
+│ ? MISSING ACTIONABLE DATA             │ No structured or note evidence    │
+│ Smoking history                       │ found                             │
+│ Next: ask patient about tobacco use   │                                   │
+│                                       │                                   │
+│ ⚠ NEEDS CLINICIAN REVIEW              │ "Moderate alcohol use             │
+│ Potential pancreatitis risk           │  documented"                      │
+│ (from trial clinician voice input)    │ Social history · 2026-06-30       │
+├───────────────────────────────────────┴───────────────────────────────────┤
+│ [Mark Enrollment Ready]  [Exclude]  [Keep Under Review]                   │
 └───────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -792,7 +805,7 @@ Page 6: Follow-up Visit and Adverse Event Extraction (+ disqualification surveil
 
 ```text
 ┌───────────────────────────────────────────────────────────────────────────┐
-│ ← Active Participants                Nathan Chen · Week 3 Follow-up       │
+│ ← Patient Queue (🟣 row)             Nathan Chen · Week 3 Follow-up       │
 ├───────────────────────────────────────────────────────────────────────────┤
 │ Visit Conversation                                                        │
 │ [● Start Recording] [Use Demo Audio]                                      │
@@ -820,6 +833,34 @@ Page 6: Follow-up Visit and Adverse Event Extraction (+ disqualification surveil
 └───────────────────────────────────────────────────────────────────────────┘
 ```
 
+### ASCII wireframe — Scenario 2: Maya Patel (v1.1, disqualification surveillance)
+
+```text
+┌───────────────────────────────────────────────────────────────────────────┐
+│ ← Patient Queue (🟣 row)             Maya Patel · Week 6 Follow-up        │
+├───────────────────────────────────────────────────────────────────────────┤
+│ Visit Conversation                                  [Use Demo Transcript] │
+│                                                                           │
+│ Transcript                                                                │
+│ ┌───────────────────────────────────────────────────────────────────────┐ │
+│ │ "I was in the hospital last week — they told me I have pancreatitis  │ │
+│ │  and started me on a new medication."                                │ │
+│ └───────────────────────────────────────────────────────────────────────┘ │
+├───────────────────────────────────────────────────────────────────────────┤
+│ AI-Extracted Events                                                       │
+│ Pancreatitis (hospitalization) · Confidence: 97%                          │
+│ New medication initiated · Confidence: 91%                                │
+│                                                                           │
+│ ⛔ TRIAL DISQUALIFICATION DETECTED (auto re-screen on transcript update)  │
+│ Matches exclusion criterion: "History of pancreatitis"                    │
+│ Evidence: "they told me I have pancreatitis" · Follow-up · 2026-08-08     │
+│ Status: Actively Enrolled → Disqualified (pending clinician confirm)      │
+│ Page 3 queue row updates automatically.                                   │
+│                                                                           │
+│ [Confirm Disqualification]  [Dispute with Evidence]  [Save to Record]     │
+└───────────────────────────────────────────────────────────────────────────┘
+```
+
 ### Acceptance criteria
 
 - The mock patient voice is placed on Page 6.
@@ -827,6 +868,11 @@ Page 6: Follow-up Visit and Adverse Event Extraction (+ disqualification surveil
 - The system extracts symptom, timing, frequency, and confidence.
 - The UI clearly states that findings require clinician review.
 - The extracted event can be saved into the participant’s synthetic record.
+- v1.1: extracted events are auto re-screened against the enrolled trial's
+  exclusion criteria; a violation surfaces a disqualification alert with
+  verbatim transcript evidence and flips the patient's status (pending
+  clinician confirmation) — no manual step required.
+- v1.1: the Maya scenario runs without audio (demo transcript only).
 
 ---
 
