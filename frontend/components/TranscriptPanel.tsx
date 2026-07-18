@@ -7,11 +7,13 @@ export default function TranscriptPanel({
   value,
   editable,
   typing,
+  caption,
   onChange,
 }: {
   value: string;
   editable?: boolean;
   typing?: boolean;
+  caption?: string; // provenance note, e.g. live Whisper transcription
   onChange?: (v: string) => void;
 }) {
   return (
@@ -35,6 +37,9 @@ export default function TranscriptPanel({
           )}
           {typing && value && <span className="animate-pulse">▋</span>}
         </div>
+      )}
+      {caption && !typing && (
+        <p className="mt-2 text-[11px] font-semibold text-inksoft">{caption}</p>
       )}
     </div>
   );
