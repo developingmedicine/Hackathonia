@@ -22,8 +22,11 @@
       "criterion_type": "inclusion",
       "original_text": "Have had a stable body weight for the 3 months prior to randomization (<5% body weight gain and/or loss)",
       "normalized_text": "Weight change ≤5% over prior 3 months",
-      "evaluation_mode": "note_interpretation",
-      "required_data": ["observations.weight", "clinical_notes"],
+      "evaluation_mode": "deterministic",
+      "required_data": ["observations.weight"],
+      "operator": "<=",
+      "threshold": 5,
+      "unit": "% change",
       "time_window": "3 months",
       "requires_human_review": false
     },
