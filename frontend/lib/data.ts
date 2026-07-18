@@ -77,6 +77,7 @@ interface RawCriteriaFile {
 interface RawTriggerCondition {
   field: string;
   operator: string;
+  match?: string; // "prefix" → ICD-10 category prefix matching
   value: number | string | string[];
 }
 interface RawKnowledge {
@@ -146,7 +147,15 @@ export const CRITERIA: ParsedCriterion[] = rawCriteria.base_criteria.map(
   }),
 );
 
-export const CLINICIAN_TRANSCRIPT = km.source_transcript;
+// Verbatim transcript of Jae's real Page 2 recording
+// (data/transcripts/clinician_intake.txt · public/audio/clinician-context.m4a).
+// km.source_transcript in clinician_knowledge.json is the polished record of
+// the same guidance; the UI types out what the audio actually says.
+export const CLINICIAN_TRANSCRIPT =
+  "Flag 2 categories for review. So heavy drinkers with more than 5 drinks " +
+  "weekly or alcohol use disorder codes. And biliary disease such as " +
+  "cholecystitis, choledocholithiasis, or cholangitis. No auto exclusion, " +
+  "but I want them to have review required";
 
 export const GUIDANCE: ExtractedGuidance = {
   annotates: "No history of acute or chronic pancreatitis (exc_006)",
@@ -185,7 +194,8 @@ function noteEv(n: RawNote): EvidenceItem {
 
 // Evaluates one knowledge-rule trigger condition (PRD §21 schema) against a
 // patient record, returning verbatim evidence for each hit. `in` over
-// conditions.code is ICD-10 prefix-aware ("K81" matches "K81.9").
+// conditions.code honors the data's "match" field: "prefix" → ICD-10
+// category matching ("K81" matches "K81.9"), otherwise exact.
 function evalTriggerCondition(
   p: RawPatient,
   t: RawTriggerCondition,
@@ -210,11 +220,28 @@ function evalTriggerCondition(
   }
   if (t.field === "conditions.code" && t.operator === "in") {
     const codes = t.value as string[];
+    const prefix = t.match === "prefix";
     return p.conditions
-      .filter((c) => codes.some((x) => c.code === x || c.code.startsWith(x)))
+      .filter((c) =>
+        codes.some((x) =>
+          prefix ? c.code === x || c.code.startsWith(x) : c.code === x,
+        ),
+      )
       .map(condEv);
   }
   return [];
+}
+
+// Summed priority_adjustment across all knowledge rules whose trigger fires
+// for this patient. Per Jae's contract (HOLLY_TODO.md): seeded ground-truth
+// scores are the clean base — the screener applies the delta on top.
+function knowledgeDelta(p: RawPatient): number {
+  return KNOWLEDGE.reduce((sum, rule) => {
+    const fired = (rule.trigger?.any ?? []).some(
+      (t) => evalTriggerCondition(p, t).length > 0,
+    );
+    return fired ? sum + rule.effect.priority_adjustment : sum;
+  }, 0);
 }
 
 function evalPatient(p: RawPatient): CriterionResult[] {
@@ -534,6 +561,7 @@ export const PATIENTS: QueuePatient[] = rawPatients.map((p) => {
     score: null,
   };
   const firstNote = p.clinical_notes[0];
+  const delta = meta.score != null ? knowledgeDelta(p) : 0;
   return {
     id: p.patient_id,
     name: p.name.display,
@@ -541,7 +569,9 @@ export const PATIENTS: QueuePatient[] = rawPatients.map((p) => {
     time: p.visit.appointment_time,
     condition: p.conditions[0]?.name.replace(/, unspecified/i, "") ?? "—",
     status: p.scenario_metadata.expected_outcome as EnrollmentStatus,
-    score: meta.score,
+    score: meta.score != null ? meta.score + delta : null,
+    baseScore: delta !== 0 ? (meta.score ?? undefined) : undefined,
+    knowledgeDelta: delta !== 0 ? delta : undefined,
     topReason: meta.reason,
     studyWeek: p.trial_status.study_week ?? undefined,
     tooltip: {
@@ -591,7 +621,11 @@ export function detailFor(q: QueuePatient): PatientDetail {
     id: q.id,
     name: q.name,
     headline: `${STATUS_LABEL[q.status] ?? q.status} · ${
-      q.score != null ? `${q.score}% · ` : ""
+      q.score != null
+        ? q.knowledgeDelta != null && q.baseScore != null
+          ? `base ${q.baseScore} · clinician flag ${q.knowledgeDelta} → ${q.score}% · `
+          : `${q.score}% · `
+        : ""
     }Age ${q.age} · BMI ${bmiObs?.value ?? "?"} · ${q.condition}`,
     summary: `${p.scenario_metadata.ground_truth_notes.join("; ")}.`,
     workup,
@@ -637,36 +671,36 @@ export const FOLLOWUPS: Record<string, FollowUpScenario> = {
     hasAudio: true,
     audioSrc: "/audio/adverse-effect.m4a",
     transcript:
-      "I've been on the study drug for three weeks now. Yeah, lots of " +
-      "nausea—worst in the mornings, pretty much every day. Actually threw " +
-      "up a couple times this week. I can drink water, eat a bit, but it's " +
-      "really affecting my work. Not sure how much longer I can keep going " +
-      "like this.",
+      "Yeah I'm having lots of nausea pretty much every single day. Um. I " +
+      "actually threw up a couple times this week. I, you know, can drink " +
+      "water, uh I can eat a little bit, but really messing with my overall " +
+      "kind of work and sleep and I just don't know how much longer I can " +
+      "keep going with this, it's been 3 weeks",
     events: [
       {
         event: "Nausea",
-        detail: "Daily · worst in the mornings",
+        detail: "Daily · “pretty much every single day”",
         confidence: 96,
       },
       {
         event: "Vomiting",
-        detail: "Twice this week",
+        detail: "“Threw up a couple times this week”",
         confidence: 93,
       },
       {
         event: "Functional impact / tolerance concern",
-        detail: "“Really affecting my work … not sure how much longer”",
+        detail: "“Really messing with my work and sleep … don't know how much longer”",
         confidence: 89,
       },
     ],
     footnotes: [
-      "Possible relationship: after study medication initiation",
-      "Hydration and oral intake: partially preserved (water, small meals)",
+      "Possible relationship: after study medication initiation (~3 weeks)",
+      "Hydration and oral intake: partially preserved (water, eats a little)",
     ],
     escalation:
-      "Poor medication tolerance with daily symptoms, functional impact, and " +
-      "dropout risk — notify the trial physician for antiemetic therapy and " +
-      "possible dose adjustment.",
+      "Poor medication tolerance with daily symptoms, functional impact on " +
+      "work and sleep, and dropout risk — notify the trial physician for " +
+      "antiemetic therapy and possible dose adjustment.",
   },
   pt_009: {
     patientId: "pt_009",

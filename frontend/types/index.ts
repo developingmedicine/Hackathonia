@@ -47,7 +47,9 @@ export interface QueuePatient {
   time: string;
   condition: string;
   status: EnrollmentStatus;
-  score: number | null;
+  score: number | null; // baseScore + knowledgeDelta when a clinician rule fired
+  baseScore?: number; // seeded clean score, present only when a rule fired
+  knowledgeDelta?: number; // summed priority_adjustment from fired rules
   topReason: string;
   studyWeek?: number;
   tooltip: TooltipContent;
@@ -63,6 +65,13 @@ export interface Trial {
   enrollment: string;
   conditions: string[];
   primary?: boolean;
+  live?: boolean; // sourced from the ClinicalTrials.gov API, not seeded
+}
+
+export interface LiveTrialDetail {
+  trial: Trial;
+  summary: string;
+  eligibility: string; // unparsed eligibility-criteria text from CT.gov
 }
 
 export interface ParsedCriterion {

@@ -39,8 +39,8 @@ Page 5 merged into Page 3):
 
 | Route | Page |
 |---|---|
-| `/trials` | 1 — Trial Explorer (primary trial highlighted) |
-| `/trials/[trialId]` | 2 — criteria (left, read-only) + voice → transcript → **live Claude knowledge extraction** (guidance renders LEFT, under criteria) |
+| `/trials` | 1 — Trial Explorer (primary trial highlighted) + **live ClinicalTrials.gov search** (debounced, ≥3 chars → any condition: cancer, psoriasis…) |
+| `/trials/[trialId]` | 2 — criteria (left, read-only) + voice → transcript → **live Claude knowledge extraction** (guidance renders LEFT, under criteria). Non-seeded NCT IDs render live from CT.gov: summary + unparsed eligibility text, labeled "Live · ClinicalTrials.gov" |
 | `/patients` | 3 — queue: status tooltips w/ provenance, purple = enrolled inline, fixed-width badge/score columns |
 | `/patients/[patientId]` | 4 — summary on TOP, work-up high, two-column criterion/evidence table |
 | `/patients/[patientId]/follow-up` | 6 — typing animation → **live Claude AE extraction + disqualification surveillance**; transcript editable + "Re-extract with Claude" |
@@ -55,9 +55,12 @@ split out per PRD §21). Contains a
 for T2DM/CV/pancreatitis, pulse bounds, gallbladder window, stale-LFT missing
 data) with verbatim chart evidence. Knowledge rules are **data-driven**: it
 executes each rule's `trigger.any` from `clinician_knowledge.json` (drinks/wk
-≥ threshold; `in` over `conditions.code` is ICD-10 prefix-aware, so "K81"
-matches pt_007's K81.9) — flag-for-review only, never auto-exclude; queue
-scores stay seeded (§38), `priority_adjustment` surfaces in the note text. Overall queue
+≥ threshold; `in` over `conditions.code` honors the data's `"match":
+"prefix"` field — "K81" matches pt_007's K81.9) — flag-for-review only,
+never auto-exclude. Per Jae's contract (HOLLY_TODO.md): seeded scores are
+the clean base and `priority_adjustment` is applied as a real delta on top
+(pt_006: 68→53, pt_007: 64→49); detail headline shows "base 68 · clinician
+flag −15 → 53". Overall queue
 status is seeded from Jae's ground truth (§38 demo stability); note-interpretation
 criteria show NEEDS REVIEW.
 
@@ -68,6 +71,12 @@ structured JSON output via `output_config.format`, adaptive thinking, effort low
   pancreatitis transcript flags exc_006; a benign edited transcript doesn't.
 - `POST /api/knowledge` — clinician voice text → annotated criterion + rule bullets.
 - Both catch all errors → seeded fallback from `lib/data.ts` with `source:"seeded"`.
+
+**Live trial search** (`/api/trials`, `/api/trials/[nctId]`, helpers in
+`lib/ctgov.ts`): proxies the public ClinicalTrials.gov API v2 (no key,
+5-min revalidate, 8s timeout). Search maps studies → `Trial` with
+`live:true`; detail returns unparsed eligibility text. Failures degrade
+gracefully (seeded list stays; explorer shows an unreachable note).
 
 **Demo state** (`frontend/lib/demo.ts`): localStorage status overrides — confirming
 Elizabeth's disqualification flips her Page 3 row to Excluded; header "Reset demo"

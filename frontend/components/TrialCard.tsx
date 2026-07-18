@@ -16,6 +16,11 @@ export default function TrialCard({ trial }: { trial: Trial }) {
                 Primary demo trial
               </span>
             )}
+            {trial.live && (
+              <span className="rounded-full bg-creamdeep px-2.5 py-0.5 text-[11px] font-semibold text-inkmid">
+                Live · ClinicalTrials.gov
+              </span>
+            )}
           </div>
           <p className="mt-1.5 text-sm text-inkmid">
             {trial.id} · {trial.status} · {trial.location}
