@@ -45,7 +45,10 @@ export default function RootLayout({
                 Patient Queue
               </Link>
             </nav>
-            <div className="ml-auto">
+            <div className="ml-auto flex items-center gap-3">
+              <span className="hidden text-xs text-inksoft md:block">
+                Synthetic data · decision support only
+              </span>
               <DemoResetButton />
             </div>
           </div>

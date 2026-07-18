@@ -75,7 +75,7 @@ export default function PatientQueueTable({
               href={
                 enrolled ? `/patients/${p.id}/follow-up` : `/patients/${p.id}`
               }
-              className={`grid grid-cols-[44px_1.6fr_1fr_56px_auto] items-center gap-4 rounded-2xl px-4 py-3.5 transition ${
+              className={`grid grid-cols-[44px_1fr_56px_auto] items-center gap-4 rounded-2xl px-4 py-3.5 transition ${
                 enrolled
                   ? "bg-lav/40 hover:bg-lav/60"
                   : "hover:bg-white hover:shadow-sm"
@@ -99,7 +99,6 @@ export default function PatientQueueTable({
                   {p.condition} — {p.topReason}
                 </span>
               </span>
-              <span className="hidden text-sm text-inksoft sm:block" />
               <span className="text-sm font-semibold tabular-nums text-inkmid">
                 {p.score == null ? "—" : `${p.score}%`}
               </span>

@@ -28,6 +28,7 @@ export default function PatientQueuePage() {
     );
   }, []);
 
+  const screened = patients.filter((p) => p.status !== "not_screened").length;
   const matches = patients.filter(
     (p) => p.status === "potential_match" || p.status === "enrollment_ready",
   ).length;
@@ -45,7 +46,7 @@ export default function PatientQueuePage() {
           </p>
         </div>
         <span className="rounded-full bg-creamdeep px-4 py-2 text-xs font-semibold text-inkmid">
-          {patients.length} screened · {matches} matches · {review} for review
+          {screened} screened · {matches} matches · {review} for review
         </span>
       </div>
       <div className="mt-7">
