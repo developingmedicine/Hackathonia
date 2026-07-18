@@ -301,26 +301,36 @@ function evalPatient(p: RawPatient, guidanceActive: boolean): CriterionResult[] 
     }
   }
 
-  // inc_002 — stable weight (note interpretation → heuristic until backend)
-  const stableNote = noteMatch(/stable/i);
-  res.push(
-    stableNote
-      ? {
-          id: "inc_002",
-          criterion: "Stable body weight over prior 3 months (<5% change)",
-          type: "inclusion",
-          status: "likely_met",
-          evidence: [noteEv(stableNote)],
-        }
-      : {
-          id: "inc_002",
-          criterion: "Stable body weight over prior 3 months (<5% change)",
-          type: "inclusion",
-          status: "needs_review",
-          note: "Next: verify weight trajectory at visit",
-          evidence: [],
-        },
-  );
+  // inc_002 — weight change ≤5% / 3 months (deterministic per Jae's
+  // criteria.json: computed from serial weight observations; when serial
+  // weights are absent → missing_data, never a note-based read)
+  const weights = p.observations
+    .filter((o) => o.type === "Weight" && typeof o.value === "number")
+    .sort((a, b) => (a.collected_at < b.collected_at ? -1 : 1));
+  if (weights.length >= 2) {
+    const first = weights[0];
+    const last = weights[weights.length - 1];
+    const pct =
+      Math.abs(((last.value as number) - (first.value as number)) /
+        (first.value as number)) * 100;
+    res.push({
+      id: "inc_002",
+      criterion: "Weight change ≤5% over prior 3 months",
+      type: "inclusion",
+      status: pct <= 5 ? "met" : "not_met",
+      note: `${pct.toFixed(1)}% change across serial weights`,
+      evidence: [obsEv(first), obsEv(last)],
+    });
+  } else {
+    res.push({
+      id: "inc_002",
+      criterion: "Weight change ≤5% over prior 3 months",
+      type: "inclusion",
+      status: "missing_data",
+      note: "Next: obtain a prior weight — serial weights needed to compute the 3-month change",
+      evidence: weights.length ? [obsEv(weights[0])] : [],
+    });
+  }
 
   // exc_001 — diabetes (deterministic, ICD-10 E10/E11)
   const dm = has(["E10", "E11"]);
