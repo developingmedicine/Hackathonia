@@ -7,14 +7,6 @@
 **Status:** Ready for implementation  
 **Scope:** Browser-based hackathon prototype; no EHR integration; synthetic patient data only
 
-> ### v1.1 changelog (Jul 18 — from Jae's clinical review; look for "v1.1 update" blocks)
-> 1. **Page 2**: clinician adds context to *existing* criteria (not new criteria); Extracted Guidance moves to the LEFT column next to the criteria.
-> 2. **Page 3**: hover tooltips on status colors (actionable context + provenance); clinician can correct/override with evidence; enrolled patients render inline in purple.
-> 3. **Page 4**: two-column layout (criterion+status left, evidence citations right); summary moves to the top; work-up checklist moves up.
-> 4. **Page 5**: REMOVED as a separate page — merged into Page 3 via purple status.
-> 5. **Page 6**: new Maya Patel scenario — follow-up transcript triggers automatic disqualification re-screening (real-time surveillance).
-> 6. **§17.1**: patient cohort is now derived from the organizer-provided synthetic EHR dataset (25 patients, JSON/JSONL), agent-edited to fit the trial.
-
 ---
 
 ## 1. Executive Summary
