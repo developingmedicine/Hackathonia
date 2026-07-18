@@ -41,6 +41,19 @@ const SCHEMA = {
         additionalProperties: false,
       },
     },
+    insights: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          signal: { type: "string" },
+          detail: { type: "string" },
+          quote: { type: "string" },
+        },
+        required: ["signal", "detail"],
+        additionalProperties: false,
+      },
+    },
     footnotes: { type: "array", items: { type: "string" } },
     escalation: { anyOf: [{ type: "string" }, { type: "null" }] },
     disqualification: {
@@ -58,16 +71,19 @@ const SCHEMA = {
       ],
     },
   },
-  required: ["events", "footnotes", "escalation", "disqualification"],
+  required: ["events", "insights", "footnotes", "escalation", "disqualification"],
   additionalProperties: false,
 } as const;
 
 const SYSTEM = `You are the adverse-event extraction service for Beacon, a clinical-trial enrollment copilot demo running on synthetic data only. Extract possible adverse events from a patient's follow-up-visit transcript for trial NCT07589608.
 
+The reader IS the trial physician reviewing their own patient — write every recommendation as a direct action for them (e.g. "consider antiemetic therapy", "same-day assessment advised"), never "notify the trial physician" or "contact the doctor".
+
 Rules:
 - Extract only what the transcript supports. "detail" should quote or closely paraphrase the patient's words (timing, frequency, severity). "confidence" is an integer 0-100.
-- "footnotes": 2-4 short observations — possible relationship to study medication, hydration/oral intake status, and whether clinician review is recommended. Everything is decision support requiring clinician confirmation; never diagnose or decide autonomously.
-- "escalation": if the symptoms warrant notifying the trial physician promptly (severity, dehydration risk, functional decline, medication-tolerance/dropout risk), give a one-sentence recommendation; otherwise null.
+- "insights": 0-3 actionable clinical signals the physician would act on (oral-intake/hydration status, dropout/medication-tolerance risk, red flags). "signal" is a short bold headline, "detail" the compressed clinical takeaway, "quote" the patient's supporting words. Lead with the signal; no filler.
+- "footnotes": 1-3 brief contextual notes (e.g. possible relationship to study medication). NEVER state what any clinician already knows — no "nausea is a common GI side effect of GLP-1 medication"-style class-effect observations. Everything is decision support requiring clinician confirmation; never diagnose or decide autonomously.
+- "escalation": if the symptoms warrant prompt physician action (severity, dehydration risk, functional decline, medication-tolerance/dropout risk), give a one-sentence recommendation in the direct-action voice above; otherwise null.
 - "disqualification": compare the transcript against the trial's exclusion criteria below. If it reveals the patient now meets one, return {"criterion": "<normalized text> (<criterion_id>)", "evidence": "<verbatim quote from the transcript>"}; otherwise null. Only flag genuine matches.
 
 Trial criteria:
@@ -75,9 +91,10 @@ ${criteriaList}`;
 
 function seeded(patientId: string): FollowUpExtraction {
   const s = FOLLOWUPS[patientId];
-  if (!s) return { events: [], footnotes: [], escalation: null, disqualification: null, source: "seeded" };
+  if (!s) return { events: [], insights: [], footnotes: [], escalation: null, disqualification: null, source: "seeded" };
   return {
     events: s.events,
+    insights: s.insights ?? [],
     footnotes: s.footnotes,
     escalation: s.escalation ?? null,
     disqualification: s.disqualification ?? null,

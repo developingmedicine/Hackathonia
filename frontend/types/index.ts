@@ -101,6 +101,14 @@ export interface FollowUpEvent {
   confidence: number;
 }
 
+// Actionable clinical signal promoted out of the footnotes (Jae's demo
+// review): lead with what the clinician acts on, quote as supporting evidence.
+export interface ClinicalInsight {
+  signal: string; // bold headline, e.g. "Oral intake maintained"
+  detail: string; // compressed clinical takeaway
+  quote?: string; // patient's words supporting the signal
+}
+
 export interface FollowUpScenario {
   patientId: string;
   patientName: string;
@@ -109,6 +117,7 @@ export interface FollowUpScenario {
   audioSrc?: string;
   transcript: string;
   events: FollowUpEvent[];
+  insights?: ClinicalInsight[];
   footnotes: string[];
   escalation?: string;
   disqualification?: {
@@ -122,6 +131,7 @@ export type ExtractionSource = "live" | "seeded";
 
 export interface FollowUpExtraction {
   events: FollowUpEvent[];
+  insights?: ClinicalInsight[];
   footnotes: string[];
   escalation?: string | null;
   disqualification?: {

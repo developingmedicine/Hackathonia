@@ -52,6 +52,21 @@ export default function AEExtractionPanel({
           </p>
         )}
       </div>
+      {(data.insights?.length ?? 0) > 0 && (
+        <div className="mt-5 space-y-3 border-t border-cream pt-4">
+          {data.insights!.map((i) => (
+            <div key={i.signal} className="rounded-2xl bg-cream p-4">
+              <p className="text-sm font-bold text-ink">{i.signal}</p>
+              <p className="mt-0.5 text-sm text-inkmid">{i.detail}</p>
+              {i.quote && (
+                <p className="mt-1.5 text-xs italic text-inksoft">
+                  “{i.quote}”
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
       {data.footnotes.length > 0 && (
         <ul className="mt-5 space-y-1 border-t border-cream pt-4">
           {data.footnotes.map((f) => (
@@ -70,7 +85,7 @@ export default function AEExtractionPanel({
           <p className="mt-1.5 text-sm text-inkmid">{data.escalation}</p>
           <div className="mt-4 flex flex-wrap gap-2">
             <button className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-inkmid">
-              Notify Trial Physician
+              Acknowledge &amp; Escalate
             </button>
             <button className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-inkmid shadow-sm ring-1 ring-black/5 transition hover:bg-creamdeep">
               Schedule Same-day Visit
@@ -127,16 +142,16 @@ export default function AEExtractionPanel({
       )}
 
       {!data.disqualification && (
-        <div className="mt-5 flex flex-wrap gap-2 border-t border-cream pt-5">
+        <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-cream pt-5">
           <button className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-inkmid">
             Confirm Findings
           </button>
           <button className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-inkmid shadow-sm ring-1 ring-black/5 transition hover:bg-creamdeep">
             Edit
           </button>
-          <button className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-inkmid shadow-sm ring-1 ring-black/5 transition hover:bg-creamdeep">
-            Save to Participant Record
-          </button>
+          <span className="ml-1 text-xs text-inksoft">
+            ✓ Auto-saved to the participant record
+          </span>
         </div>
       )}
     </div>

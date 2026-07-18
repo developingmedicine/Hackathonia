@@ -68,9 +68,14 @@ criteria show NEEDS REVIEW.
 
 **Live AI** (`frontend/app/api/*`, Anthropic SDK, model `claude-opus-4-8`,
 structured JSON output via `output_config.format`, adaptive thinking, effort low):
-- `POST /api/follow-up` — transcript → AEs + escalation + exclusion-criteria
-  re-screen (returns `disqualification` w/ verbatim evidence). Verified: the
-  pancreatitis transcript flags exc_006; a benign edited transcript doesn't.
+- `POST /api/follow-up` — transcript → AEs + actionable `insights`
+  (signal/detail/quote, promoted UI cards) + escalation + exclusion-criteria
+  re-screen (returns `disqualification` w/ verbatim evidence). Voice: the
+  reader IS the trial physician (never "notify the physician"); no
+  class-effect filler footnotes (Jae's demo review, HOLLY_TODO.md). Verified:
+  the pancreatitis transcript flags exc_006; a benign edited transcript
+  doesn't. AE panel: findings auto-save (no Save button), escalation CTA =
+  "Acknowledge & Escalate" / "Schedule Same-day Visit".
 - `POST /api/knowledge` — clinician voice text → annotated criterion + rule bullets.
 - Both catch all errors → seeded fallback from `lib/data.ts` with `source:"seeded"`.
 

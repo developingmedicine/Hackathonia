@@ -677,11 +677,16 @@ export const FOLLOWUPS: Record<string, FollowUpScenario> = {
         confidence: 94,
       },
     ],
+    insights: [
+      {
+        signal: "Oral intake unimpaired",
+        detail: "No dehydration concern — monitor at next visit.",
+        quote: "I can still eat and drink fine",
+      },
+    ],
     footnotes: [
       "Possible relationship: after study medication initiation",
-      "Severity: mild — typical GLP-1 side effect",
-      "Hydration and oral intake: not impaired",
-      "Escalation: not required — monitor at next visit",
+      "Escalation: not required",
     ],
   },
   // pt_011 transcript is Jae's recorded Page 6 script verbatim
@@ -715,14 +720,27 @@ export const FOLLOWUPS: Record<string, FollowUpScenario> = {
         confidence: 89,
       },
     ],
+    insights: [
+      {
+        signal: "Oral intake maintained",
+        detail: "Dehydration risk lower — continue monitoring.",
+        quote: "can drink water … can eat a little bit",
+      },
+      {
+        signal: "Dropout / tolerance risk",
+        detail:
+          "Functional decline plus the patient's own uncertainty about " +
+          "continuing — flag for clinician review.",
+        quote: "really messing with my work and sleep … don't know how much longer I can keep going",
+      },
+    ],
     footnotes: [
       "Possible relationship: after study medication initiation (~3 weeks)",
-      "Hydration and oral intake: partially preserved (water, eats a little)",
     ],
     escalation:
       "Poor medication tolerance with daily symptoms, functional impact on " +
-      "work and sleep, and dropout risk — notify the trial physician for " +
-      "antiemetic therapy and possible dose adjustment.",
+      "work and sleep, and dropout risk — consider antiemetic therapy and " +
+      "possible dose adjustment; same-day assessment advised.",
   },
   pt_009: {
     patientId: "pt_009",

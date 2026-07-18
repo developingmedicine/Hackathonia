@@ -44,6 +44,7 @@ export default function FollowUpPage() {
     } catch {
       setExtraction({
         events: scenario?.events ?? [],
+        insights: scenario?.insights ?? [],
         footnotes: scenario?.footnotes ?? [],
         escalation: scenario?.escalation ?? null,
         disqualification: scenario?.disqualification ?? null,
