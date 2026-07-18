@@ -1,9 +1,25 @@
 @import "tailwindcss";
 
+/* Abridge-inspired design tokens: warm cream canvas, ink text, sage avatars,
+   brand red for voice, lavender for AI. Separation via tone + spacing, not
+   borders. */
+@theme {
+  --color-cream: #f6f3ee;
+  --color-creamdeep: #ede8e0;
+  --color-ink: #211d1a;
+  --color-inkmid: #57524c;
+  --color-inksoft: #8a847c;
+  --color-brand: #e0311d;
+  --color-sage: #d9e8e2;
+  --color-sagedeep: #3f6b60;
+  --color-lav: #e7e4f8;
+  --color-lavdeep: #57509e;
+  --font-sans: var(--font-dm), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
 body {
-  background-color: #f8fafc;
-  color: #0f172a;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--color-cream);
+  color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
 }

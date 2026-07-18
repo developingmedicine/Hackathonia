@@ -5,20 +5,20 @@ import type { TooltipContent } from "@/types";
 
 export default function StatusTooltip({ content }: { content: TooltipContent }) {
   return (
-    <span className="pointer-events-none absolute right-0 top-full z-20 mt-2 hidden w-80 rounded-lg border border-slate-200 bg-white p-3 text-left shadow-xl group-hover:block">
-      <span className="block text-xs font-semibold text-slate-900">
+    <span className="pointer-events-none absolute right-0 top-full z-20 mt-2 hidden w-80 rounded-2xl bg-white p-4 text-left shadow-xl ring-1 ring-black/5 group-hover:block">
+      <span className="block text-[13px] font-semibold text-ink">
         {content.headline}
       </span>
       {content.lines.map((line) => (
         <span
           key={line}
-          className="mt-1 block text-xs leading-relaxed text-slate-600"
+          className="mt-1 block text-xs leading-relaxed text-inkmid"
         >
           {line}
         </span>
       ))}
       {content.source && (
-        <span className="mt-2 block border-t border-slate-100 pt-1.5 text-[11px] text-slate-400">
+        <span className="mt-2.5 block text-[11px] text-inksoft">
           Source: {content.source}
         </span>
       )}

@@ -12,23 +12,23 @@ export default function CriterionResultCard({
 }) {
   const meta = CRITERION_META[result.status];
   return (
-    <div className="grid grid-cols-1 gap-3 border-t border-slate-100 py-4 first:border-t-0 md:grid-cols-2 md:gap-6">
+    <div className="grid grid-cols-1 gap-3 border-t border-cream py-5 first:border-t-0 md:grid-cols-2 md:gap-8">
       <div>
-        <p className={`text-xs font-semibold ${meta.cls}`}>
+        <p className={`text-xs font-bold tracking-wide ${meta.cls}`}>
           {meta.icon} {meta.label}
         </p>
-        <p className="mt-0.5 text-sm font-medium text-slate-900">
+        <p className="mt-1 text-[15px] font-semibold text-ink">
           {result.criterion}
         </p>
         {result.note && (
-          <p className="mt-1 text-xs text-slate-500">{result.note}</p>
+          <p className="mt-1 text-xs text-inksoft">{result.note}</p>
         )}
       </div>
-      <div className="space-y-2 md:border-l md:border-slate-100 md:pl-6">
+      <div className="space-y-2.5 md:border-l md:border-cream md:pl-8">
         {result.evidence.length > 0 ? (
           result.evidence.map((e) => <EvidenceSnippet key={e.text} item={e} />)
         ) : (
-          <p className="text-sm italic text-slate-400">
+          <p className="text-sm italic text-inksoft">
             No structured or note evidence found
           </p>
         )}

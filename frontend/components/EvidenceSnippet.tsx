@@ -6,8 +6,8 @@ import type { EvidenceItem } from "@/types";
 export default function EvidenceSnippet({ item }: { item: EvidenceItem }) {
   return (
     <div className="text-sm">
-      <p className="text-slate-700">{item.text}</p>
-      <p className="mt-0.5 text-xs text-slate-400">
+      <p className="text-inkmid">{item.text}</p>
+      <p className="mt-0.5 text-xs text-inksoft">
         {item.source}
         {item.date ? ` · ${item.date}` : ""}
       </p>
