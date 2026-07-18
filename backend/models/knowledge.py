@@ -1,0 +1,1 @@
+"""Clinician knowledge contract (PRD §21): source transcript, trigger (field/operator/value conditions), effect (flag_for_review, priority_adjustment, label, explanation), requires_human_confirmation."""

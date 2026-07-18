@@ -1,0 +1,1 @@
+"""Screening result contract (PRD §22): overall_status, match_score, summary, criteria_results (status/confidence/evidence/next_action), workup_items, clinical_flags. Status vocab per §16 — reject unknown values."""

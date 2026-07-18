@@ -1,0 +1,1 @@
+"""Adverse-event extractor: follow-up transcript → §23 events (symptom, timing, frequency, severity, confidence, verbatim supporting_text), escalation flag; everything requires clinician confirmation."""

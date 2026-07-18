@@ -1,0 +1,1 @@
+"""Parsed criterion contract (PRD §20): original + normalized text, inclusion/exclusion, evaluation_mode (deterministic | note_interpretation | missing_data_sensitive | clinical_judgement), required_data, operator/threshold/unit, time_window, requires_human_review."""

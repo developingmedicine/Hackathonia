@@ -1,0 +1,7 @@
+PAGE 2 MOCK CLINICIAN VOICE — OWNER: JAE (PRD §25.1)
+Draft (revise freely; must keep: risk factor + do-not-auto-exclude + flag-for-review + priority adjustment):
+
+For the pancreatitis exclusion, I also want the system to flag patients with
+significant alcohol use or gallbladder disease. These patients should not be
+automatically excluded, but they may have elevated risk, so lower their
+screening priority and require physician review.
