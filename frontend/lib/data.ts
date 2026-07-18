@@ -868,7 +868,7 @@ export const COHORT_SEEDED: Record<
         patient_id: "pt_009",
         name: "Elizabeth Garcia",
         evidence:
-          "Week-2 follow-up transcript: “They told me I had acute pancreatitis”",
+          "Week-2 follow-up transcript: “I ended up in the hospital with pancreatitis”",
       },
     ],
     caveats: ["Symptom attribution requires clinician review."],
