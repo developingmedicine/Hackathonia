@@ -85,41 +85,32 @@ export default function AEExtractionPanel({
           </p>
           <p className="mt-1.5 text-sm text-inkmid">{data.escalation}</p>
 
-          {attested ? (
+          {attested && (
             <p className="mt-4 rounded-xl bg-white px-4 py-3 text-sm font-semibold text-amber-900">
               ✓ Findings clinician-reviewed &amp; escalated — {clinician} ·{" "}
               {attested}
             </p>
-          ) : (
-            <div className="mt-4 flex flex-wrap gap-2">
-              <button
-                onClick={() => setAttested(timeNow())}
-                className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-inkmid"
-              >
-                Acknowledge &amp; Escalate
-              </button>
-              <button
-                onClick={() => setOrderOpen(true)}
-                className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-inkmid shadow-sm ring-1 ring-black/5 transition hover:bg-creamdeep"
-              >
-                Initiate standing order for anti-emetic
-              </button>
-              <button
-                onClick={() => setSlot(nextSlot())}
-                className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-inkmid shadow-sm ring-1 ring-black/5 transition hover:bg-creamdeep"
-              >
-                Schedule Same-day Visit
-              </button>
-            </div>
           )}
-          {attested && !orderSigned && !orderOpen && (
-            <div className="mt-2 flex flex-wrap gap-2">
-              <button
-                onClick={() => setOrderOpen(true)}
-                className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-inkmid shadow-sm ring-1 ring-black/5 transition hover:bg-creamdeep"
-              >
-                Initiate standing order for anti-emetic
-              </button>
+          {/* Each action renders on its OWN completion flag (Jae's bug
+              report): a button persists until that action itself is done. */}
+          {(!attested || (!orderSigned && !orderOpen) || !slot) && (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {!attested && (
+                <button
+                  onClick={() => setAttested(timeNow())}
+                  className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-inkmid"
+                >
+                  Acknowledge &amp; Escalate
+                </button>
+              )}
+              {!orderSigned && !orderOpen && (
+                <button
+                  onClick={() => setOrderOpen(true)}
+                  className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-inkmid shadow-sm ring-1 ring-black/5 transition hover:bg-creamdeep"
+                >
+                  Initiate standing order for anti-emetic
+                </button>
+              )}
               {!slot && (
                 <button
                   onClick={() => setSlot(nextSlot())}
