@@ -9,16 +9,24 @@ export default function StatusBadge({
   status,
   sub,
   tooltip,
+  fixedWidth,
 }: {
   status: EnrollmentStatus;
   sub?: string;
   tooltip?: TooltipContent;
+  fixedWidth?: boolean;
 }) {
   const meta = ENROLLMENT_META[status];
   return (
-    <span className="group relative inline-flex flex-col items-end">
+    <span
+      className={`group relative inline-flex flex-col items-end ${
+        fixedWidth ? "w-36" : ""
+      }`}
+    >
       <span
-        className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${meta.badge}`}
+        className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${
+          fixedWidth ? "w-full justify-center" : ""
+        } ${meta.badge}`}
       >
         <span className={`h-1.5 w-1.5 rounded-full ${meta.dot}`} />
         {meta.label}
