@@ -68,7 +68,48 @@ alone (accessibility).
 
 ---
 
-# 🎯 AE Follow-Up Screen — UX polish (Jae's demo review)
+# 🎯 AE Follow-Up Screen — round 2 (Jae's demo review)
+
+Round 1 looks great. Next pass:
+
+### 1. Move "Escalation required" to the very top
+It's the most important section — lead with it (bottom-line-up-front). Extracted
+events + insights go below it.
+
+### 2. Merge "Confirm Findings" into "Acknowledge & Escalate"
+Findings already auto-save, so a separate Confirm is redundant. **One button
+both attests (clinician name + timestamp → elevates AI draft to clinician-
+reviewed) and escalates.** Drop the standalone "Confirm Findings."
+
+### 3. Edit button — wire it up (don't remove)
+Currently a no-op. Implement inline editing of the extracted events before the
+clinician acts. Keep the affordance; make it functional.
+
+### 4. Top rows → two-column table
+Actionable insight on the **left**, chain of evidence (the patient quote) on the
+**right** — simpler to scan. Render **Confidence** as a small chip next to each
+insight so it survives the layout change.
+
+### 5. Cut the duplicative summary
+Remove: *"Onset over ~3 weeks of persistent daily nausea…"* and *"Functional
+impact on work and sleep suggests severity beyond mild…"* — restates the events
+and insights already shown above.
+
+### 6. Automation — signable anti-emetic order
+Add an **"Initiate standing order for anti-emetic"** action that lets the
+clinician **sign an order** inline. Order text (clinically precise):
+**ondansetron 4 mg ODT q8h PRN nausea/vomiting** — note: **ODT** (orally
+disintegrating), NOT "SL"; ondansetron has no true sublingual form, and ODT is
+the right route for a vomiting patient.
+
+### 7. Automation — smarter same-day scheduling
+"Schedule Same-day Visit" should auto-propose the **next available calendar
+slot** (simulated for the demo). On user approval, confirm with copy like
+*"Your medical assistant has been notified for direct outreach."*
+
+---
+
+# 🎯 AE Follow-Up Screen — round 1 polish (Jae's demo review)
 
 Feedback on the **AI-Extracted Events** panel (Page 6, Mark Davis follow-up).
 Goal: maximize clinician flow — fewer clicks, higher signal density, no filler.
