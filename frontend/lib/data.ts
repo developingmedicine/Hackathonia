@@ -77,6 +77,7 @@ interface RawCriteriaFile {
 interface RawTriggerCondition {
   field: string;
   operator: string;
+  match?: string; // "prefix" → ICD-10 category prefix matching
   value: number | string | string[];
 }
 interface RawKnowledge {
@@ -185,7 +186,8 @@ function noteEv(n: RawNote): EvidenceItem {
 
 // Evaluates one knowledge-rule trigger condition (PRD §21 schema) against a
 // patient record, returning verbatim evidence for each hit. `in` over
-// conditions.code is ICD-10 prefix-aware ("K81" matches "K81.9").
+// conditions.code honors the data's "match" field: "prefix" → ICD-10
+// category matching ("K81" matches "K81.9"), otherwise exact.
 function evalTriggerCondition(
   p: RawPatient,
   t: RawTriggerCondition,
@@ -210,11 +212,28 @@ function evalTriggerCondition(
   }
   if (t.field === "conditions.code" && t.operator === "in") {
     const codes = t.value as string[];
+    const prefix = t.match === "prefix";
     return p.conditions
-      .filter((c) => codes.some((x) => c.code === x || c.code.startsWith(x)))
+      .filter((c) =>
+        codes.some((x) =>
+          prefix ? c.code === x || c.code.startsWith(x) : c.code === x,
+        ),
+      )
       .map(condEv);
   }
   return [];
+}
+
+// Summed priority_adjustment across all knowledge rules whose trigger fires
+// for this patient. Per Jae's contract (HOLLY_TODO.md): seeded ground-truth
+// scores are the clean base — the screener applies the delta on top.
+function knowledgeDelta(p: RawPatient): number {
+  return KNOWLEDGE.reduce((sum, rule) => {
+    const fired = (rule.trigger?.any ?? []).some(
+      (t) => evalTriggerCondition(p, t).length > 0,
+    );
+    return fired ? sum + rule.effect.priority_adjustment : sum;
+  }, 0);
 }
 
 function evalPatient(p: RawPatient): CriterionResult[] {
@@ -534,6 +553,7 @@ export const PATIENTS: QueuePatient[] = rawPatients.map((p) => {
     score: null,
   };
   const firstNote = p.clinical_notes[0];
+  const delta = meta.score != null ? knowledgeDelta(p) : 0;
   return {
     id: p.patient_id,
     name: p.name.display,
@@ -541,7 +561,9 @@ export const PATIENTS: QueuePatient[] = rawPatients.map((p) => {
     time: p.visit.appointment_time,
     condition: p.conditions[0]?.name.replace(/, unspecified/i, "") ?? "—",
     status: p.scenario_metadata.expected_outcome as EnrollmentStatus,
-    score: meta.score,
+    score: meta.score != null ? meta.score + delta : null,
+    baseScore: delta !== 0 ? (meta.score ?? undefined) : undefined,
+    knowledgeDelta: delta !== 0 ? delta : undefined,
     topReason: meta.reason,
     studyWeek: p.trial_status.study_week ?? undefined,
     tooltip: {
@@ -591,7 +613,11 @@ export function detailFor(q: QueuePatient): PatientDetail {
     id: q.id,
     name: q.name,
     headline: `${STATUS_LABEL[q.status] ?? q.status} · ${
-      q.score != null ? `${q.score}% · ` : ""
+      q.score != null
+        ? q.knowledgeDelta != null && q.baseScore != null
+          ? `base ${q.baseScore} · clinician flag ${q.knowledgeDelta} → ${q.score}% · `
+          : `${q.score}% · `
+        : ""
     }Age ${q.age} · BMI ${bmiObs?.value ?? "?"} · ${q.condition}`,
     summary: `${p.scenario_metadata.ground_truth_notes.join("; ")}.`,
     workup,

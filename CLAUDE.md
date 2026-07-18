@@ -55,9 +55,12 @@ split out per PRD §21). Contains a
 for T2DM/CV/pancreatitis, pulse bounds, gallbladder window, stale-LFT missing
 data) with verbatim chart evidence. Knowledge rules are **data-driven**: it
 executes each rule's `trigger.any` from `clinician_knowledge.json` (drinks/wk
-≥ threshold; `in` over `conditions.code` is ICD-10 prefix-aware, so "K81"
-matches pt_007's K81.9) — flag-for-review only, never auto-exclude; queue
-scores stay seeded (§38), `priority_adjustment` surfaces in the note text. Overall queue
+≥ threshold; `in` over `conditions.code` honors the data's `"match":
+"prefix"` field — "K81" matches pt_007's K81.9) — flag-for-review only,
+never auto-exclude. Per Jae's contract (HOLLY_TODO.md): seeded scores are
+the clean base and `priority_adjustment` is applied as a real delta on top
+(pt_006: 68→53, pt_007: 64→49); detail headline shows "base 68 · clinician
+flag −15 → 53". Overall queue
 status is seeded from Jae's ground truth (§38 demo stability); note-interpretation
 criteria show NEEDS REVIEW.
 

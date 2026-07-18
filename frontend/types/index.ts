@@ -47,7 +47,9 @@ export interface QueuePatient {
   time: string;
   condition: string;
   status: EnrollmentStatus;
-  score: number | null;
+  score: number | null; // baseScore + knowledgeDelta when a clinician rule fired
+  baseScore?: number; // seeded clean score, present only when a rule fired
+  knowledgeDelta?: number; // summed priority_adjustment from fired rules
   topReason: string;
   studyWeek?: number;
   tooltip: TooltipContent;
