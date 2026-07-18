@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { CLINICIAN_TRANSCRIPT, CRITERIA, GUIDANCE, TRIALS } from "@/lib/data";
 import { setGuidanceApplied } from "@/lib/demo";
+import { useVoiceCapture } from "@/lib/useVoiceCapture";
 import type { GuidanceExtraction, LiveTrialDetail } from "@/types";
 import CriteriaList from "@/components/CriteriaList";
 import GuidancePanel from "@/components/GuidancePanel";
@@ -29,6 +30,13 @@ export default function TrialIntelligencePage() {
   const [liveState, setLiveState] = useState<"loading" | "ready" | "error">(
     "loading",
   );
+  const [liveTranscribed, setLiveTranscribed] = useState(false);
+
+  const capture = useVoiceCapture((text) => {
+    setTranscript(text);
+    setLiveTranscribed(true);
+    setStage("ready");
+  });
 
   // External trial (not in the seeded set) → load it live from CT.gov.
   useEffect(() => {
@@ -215,11 +223,17 @@ export default function TrialIntelligencePage() {
           </p>
           <div className="mt-5">
             <VoiceRecorder
-              stage={stage}
+              busy={stage === "transcribing"}
+              capture={capture.state}
+              error={capture.error}
               demoLabel="Use Demo Audio"
               audioSrc="/audio/clinician-context.m4a"
-              onStart={() => {
+              onRecordStart={() => void capture.start()}
+              onRecordStop={capture.stop}
+              onDemo={() => {
+                capture.reset();
                 setTranscript("");
+                setLiveTranscribed(false);
                 setStage("transcribing");
               }}
             />
@@ -227,8 +241,17 @@ export default function TrialIntelligencePage() {
           <div className="mt-5">
             <TranscriptPanel
               value={transcript}
-              typing={stage === "transcribing"}
+              typing={
+                stage === "transcribing" ||
+                capture.state === "recording" ||
+                capture.state === "uploading"
+              }
               editable={stage === "ready"}
+              caption={
+                liveTranscribed && stage === "ready"
+                  ? "Live transcription · OpenAI Whisper — review & edit before applying"
+                  : undefined
+              }
               onChange={setTranscript}
             />
           </div>

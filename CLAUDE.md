@@ -78,6 +78,12 @@ structured JSON output via `output_config.format`, adaptive thinking, effort low
   "Acknowledge & Escalate" / "Schedule Same-day Visit".
 - `POST /api/knowledge` — clinician voice text → annotated criterion + rule bullets.
 - Both catch all errors → seeded fallback from `lib/data.ts` with `source:"seeded"`.
+- `POST /api/transcribe` — **real mic recording** (Pages 2 & 6 "Start
+  Recording", `lib/useVoiceCapture.ts` MediaRecorder hook) → OpenAI
+  `whisper-1` STT (needs `OPENAI_API_KEY` in `.env.local`; vocab prompt
+  biases drug/clinical terms). UI labels result "Live transcription ·
+  OpenAI Whisper". No key/mic/network → inline error; "Use Demo Audio"
+  (seeded transcript) stays the offline fallback (§38).
 
 **Live trial search** (`/api/trials`, `/api/trials/[nctId]`, helpers in
 `lib/ctgov.ts`): proxies the public ClinicalTrials.gov API v2 (no key,
