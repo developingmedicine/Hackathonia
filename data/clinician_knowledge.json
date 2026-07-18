@@ -1,1 +1,36 @@
-[]
+[
+  {
+    "knowledge_id": "knowledge_001",
+    "trial_id": "NCT07589608",
+    "source": "clinician_voice",
+    "source_transcript": "Flag heavy drinkers—more than 5 drinks weekly or alcohol-use disorder codes—and active biliary disease: cholecystitis, choledocholithiasis, cholangitis. Don't auto-exclude them. Review required, lower priority.",
+    "created_by": "Jae",
+    "created_at": "2026-07-18T12:00:00Z",
+    "trigger": {
+      "any": [
+        {
+          "field": "social_history.alcohol_use.drinks_per_week",
+          "operator": ">=",
+          "value": 5
+        },
+        {
+          "field": "conditions.code",
+          "operator": "in",
+          "value": ["F10.1", "F10.2"]
+        },
+        {
+          "field": "conditions.code",
+          "operator": "in",
+          "value": ["K81", "K80.3", "K83.1"]
+        }
+      ]
+    },
+    "effect": {
+      "action": "flag_for_review",
+      "priority_adjustment": -15,
+      "label": "Potential pancreatitis risk (alcohol/biliary disease)",
+      "explanation": "Patient has risk factors for GLP-1-related pancreatitis. Review required; do not auto-exclude."
+    },
+    "requires_human_confirmation": true
+  }
+]
