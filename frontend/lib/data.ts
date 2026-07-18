@@ -760,10 +760,11 @@ export const FOLLOWUPS: Record<string, FollowUpScenario> = {
     patientName: "Elizabeth Garcia",
     clinician: "Dr. Jae",
     week: 2,
-    hasAudio: false,
+    hasAudio: true,
+    audioSrc: "/audio/garcia-pancreatitis.m4a",
     // Jae's canonical two-turn script, verbatim
-    // (data/transcripts/garcia_pancreatitis_follow_up.txt; audio pending —
-    // Holly voicing Garcia).
+    // (data/transcripts/garcia_pancreatitis_follow_up.txt ·
+    // data/audio/Garcia Conversation Pancreatitis.m4a).
     transcript:
       "CLINICIAN: Hi Mrs. Garcia, how are you feeling? I know you're here " +
       "for follow up after you were hospitalized last week.\n" +

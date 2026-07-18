@@ -109,7 +109,9 @@ guidance-applied flag (Page 2 Apply → knowledge rules activate); header
 
 **Audio**: Jae's real recordings in `frontend/public/audio/`
 (`clinician-context.m4a` = Page 2; `adverse-effect.m4a` = Mark Davis pt_011,
-NOT Christopher — per Jae's delivery notes; transcript text matches his script verbatim).
+NOT Christopher — per Jae's delivery notes; `garcia-pancreatitis.m4a` =
+Elizabeth Garcia pt_009 two-turn dialogue; transcript text matches each
+script verbatim).
 
 **Design system**: Abridge-inspired — cream canvas `#f6f3ee`, ink text, sage
 avatar circles, lavender = AI content, brand red `#e0311d` for voice, borderless
